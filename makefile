@@ -26,6 +26,10 @@ TEST_INCLUDES += $(foreach dir, $(TEST_INCLUDES_DIRS_EXPANDED), -I$(dir))
 .PHONY: all
 all: $(TEST_MOCKS_OUT)
 
+.PHONY: test_mocks
+test_mocks: $(TEST_MOCKS_OUT)
+	./$(TEST_MOCKS_OUT)
+
 $(TEST_MOCKS_OUT): $(UNITY_OBJS) $(TEST_MOCKS_OBJS)
 	@echo Linking $@
 	$(LINK.o) -o $@ $^
