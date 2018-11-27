@@ -27,3 +27,11 @@ TEST(Init, InvokePriorToInitFails)
   TEST_ASSERT_EQUAL(mocks_not_initialized, mocks_invoke(0, NULL, 0));
 }
 
+/*
+ * "verify" called prior to "init" should fail
+ */
+TEST(Init, VerifyPriorToInitFails)
+{
+  TEST_ASSERT_EQUAL(mocks_not_initialized, mocks_verify());
+}
+

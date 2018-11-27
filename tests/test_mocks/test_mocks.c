@@ -4,6 +4,7 @@ TEST_GROUP_RUNNER(Init)
 {
   RUN_TEST_CASE(Init, ExpectPriorToInitFails);
   RUN_TEST_CASE(Init, InvokePriorToInitFails);
+  RUN_TEST_CASE(Init, VerifyPriorToInitFails);
 }
 
 static void RunAllTests(void)
