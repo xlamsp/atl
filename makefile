@@ -1,11 +1,12 @@
 OBJS_DIR = objs
 UNITY_HOME_DIR = unity
+MOCKS_HOME_DIR = mocks
 TESTS_HOME_DIR = tests
 
 TEST_MOCKS = $(TESTS_HOME_DIR)/test_mocks
 TEST_MOCKS_OUT = $(OBJS_DIR)/$(TEST_MOCKS).out
 
-TEST_INCLUDE_DIRS = $(UNITY_HOME_DIR)
+TEST_INCLUDE_DIRS = $(UNITY_HOME_DIR) $(MOCKS_HOME_DIR)
 
 #Helper Functions
 get_src_from_dir = $(wildcard $1/*.c)
@@ -16,6 +17,9 @@ src_to_o = $(call src_to,.o,$1)
 
 UNITY_SRC = $(call get_src_from_dir_list, $(UNITY_HOME_DIR))
 UNITY_OBJS = $(call src_to_o,$(UNITY_SRC))
+
+MOCKS_SRC = $(call get_src_from_dir_list, $(MOCKS_HOME_DIR))
+MOCKS_OBJS = $(call src_to_o,$(MOCKS_SRC))
 
 TEST_MOCKS_SRC = $(call get_src_from_dir_list, $(TEST_MOCKS))
 TEST_MOCKS_OBJS = $(call src_to_o,$(TEST_MOCKS_SRC))
@@ -30,7 +34,7 @@ all: $(TEST_MOCKS_OUT)
 test_mocks: $(TEST_MOCKS_OUT)
 	./$(TEST_MOCKS_OUT)
 
-$(TEST_MOCKS_OUT): $(UNITY_OBJS) $(TEST_MOCKS_OBJS)
+$(TEST_MOCKS_OUT): $(UNITY_OBJS) $(MOCKS_OBJS) $(TEST_MOCKS_OBJS)
 	@echo Linking $@
 	$(LINK.o) -o $@ $^
 
@@ -42,3 +46,4 @@ $(OBJS_DIR)/%.o: %.c
 .PHONY: clean
 clean:
 	rm -rf $(OBJS_DIR)
+
