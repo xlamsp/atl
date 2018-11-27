@@ -44,7 +44,7 @@ Test cases:
 "not init" group:
 -----------------
 [*]: "expect" called prior to "init" should fail;
-[ ]: "invoke" called prior to "init" should fail;
+[*]: "invoke" called prior to "init" should fail;
 [ ]: "verify" called prior to "init" should fail;
 
 The following groups have "init" called in TEST_SETUP

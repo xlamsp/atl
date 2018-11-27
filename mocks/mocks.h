@@ -15,5 +15,15 @@ typedef enum {
 mocks_return_code
 mocks_expect(int id, void *ctx, int size);
 
+/*
+ * mocks_invoke
+ *
+ *  id - identifier of the interface being invoked
+ *  ctx - context of the interface being invoked
+ *  size - size of the context
+ */
+mocks_return_code
+mocks_invoke(int id, void *ctx, int size);
+
 #endif /* MOCKS_H */
 

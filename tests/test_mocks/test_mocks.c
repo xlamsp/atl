@@ -3,6 +3,7 @@
 TEST_GROUP_RUNNER(Init)
 {
   RUN_TEST_CASE(Init, ExpectPriorToInitFails);
+  RUN_TEST_CASE(Init, InvokePriorToInitFails);
 }
 
 static void RunAllTests(void)
