@@ -1,0 +1,80 @@
+Description:
+============
+The mock object (or simply the mock) is a test double. It allows a test case
+to describe the calls expected from one module to another. During test
+execution the mock checks that all calls happen with the right parameters and
+in the right order. The mock can also be instructed to return specific values
+in proper sequence to the code under test. A mock is not a simulator, but it
+allows a test case to simulate a specific scenario or sequence of events.
+
+James W. Grenning, "Test-Driven Development for Embedded C"
+
+
+Requirements:
+=============
+- Mock should have "expect" interface to allow test case to program the context
+of expected call from the code under test;
+- Mock should have "invoke" interface to allow test case to retrieve the
+programmed context during the call of the code under test;
+- The order the contexts retrieved by "invoke's" should match the order they
+were "expect'ed";
+- Mock's "expect" and "invoke" should return value indicating either successful
+completion or a distinctive error code;
+- Mock should have "verify" interface to verify that all the contexts
+programmend by "expect" have been consumed by "invoke";
+- In case "expect" or "invoke" failed once, all the subsequent calls to
+"expect", "invoke" or "verify" should return the last error code.
+- Mock should have "init" iterface to reset the internal state and cleanup last
+error code;
+- Mock should have interface to convert mock's error code to the corresponding
+text string;
+- The context should consist of the unique ID, specifying the interface called
+by the code under test, it may also contain a variable size buffer of data;
+
+Note: this is the "bottom layer" implementation of mocks, so it has a generic
+signature of the "expect" and "invoke", not particularly matching to
+the signature of the interface called by the code under test. Neither it has
+any interpretation of the passed context (except the ID) - wheither it's input
+arguments or return value or both. That's the functionality of the "top layer"
+mocks that will use "bottom layer" as a database engine.
+
+
+Test cases:
+===========
+"not init" group:
+-----------------
+[ ]: "expect" called prior to "init" should fail;
+[ ]: "invoke" called prior to "init" should fail;
+[ ]: "verify" called prior to "init" should fail;
+
+The following groups have "init" called in TEST_SETUP
+
+"zero data" group:
+------------------
+[ ]: "expect" called once should succeed;
+[ ]: "invoke" called once prior to "expect" should fail;
+[ ]: "verify" called alone should succeed;
+[ ]: "invoke" after "expect" with the same ID should succeed;
+[ ]: "invoke" after "expect" with a different ID should fail;
+[ ]: "verify" after "expect" without "invoke" should fail;
+[ ]: "verify" after successful "expect" and "invoke" should succeed;
+[ ]: "expect" called up to the maximum number of expectations should succeed;
+[ ]: "expect" called over the maximum number of expectations should fail;
+[ ]:
+[ ]:
+[ ]:
+
+
+"non-zero data" group:
+----------------------
+[ ]: "expect" with non-null data and zero size should fail;
+[ ]: "expect" with null data and non-zero size should fail;
+[ ]: "expect" with non-null data and small non-zero size should succeed;
+[ ]: "invoke" with non-null data and zero size should fail;
+[ ]: "invoke" with null data and non-zero size should fail;
+[ ]: "invoke" with non-null data and matching non-zero size should succeed;
+[ ]: "invoke" with not matching size should fail;
+[ ]:
+[ ]:
+[ ]:
+
