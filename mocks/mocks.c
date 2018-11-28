@@ -1,6 +1,7 @@
 #include "mocks.h"
 
 static int expect_count;
+static int expected_id;
 static mocks_return_code last_error = mocks_not_initialized;
 
 void
@@ -14,6 +15,7 @@ mocks_return_code
 mocks_expect(int id, void *ctx, int size)
 {
   expect_count = 1;
+  expected_id = id;
   return last_error;
 }
 
@@ -24,11 +26,15 @@ mocks_invoke(int id, void *ctx, int size)
     return last_error;
   }
 
-  if (expect_count) {
-    return mocks_success;
+  if (!expect_count) {
+    return mocks_no_more_expectations;
   }
 
-  return mocks_no_more_expectations;
+  if (id != expected_id) {
+    return mocks_not_matching_id;
+  }
+
+  return mocks_success;
 }
 
 mocks_return_code

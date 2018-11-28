@@ -13,6 +13,7 @@ TEST_GROUP_RUNNER(EmptyContext)
   RUN_TEST_CASE(EmptyContext, InvokeCalledBeforeExpectFails);
   RUN_TEST_CASE(EmptyContext, VerifyCalledAloneSucceeds);
   RUN_TEST_CASE(EmptyContext, InvokeMatchingExpectSucceeds);
+  RUN_TEST_CASE(EmptyContext, InvokeNotMatchingExpectFails);
 }
 
 static void RunAllTests(void)

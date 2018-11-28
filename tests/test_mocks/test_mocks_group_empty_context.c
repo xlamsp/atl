@@ -37,11 +37,20 @@ TEST(EmptyContext, VerifyCalledAloneSucceeds)
 }
 
 /*
- * "invoke" after "expect" with the same ID should succeed;
+ * "invoke" after "expect" with the same ID should succeed
  */
 TEST(EmptyContext, InvokeMatchingExpectSucceeds)
 {
   mocks_expect(0, NULL, 0);
   TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(0, NULL, 0));
+}
+
+/*
+ * "invoke" after "expect" with a different ID should fail
+ */
+TEST(EmptyContext, InvokeNotMatchingExpectFails)
+{
+  mocks_expect(0, NULL, 0);
+  TEST_ASSERT_EQUAL(mocks_not_matching_id, mocks_invoke(1, NULL, 0));
 }
 
