@@ -54,7 +54,7 @@ The following groups have "init" called in TEST_SETUP
 [*]: "expect" called once should succeed;
 [*]: "invoke" called once prior to "expect" should fail;
 [*]: "verify" called alone should succeed;
-[ ]: "invoke" after "expect" with the same ID should succeed;
+[*]: "invoke" after "expect" with the same ID should succeed;
 [ ]: "invoke" after "expect" with a different ID should fail;
 [ ]: "verify" after "expect" without "invoke" should fail;
 [ ]: "verify" after successful "expect" and "invoke" should succeed;
