@@ -28,3 +28,11 @@ TEST(EmptyContext, InvokeCalledBeforeExpectFails)
   TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_invoke(0, NULL, 0));
 }
 
+/*
+ * "verify" called alone should succeed
+ */
+TEST(EmptyContext, VerifyCalledAloneSucceeds)
+{
+  TEST_ASSERT_EQUAL(mocks_success, mocks_verify());
+}
+
