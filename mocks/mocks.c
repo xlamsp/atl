@@ -40,6 +40,14 @@ mocks_invoke(int id, void *ctx, int size)
 mocks_return_code
 mocks_verify(void)
 {
+  if (last_error != mocks_success) {
+    return last_error;
+  }
+
+  if (expect_count) {
+    return mocks_not_all_expectations_used;
+  }
+
   return last_error;
 }
 

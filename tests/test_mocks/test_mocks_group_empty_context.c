@@ -54,3 +54,12 @@ TEST(EmptyContext, InvokeNotMatchingExpectFails)
   TEST_ASSERT_EQUAL(mocks_not_matching_id, mocks_invoke(1, NULL, 0));
 }
 
+/*
+ * "verify" after "expect" without "invoke" should fail
+ */
+TEST(EmptyContext, VerifyAfterExpectWithoutInvokeFails)
+{
+  mocks_expect(0, NULL, 0);
+  TEST_ASSERT_EQUAL(mocks_not_all_expectations_used, mocks_verify());
+}
+
