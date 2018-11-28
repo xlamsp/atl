@@ -73,3 +73,15 @@ TEST(EmptyContext, VerifyAfterExpectAndInvokeSucceeds)
   TEST_ASSERT_EQUAL(mocks_success, mocks_verify());
 }
 
+/*
+ * "expect" after previous failure should fail
+ */
+TEST(EmptyContext,ExpectAfterPreviousFailFails)
+{
+  /*
+   * call "invoke" before "expect" to set mocks in a error state
+   */
+  mocks_invoke(0, NULL, 0);
+  TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_expect(0, NULL, 0));
+}
+

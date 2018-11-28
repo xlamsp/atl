@@ -14,6 +14,10 @@ mocks_init(void)
 mocks_return_code
 mocks_expect(int id, void *ctx, int size)
 {
+  if (last_error != mocks_success) {
+    return last_error;
+  }
+
   expect_count = 1;
   expected_id = id;
   return last_error;
@@ -27,6 +31,7 @@ mocks_invoke(int id, void *ctx, int size)
   }
 
   if (!expect_count) {
+    last_error = mocks_no_more_expectations;
     return mocks_no_more_expectations;
   }
 
