@@ -36,7 +36,8 @@ mocks_invoke(int id, void *ctx, int size)
   }
 
   if (id != expected_id) {
-    return mocks_not_matching_id;
+    last_error = mocks_not_matching_id;
+    return last_error;
   }
 
   expect_count = 0;

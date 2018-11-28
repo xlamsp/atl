@@ -26,6 +26,7 @@ TEST(EmptyContext, ExpectCalledOnceSucceeds)
 TEST(EmptyContext, InvokeCalledBeforeExpectFails)
 {
   TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_invoke(0, NULL, 0));
+  TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_verify());
 }
 
 /*
@@ -43,6 +44,7 @@ TEST(EmptyContext, InvokeMatchingExpectSucceeds)
 {
   mocks_expect(0, NULL, 0);
   TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(0, NULL, 0));
+  TEST_ASSERT_EQUAL(mocks_success, mocks_verify());
 }
 
 /*
@@ -52,6 +54,7 @@ TEST(EmptyContext, InvokeNotMatchingExpectFails)
 {
   mocks_expect(0, NULL, 0);
   TEST_ASSERT_EQUAL(mocks_not_matching_id, mocks_invoke(1, NULL, 0));
+  TEST_ASSERT_EQUAL(mocks_not_matching_id, mocks_verify());
 }
 
 /*
@@ -83,5 +86,6 @@ TEST(EmptyContext,ExpectAfterPreviousFailFails)
    */
   mocks_invoke(0, NULL, 0);
   TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_expect(0, NULL, 0));
+  TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_verify());
 }
 
