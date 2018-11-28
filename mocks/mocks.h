@@ -2,8 +2,15 @@
 #define MOCKS_H
 
 typedef enum {
+  mocks_success,
   mocks_not_initialized,
 } mocks_return_code;
+
+/*
+ * mocks_init
+ */
+void
+mocks_init(void);
 
 /*
  * mocks_expect

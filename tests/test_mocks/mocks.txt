@@ -49,9 +49,9 @@ Test cases:
 
 The following groups have "init" called in TEST_SETUP
 
-"zero data" group:
-------------------
-[ ]: "expect" called once should succeed;
+"empty context" group:
+----------------------
+[*]: "expect" called once should succeed;
 [ ]: "invoke" called once prior to "expect" should fail;
 [ ]: "verify" called alone should succeed;
 [ ]: "invoke" after "expect" with the same ID should succeed;
@@ -65,8 +65,8 @@ The following groups have "init" called in TEST_SETUP
 [ ]:
 
 
-"non-zero data" group:
-----------------------
+"non-empty context" group:
+--------------------------
 [ ]: "expect" with non-null data and zero size should fail;
 [ ]: "expect" with null data and non-zero size should fail;
 [ ]: "expect" with non-null data and small non-zero size should succeed;

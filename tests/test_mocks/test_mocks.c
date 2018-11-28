@@ -7,9 +7,15 @@ TEST_GROUP_RUNNER(Init)
   RUN_TEST_CASE(Init, VerifyPriorToInitFails);
 }
 
+TEST_GROUP_RUNNER(EmptyContext)
+{
+  RUN_TEST_CASE(EmptyContext, ExpectCalledOnceSucceeds);
+}
+
 static void RunAllTests(void)
 {
   RUN_TEST_GROUP(Init);
+  RUN_TEST_GROUP(EmptyContext);
 }
 
 int main(int argc, const char **argv)
