@@ -1,6 +1,8 @@
 #include "mocks.h"
 #include "unity_fixture.h"
 
+static mocks_return_code verify_assert_value;
+
 TEST_GROUP(EmptyContext);
 
 TEST_SETUP(EmptyContext)
@@ -10,14 +12,17 @@ TEST_SETUP(EmptyContext)
 
 TEST_TEAR_DOWN(EmptyContext)
 {
+  TEST_ASSERT_EQUAL(verify_assert_value, mocks_verify());
 }
 
 /*
  * "expect" called once should succeed
+ * "verify" after "expect" without "invoke" should fail
  */
 TEST(EmptyContext, ExpectCalledOnceSucceeds)
 {
   TEST_ASSERT_EQUAL(mocks_success, mocks_expect(0, NULL, 0));
+  verify_assert_value = mocks_not_all_expectations_used;
 }
 
 /*
@@ -26,7 +31,7 @@ TEST(EmptyContext, ExpectCalledOnceSucceeds)
 TEST(EmptyContext, InvokeCalledBeforeExpectFails)
 {
   TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_invoke(0, NULL, 0));
-  TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_verify());
+  verify_assert_value = mocks_no_more_expectations;
 }
 
 /*
@@ -34,17 +39,18 @@ TEST(EmptyContext, InvokeCalledBeforeExpectFails)
  */
 TEST(EmptyContext, VerifyCalledAloneSucceeds)
 {
-  TEST_ASSERT_EQUAL(mocks_success, mocks_verify());
+  verify_assert_value = mocks_success;
 }
 
 /*
  * "invoke" after "expect" with the same ID should succeed
+ * "verify" after successful "expect" and "invoke" should succeed
  */
 TEST(EmptyContext, InvokeMatchingExpectSucceeds)
 {
   mocks_expect(0, NULL, 0);
   TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(0, NULL, 0));
-  TEST_ASSERT_EQUAL(mocks_success, mocks_verify());
+  verify_assert_value = mocks_success;
 }
 
 /*
@@ -54,26 +60,7 @@ TEST(EmptyContext, InvokeNotMatchingExpectFails)
 {
   mocks_expect(0, NULL, 0);
   TEST_ASSERT_EQUAL(mocks_not_matching_id, mocks_invoke(1, NULL, 0));
-  TEST_ASSERT_EQUAL(mocks_not_matching_id, mocks_verify());
-}
-
-/*
- * "verify" after "expect" without "invoke" should fail
- */
-TEST(EmptyContext, VerifyAfterExpectWithoutInvokeFails)
-{
-  mocks_expect(0, NULL, 0);
-  TEST_ASSERT_EQUAL(mocks_not_all_expectations_used, mocks_verify());
-}
-
-/*
- * "verify" after successful "expect" and "invoke" should succeed
- */
-TEST(EmptyContext, VerifyAfterExpectAndInvokeSucceeds)
-{
-  mocks_expect(0, NULL, 0);
-  mocks_invoke(0, NULL, 0);
-  TEST_ASSERT_EQUAL(mocks_success, mocks_verify());
+  verify_assert_value = mocks_not_matching_id;
 }
 
 /*
@@ -86,6 +73,6 @@ TEST(EmptyContext,ExpectAfterPreviousFailFails)
    */
   mocks_invoke(0, NULL, 0);
   TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_expect(0, NULL, 0));
-  TEST_ASSERT_EQUAL(mocks_no_more_expectations, mocks_verify());
+  verify_assert_value = mocks_no_more_expectations;
 }
 
