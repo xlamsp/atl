@@ -34,6 +34,8 @@ mocks_invoke(int id, void *ctx, int size)
     return mocks_not_matching_id;
   }
 
+  expect_count = 0;
+
   return mocks_success;
 }
 

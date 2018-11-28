@@ -63,3 +63,13 @@ TEST(EmptyContext, VerifyAfterExpectWithoutInvokeFails)
   TEST_ASSERT_EQUAL(mocks_not_all_expectations_used, mocks_verify());
 }
 
+/*
+ * "verify" after successful "expect" and "invoke" should succeed
+ */
+TEST(EmptyContext, VerifyAfterExpectAndInvokeSucceeds)
+{
+  mocks_expect(0, NULL, 0);
+  mocks_invoke(0, NULL, 0);
+  TEST_ASSERT_EQUAL(mocks_success, mocks_verify());
+}
+
