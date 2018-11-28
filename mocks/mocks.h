@@ -4,6 +4,7 @@
 typedef enum {
   mocks_success,
   mocks_not_initialized,
+  mocks_no_more_expectations,
 } mocks_return_code;
 
 /*

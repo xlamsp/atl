@@ -10,6 +10,7 @@ TEST_GROUP_RUNNER(Init)
 TEST_GROUP_RUNNER(EmptyContext)
 {
   RUN_TEST_CASE(EmptyContext, ExpectCalledOnceSucceeds);
+  RUN_TEST_CASE(EmptyContext, InvokeCalledBeforeExpectFails);
 }
 
 static void RunAllTests(void)

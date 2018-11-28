@@ -17,7 +17,11 @@ mocks_expect(int id, void *ctx, int size)
 mocks_return_code
 mocks_invoke(int id, void *ctx, int size)
 {
-  return last_error;
+  if (last_error != mocks_success) {
+    return last_error;
+  }
+
+  return mocks_no_more_expectations;
 }
 
 mocks_return_code
