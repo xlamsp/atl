@@ -28,6 +28,7 @@ TEST_GROUP_RUNNER(EmptyContext)
 TEST_GROUP_RUNNER(NonEmptyContext)
 {
   RUN_TEST_CASE(NonEmptyContext, ExpectNonNullCtxZeroSizeFails);
+  RUN_TEST_CASE(NonEmptyContext, ExpectNullCtxNonZeroSizeFails);
 }
 
 static void RunAllTests(void)

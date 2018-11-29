@@ -26,3 +26,12 @@ TEST(NonEmptyContext, ExpectNonNullCtxZeroSizeFails)
   verify_assert_value = mocks_invalid_ctx_size;
 }
 
+/*
+ * "expect" with null ctx and non-zero size should fail
+ */
+TEST(NonEmptyContext, ExpectNullCtxNonZeroSizeFails)
+{
+  TEST_ASSERT_EQUAL(mocks_invalid_ctx, mocks_expect(0, NULL, 1));
+  verify_assert_value = mocks_invalid_ctx;
+}
+

@@ -31,6 +31,11 @@ mocks_expect(int id, void *ctx, int size)
     return last_error;
   }
 
+  if (ctx == NULL && size != 0) {
+    last_error = mocks_invalid_ctx;
+    return last_error;
+  }
+
   expected_id[expect_count] = id;
   expect_count++;
 

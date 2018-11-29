@@ -78,7 +78,7 @@ The following groups have "init" called in TEST_SETUP
 "non-empty context" group:
 --------------------------
 [*]: "expect" with non-null ctx and zero size should fail;
-[ ]: "expect" with null ctx and non-zero size should fail;
+[*]: "expect" with null ctx and non-zero size should fail;
 [ ]: "expect" with non-null ctx and small non-zero size should succeed;
 [ ]: "invoke" with non-null ctx and zero size should fail;
 [ ]: "invoke" with null ctx and non-zero size should fail;
