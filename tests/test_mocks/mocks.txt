@@ -60,6 +60,7 @@ The following groups have "init" called in TEST_SETUP
 [*]: "verify" after successful "expect" and "invoke" should succeed;
 [*]: "expect" after previous failure should fail;
 [*]: "verify" should return same error code as previously failed command;
+[*]: "expect" called twice should succeed;
 [ ]: "expect" called up to the maximum number of expectations should succeed;
 [ ]: "expect" called over the maximum number of expectations should fail;
 [ ]:

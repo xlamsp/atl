@@ -76,3 +76,13 @@ TEST(EmptyContext,ExpectAfterPreviousFailFails)
   verify_assert_value = mocks_no_more_expectations;
 }
 
+/*
+ * "expect" called twice should succeed
+ */
+TEST(EmptyContext, ExpectCalledTwiceSucceeds)
+{
+  mocks_expect(0, NULL, 0);
+  TEST_ASSERT_EQUAL(mocks_success, mocks_expect(0, NULL, 0));
+  verify_assert_value = mocks_not_all_expectations_used;
+}
+
