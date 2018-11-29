@@ -21,6 +21,7 @@ TEST_GROUP_RUNNER(EmptyContext)
   RUN_TEST_CASE(EmptyContext,
     InvokeTwiceAfterExpectTwiceDifferentMatchingIDsSucceeds);
   RUN_TEST_CASE(EmptyContext, InvokeAfterExpectTwiceNotMatchingIdFails);
+  RUN_TEST_CASE(EmptyContext, ExpectAndInvokeUpToMaxNumberSucceeds);
 }
 
 static void RunAllTests(void)

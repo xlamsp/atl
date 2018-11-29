@@ -1,6 +1,8 @@
 #ifndef MOCKS_H
 #define MOCKS_H
 
+#define MOCKS_MAX_EXPECTATIONS_NUMBER   (16)
+
 typedef enum {
   mocks_success,
   mocks_not_initialized,

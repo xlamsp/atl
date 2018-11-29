@@ -134,3 +134,22 @@ TEST(EmptyContext, InvokeAfterExpectTwiceNotMatchingIdFails)
   verify_assert_value = mocks_not_matching_id;
 }
 
+/*
+ * "expect" and "invoke" called up to the maximum number of expectations
+ * should succeed
+ */
+TEST(EmptyContext, ExpectAndInvokeUpToMaxNumberSucceeds)
+{
+  int id;
+
+  for (id = 0; id < MOCKS_MAX_EXPECTATIONS_NUMBER; id++) {
+    TEST_ASSERT_EQUAL(mocks_success, mocks_expect(id, NULL, 0));
+  }
+
+  for (id = 0; id < MOCKS_MAX_EXPECTATIONS_NUMBER; id++) {
+    TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(id, NULL, 0));
+  }
+
+  verify_assert_value = mocks_success;
+}
+

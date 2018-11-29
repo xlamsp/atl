@@ -2,7 +2,7 @@
 
 static int expect_count;
 static int invoke_count;
-static int expected_id[16];
+static int expected_id[MOCKS_MAX_EXPECTATIONS_NUMBER];
 static mocks_return_code last_error = mocks_not_initialized;
 
 void
