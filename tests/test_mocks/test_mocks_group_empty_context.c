@@ -153,3 +153,18 @@ TEST(EmptyContext, ExpectAndInvokeUpToMaxNumberSucceeds)
   verify_assert_value = mocks_success;
 }
 
+/*
+ * "expect" called over the maximum number of expectations should fail
+ */
+TEST(EmptyContext, ExpectOverMaxNumberFails)
+{
+  int id;
+
+  for (id = 0; id < MOCKS_MAX_EXPECTATIONS_NUMBER; id++) {
+    mocks_expect(id, NULL, 0);
+  }
+  TEST_ASSERT_EQUAL(mocks_no_room_for_expectation, mocks_expect(id, NULL, 0));
+
+  verify_assert_value = mocks_no_room_for_expectation;
+}
+

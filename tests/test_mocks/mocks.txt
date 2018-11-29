@@ -69,7 +69,7 @@ The following groups have "init" called in TEST_SETUP
      not matching ID should fail;
 [*]: "expect" and "invoke" called up to the maximum number of expectations
      should succeed;
-[ ]: "expect" called over the maximum number of expectations should fail;
+[*]: "expect" called over the maximum number of expectations should fail;
 [ ]:
 [ ]:
 [ ]:

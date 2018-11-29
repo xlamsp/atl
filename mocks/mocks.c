@@ -20,6 +20,11 @@ mocks_expect(int id, void *ctx, int size)
     return last_error;
   }
 
+  if (expect_count >= MOCKS_MAX_EXPECTATIONS_NUMBER) {
+    last_error = mocks_no_room_for_expectation;
+    return last_error;
+  }
+
   expected_id[expect_count] = id;
   expect_count++;
   return last_error;

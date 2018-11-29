@@ -9,6 +9,7 @@ typedef enum {
   mocks_no_more_expectations,
   mocks_not_all_expectations_used,
   mocks_not_matching_id,
+  mocks_no_room_for_expectation,
 } mocks_return_code;
 
 /*
