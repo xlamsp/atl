@@ -122,3 +122,15 @@ TEST(EmptyContext, InvokeTwiceAfterExpectTwiceDifferentMatchingIDsSucceeds)
   verify_assert_value = mocks_success;
 }
 
+/*
+ * "expect" called twice with different IDs following "invoke" with
+ * not matching ID should fail
+ */
+TEST(EmptyContext, InvokeAfterExpectTwiceNotMatchingIdFails)
+{
+  mocks_expect(0, NULL, 0);
+  mocks_expect(1, NULL, 0);
+  TEST_ASSERT_EQUAL(mocks_not_matching_id, mocks_invoke(1, NULL, 0));
+  verify_assert_value = mocks_not_matching_id;
+}
+

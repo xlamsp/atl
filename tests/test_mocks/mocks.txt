@@ -65,8 +65,8 @@ The following groups have "init" called in TEST_SETUP
 [*]: "invoke" called twice after "expect" twice should succeed, "verify" succeed;
 [*]: "expect" called twice with different IDs following "invoke" twice with
      matching IDs should succeed;
-[ ]: "expect" called twice with different IDs following "invoke" twice with
-     not matching IDs should fail;
+[*]: "expect" called twice with different IDs following "invoke" with
+     not matching ID should fail;
 [ ]: "expect" called up to the maximum number of expectations should succeed;
 [ ]: "expect" called over the maximum number of expectations should fail;
 [ ]:

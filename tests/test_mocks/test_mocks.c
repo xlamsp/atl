@@ -20,6 +20,7 @@ TEST_GROUP_RUNNER(EmptyContext)
   RUN_TEST_CASE(EmptyContext, InvokeTwiceAfterExpectTwiceSucceeds);
   RUN_TEST_CASE(EmptyContext,
     InvokeTwiceAfterExpectTwiceDifferentMatchingIDsSucceeds);
+  RUN_TEST_CASE(EmptyContext, InvokeAfterExpectTwiceNotMatchingIdFails);
 }
 
 static void RunAllTests(void)
