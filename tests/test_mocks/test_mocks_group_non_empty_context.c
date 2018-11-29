@@ -58,3 +58,15 @@ TEST(NonEmptyContext, InvokeNonNullCtxZeroSizeFails)
   verify_assert_value = mocks_invalid_ctx_size;
 }
 
+/*
+ * "invoke" with null ctx and non-zero size should fail
+ */
+TEST(NonEmptyContext, InvokeNullCtxNonZeroSizeFails)
+{
+  int ctx;
+
+  mocks_expect(0, &ctx, sizeof(ctx));
+  TEST_ASSERT_EQUAL(mocks_invalid_ctx, mocks_invoke(0, NULL, sizeof(ctx)));
+  verify_assert_value = mocks_invalid_ctx;
+}
+

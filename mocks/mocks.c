@@ -54,6 +54,11 @@ mocks_invoke(int id, void *ctx, int size)
     return last_error;
   }
 
+  if (ctx == NULL && size != 0) {
+    last_error = mocks_invalid_ctx;
+    return last_error;
+  }
+
   if (invoke_count >= expect_count) {
     last_error = mocks_no_more_expectations;
     return last_error;
