@@ -18,7 +18,7 @@ mocks_expect(int id, void *ctx, int size)
     return last_error;
   }
 
-  expect_count = 1;
+  expect_count++;
   expected_id = id;
   return last_error;
 }
@@ -40,7 +40,7 @@ mocks_invoke(int id, void *ctx, int size)
     return last_error;
   }
 
-  expect_count = 0;
+  expect_count--;
 
   return mocks_success;
 }

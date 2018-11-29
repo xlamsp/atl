@@ -16,6 +16,7 @@ TEST_GROUP_RUNNER(EmptyContext)
   RUN_TEST_CASE(EmptyContext, InvokeNotMatchingExpectFails);
   RUN_TEST_CASE(EmptyContext, ExpectAfterPreviousFailFails);
   RUN_TEST_CASE(EmptyContext, ExpectCalledTwiceSucceeds);
+  RUN_TEST_CASE(EmptyContext, InvokeOnceAfterExpectTwiceSucceeds);
 }
 
 static void RunAllTests(void)
