@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "mocks.h"
 
 static int expect_count;
@@ -22,6 +23,11 @@ mocks_expect(int id, void *ctx, int size)
 
   if (expect_count >= MOCKS_MAX_EXPECTATIONS_NUMBER) {
     last_error = mocks_no_room_for_expectation;
+    return last_error;
+  }
+
+  if (ctx != NULL && size == 0) {
+    last_error = mocks_invalid_ctx_size;
     return last_error;
   }
 

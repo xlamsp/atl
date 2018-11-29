@@ -25,10 +25,16 @@ TEST_GROUP_RUNNER(EmptyContext)
   RUN_TEST_CASE(EmptyContext, ExpectOverMaxNumberFails);
 }
 
+TEST_GROUP_RUNNER(NonEmptyContext)
+{
+  RUN_TEST_CASE(NonEmptyContext, ExpectNonNullCtxZeroSizeFails);
+}
+
 static void RunAllTests(void)
 {
   RUN_TEST_GROUP(Init);
   RUN_TEST_GROUP(EmptyContext);
+  RUN_TEST_GROUP(NonEmptyContext);
 }
 
 int main(int argc, const char **argv)
