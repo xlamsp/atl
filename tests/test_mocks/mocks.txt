@@ -63,7 +63,7 @@ The following groups have "init" called in TEST_SETUP
 [*]: "expect" called twice should succeed;
 [*]: "invoke" called once after "expect" twice should succeed, "verify" fail;
 [*]: "invoke" called twice after "expect" twice should succeed, "verify" succeed;
-[ ]: "expect" called twice with different IDs following "invoke" twice with
+[*]: "expect" called twice with different IDs following "invoke" twice with
      matching IDs should succeed;
 [ ]: "expect" called twice with different IDs following "invoke" twice with
      not matching IDs should fail;
