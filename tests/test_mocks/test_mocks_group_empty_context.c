@@ -97,3 +97,15 @@ TEST(EmptyContext, InvokeOnceAfterExpectTwiceSucceeds)
   verify_assert_value = mocks_not_all_expectations_used;
 }
 
+/*
+ * "invoke" called twice after "expect" twice should succeed, "verify" succeed
+ */
+TEST(EmptyContext, InvokeTwiceAfterExpectTwiceSucceeds)
+{
+  mocks_expect(0, NULL, 0);
+  mocks_expect(0, NULL, 0);
+  mocks_invoke(0, NULL, 0);
+  TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(0, NULL, 0));
+  verify_assert_value = mocks_success;
+}
+
