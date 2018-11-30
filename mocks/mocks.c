@@ -5,6 +5,7 @@
 static int expect_count;
 static int invoke_count;
 static int expected_id[MOCKS_MAX_EXPECTATIONS_NUMBER];
+static int expected_size;
 static mocks_return_code last_error = mocks_not_initialized;
 
 
@@ -70,6 +71,7 @@ mocks_expect(int id, void *ctx, int size)
   }
 
   expected_id[expect_count] = id;
+  expected_size = size;
   expect_count++;
 
   return mocks_success;
@@ -90,7 +92,7 @@ mocks_invoke(int id, void *ctx, int size)
     return last_error;
   }
 
-  if (size) {
+  if (size != expected_size) {
     last_error = mocks_ctx_size_mismatch;
     return last_error;
   }

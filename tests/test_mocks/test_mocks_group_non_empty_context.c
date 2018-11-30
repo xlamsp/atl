@@ -83,3 +83,15 @@ TEST(NonEmptyContext, InvokeCtxSizeNotMatchFails)
   verify_assert_value = mocks_ctx_size_mismatch;
 }
 
+/*
+ * "invoke" with non-null ctx and matching non-zero size should succeed
+ */
+TEST(NonEmptyContext, InvokeCtxSizeMatchSucceeds)
+{
+  int ctx;
+
+  mocks_expect(0, &ctx, sizeof(ctx));
+  TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(0, &ctx, sizeof(ctx)));
+  verify_assert_value = mocks_success;
+}
+
