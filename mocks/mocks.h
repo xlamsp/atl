@@ -12,6 +12,7 @@ typedef enum {
   mocks_no_room_for_expectation,
   mocks_invalid_ctx_size,
   mocks_invalid_ctx,
+  mocks_ctx_size_mismatch,
 } mocks_return_code;
 
 /*

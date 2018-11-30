@@ -90,6 +90,11 @@ mocks_invoke(int id, void *ctx, int size)
     return last_error;
   }
 
+  if (size) {
+    last_error = mocks_ctx_size_mismatch;
+    return last_error;
+  }
+
   invoke_count++;
 
   return mocks_success;
