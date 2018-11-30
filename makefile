@@ -27,6 +27,8 @@ TEST_MOCKS_OBJS = $(call src_to_o,$(TEST_MOCKS_SRC))
 TEST_INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(TEST_INCLUDE_DIRS))
 TEST_INCLUDES += $(foreach dir, $(TEST_INCLUDES_DIRS_EXPANDED), -I$(dir))
 
+CFLAGS += -Wall -Wshadow -Wswitch-default
+
 .PHONY: all
 all: $(TEST_MOCKS_OUT)
 

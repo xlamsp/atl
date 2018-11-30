@@ -1,10 +1,55 @@
 #include <stdlib.h>
 #include "mocks.h"
 
+
 static int expect_count;
 static int invoke_count;
 static int expected_id[MOCKS_MAX_EXPECTATIONS_NUMBER];
 static mocks_return_code last_error = mocks_not_initialized;
+
+
+#define exit_if_error(error) {              \
+  mocks_return_code error_value = (error);  \
+  if (error_value != mocks_success) {       \
+    return error_value;                     \
+  }                                         \
+}
+
+
+/*******************************************************************************
+ * Local functions
+ ******************************************************************************/
+
+static inline mocks_return_code
+check_context_ctx(void *ctx, int size)
+{
+  if (ctx == NULL && size != 0) {
+    last_error = mocks_invalid_ctx;
+  }
+  return last_error;
+}
+
+static inline mocks_return_code
+check_context_ctx_size(void *ctx, int size)
+{
+  if (ctx != NULL && size == 0) {
+    last_error = mocks_invalid_ctx_size;
+  }
+  return last_error;
+}
+
+static mocks_return_code
+check_context(void *ctx, int size)
+{
+  exit_if_error(last_error);
+  exit_if_error(check_context_ctx(ctx, size));
+  return check_context_ctx_size(ctx, size);
+}
+
+
+/*******************************************************************************
+ * Public functions
+ ******************************************************************************/
 
 void
 mocks_init(void)
@@ -17,22 +62,10 @@ mocks_init(void)
 mocks_return_code
 mocks_expect(int id, void *ctx, int size)
 {
-  if (last_error != mocks_success) {
-    return last_error;
-  }
+  exit_if_error(check_context(ctx, size));
 
   if (expect_count >= MOCKS_MAX_EXPECTATIONS_NUMBER) {
     last_error = mocks_no_room_for_expectation;
-    return last_error;
-  }
-
-  if (ctx != NULL && size == 0) {
-    last_error = mocks_invalid_ctx_size;
-    return last_error;
-  }
-
-  if (ctx == NULL && size != 0) {
-    last_error = mocks_invalid_ctx;
     return last_error;
   }
 
@@ -45,19 +78,7 @@ mocks_expect(int id, void *ctx, int size)
 mocks_return_code
 mocks_invoke(int id, void *ctx, int size)
 {
-  if (last_error != mocks_success) {
-    return last_error;
-  }
-
-  if (ctx != NULL && size == 0) {
-    last_error = mocks_invalid_ctx_size;
-    return last_error;
-  }
-
-  if (ctx == NULL && size != 0) {
-    last_error = mocks_invalid_ctx;
-    return last_error;
-  }
+  exit_if_error(check_context(ctx, size));
 
   if (invoke_count >= expect_count) {
     last_error = mocks_no_more_expectations;
@@ -77,9 +98,7 @@ mocks_invoke(int id, void *ctx, int size)
 mocks_return_code
 mocks_verify(void)
 {
-  if (last_error != mocks_success) {
-    return last_error;
-  }
+  exit_if_error(last_error);
 
   if (invoke_count < expect_count) {
     return mocks_not_all_expectations_used;
