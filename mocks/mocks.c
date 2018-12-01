@@ -6,7 +6,7 @@
 static int expect_count;
 static int invoke_count;
 static int expected_id[MOCKS_MAX_EXPECTATIONS_NUMBER];
-static uint8_t expected_ctx[256];
+static uint8_t expected_ctx[MOCKS_MAX_CONTEXT_DATA_SIZE];
 static int expected_size;
 static mocks_return_code last_error = mocks_not_initialized;
 

@@ -2,6 +2,8 @@
 #include "unity_fixture.h"
 
 static mocks_return_code verify_assert_value;
+static uint8_t expect_ctx[MOCKS_MAX_CONTEXT_DATA_SIZE];
+static uint8_t invoke_ctx[MOCKS_MAX_CONTEXT_DATA_SIZE];
 
 TEST_GROUP(NonEmptyContext);
 
@@ -121,6 +123,38 @@ TEST(NonEmptyContext, ExpectShouldMakeCopyOfCtxData)
   ctx_expect = 9876; /* corrupt original ctx data */
   mocks_invoke(0, &ctx_invoke, sizeof(ctx_invoke));
   TEST_ASSERT_EQUAL(1234, ctx_invoke);
+  verify_assert_value = mocks_success;
+}
+
+/*
+ * "expect" with ctx data size up to the maximum context buffer should succeed
+ */
+TEST(NonEmptyContext, ExpectWithCtxDataUpToMaxBufferSizeSucceeds)
+{
+  int i;
+
+  /* init expected and invoked context data */
+  for (i = 0; i < MOCKS_MAX_CONTEXT_DATA_SIZE; i++) {
+    expect_ctx[i] = (uint8_t)i;
+    invoke_ctx[i] = (uint8_t)(i + 10);
+  }
+
+  TEST_ASSERT_EQUAL(mocks_success,
+                    mocks_expect(0, &expect_ctx, MOCKS_MAX_CONTEXT_DATA_SIZE));
+
+  /* corrupt expected context data */
+  for (i = 0; i < MOCKS_MAX_CONTEXT_DATA_SIZE; i++) {
+    expect_ctx[i] = (uint8_t)(i + 20);
+  }
+
+  TEST_ASSERT_EQUAL(mocks_success,
+                    mocks_invoke(0, &invoke_ctx, MOCKS_MAX_CONTEXT_DATA_SIZE));
+
+  /* verify that invoked context data matches expected context data */
+  for (i = 0; i < MOCKS_MAX_CONTEXT_DATA_SIZE; i++) {
+    TEST_ASSERT_EQUAL(i, invoke_ctx[i]);
+  }
+
   verify_assert_value = mocks_success;
 }
 

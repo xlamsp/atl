@@ -36,6 +36,7 @@ TEST_GROUP_RUNNER(NonEmptyContext)
   RUN_TEST_CASE(NonEmptyContext, InvokeCtxSizeMatchSucceeds);
   RUN_TEST_CASE(NonEmptyContext, InvokeReturnsCtxProvidedByExpect);
   RUN_TEST_CASE(NonEmptyContext, ExpectShouldMakeCopyOfCtxData);
+  RUN_TEST_CASE(NonEmptyContext, ExpectWithCtxDataUpToMaxBufferSizeSucceeds);
 }
 
 static void RunAllTests(void)

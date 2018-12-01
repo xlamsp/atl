@@ -2,6 +2,7 @@
 #define MOCKS_H
 
 #define MOCKS_MAX_EXPECTATIONS_NUMBER   (16)
+#define MOCKS_MAX_CONTEXT_DATA_SIZE     (256)
 
 typedef enum {
   mocks_success,
