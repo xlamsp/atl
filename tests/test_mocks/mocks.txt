@@ -86,7 +86,7 @@ TEST_TEAR_DOWN
 [*]: "invoke" with null ctx and non-zero size should fail;
 [*]: "invoke" with non-null ctx and matching non-zero size should succeed;
 [*]: "invoke" with not matching size should fail;
-[ ]: "invoke" should return ctx data provided by "expect";
+[*]: "invoke" should return ctx data provided by "expect";
 [ ]: "expect" should make copy of ctx data to protect it from corruption;
 [ ]: "expect" with ctx data size up to the maximum context buffer should succeed;
 [ ]: "expect" with ctx data size over the maximum context buffer should fail;

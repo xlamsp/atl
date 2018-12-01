@@ -34,6 +34,7 @@ TEST_GROUP_RUNNER(NonEmptyContext)
   RUN_TEST_CASE(NonEmptyContext, InvokeNullCtxNonZeroSizeFails);
   RUN_TEST_CASE(NonEmptyContext, InvokeCtxSizeNotMatchFails);
   RUN_TEST_CASE(NonEmptyContext, InvokeCtxSizeMatchSucceeds);
+  RUN_TEST_CASE(NonEmptyContext, InvokeReturnsCtxProvidedByExpect);
 }
 
 static void RunAllTests(void)

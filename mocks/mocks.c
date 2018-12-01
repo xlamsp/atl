@@ -1,10 +1,11 @@
-#include <stdlib.h>
+#include <string.h>
 #include "mocks.h"
 
 
 static int expect_count;
 static int invoke_count;
 static int expected_id[MOCKS_MAX_EXPECTATIONS_NUMBER];
+static void *expected_ctx;
 static int expected_size;
 static mocks_return_code last_error = mocks_not_initialized;
 
@@ -71,6 +72,7 @@ mocks_expect(int id, void *ctx, int size)
   }
 
   expected_id[expect_count] = id;
+  expected_ctx = ctx;
   expected_size = size;
   expect_count++;
 
@@ -96,6 +98,8 @@ mocks_invoke(int id, void *ctx, int size)
     last_error = mocks_ctx_size_mismatch;
     return last_error;
   }
+
+  memcpy(ctx, expected_ctx, size);
 
   invoke_count++;
 

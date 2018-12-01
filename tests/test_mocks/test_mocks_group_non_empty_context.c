@@ -95,3 +95,17 @@ TEST(NonEmptyContext, InvokeCtxSizeMatchSucceeds)
   verify_assert_value = mocks_success;
 }
 
+/*
+ * "invoke" should return ctx data provided by "expect"
+ */
+TEST(NonEmptyContext, InvokeReturnsCtxProvidedByExpect)
+{
+  int ctx_expect = 1234;
+  int ctx_invoke = 5678;
+
+  mocks_expect(0, &ctx_expect, sizeof(ctx_expect));
+  mocks_invoke(0, &ctx_invoke, sizeof(ctx_invoke));
+  TEST_ASSERT_EQUAL(1234, ctx_invoke);
+  verify_assert_value = mocks_success;
+}
+
