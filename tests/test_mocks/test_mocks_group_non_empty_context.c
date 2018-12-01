@@ -158,3 +158,13 @@ TEST(NonEmptyContext, ExpectWithCtxDataUpToMaxBufferSizeSucceeds)
   verify_assert_value = mocks_success;
 }
 
+/*
+ * "expect" with ctx data size over the maximum context buffer should fail
+ */
+TEST(NonEmptyContext, ExpectCtxDataOverMaxBufferSizeFails)
+{
+  TEST_ASSERT_EQUAL(mocks_no_room_for_ctx_data,
+                mocks_expect(0, &expect_ctx, MOCKS_MAX_CONTEXT_DATA_SIZE + 1));
+  verify_assert_value = mocks_no_room_for_ctx_data;
+}
+

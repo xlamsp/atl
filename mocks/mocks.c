@@ -72,6 +72,11 @@ mocks_expect(int id, void *ctx, int size)
     return last_error;
   }
 
+  if (size > MOCKS_MAX_CONTEXT_DATA_SIZE) {
+    last_error = mocks_no_room_for_ctx_data;
+    return last_error;
+  }
+
   expected_id[expect_count] = id;
   memcpy(expected_ctx, ctx, size);
   expected_size = size;
