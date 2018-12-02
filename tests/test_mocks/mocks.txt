@@ -92,7 +92,7 @@ TEST_TEAR_DOWN
 [*]: "expect" with ctx data size over the maximum context buffer should fail;
 
 - "Make It Work for Many"
-[ ]: "invoke" called twice after "expect" twice should succeed, ctx data should
+[*]: "invoke" called twice after "expect" twice should succeed, ctx data should
      match;
 [ ]: "expect" and "invoke" called multiple times mix empty/non-empty context
      should succeed;

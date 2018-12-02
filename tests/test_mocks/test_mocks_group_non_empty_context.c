@@ -168,3 +168,30 @@ TEST(NonEmptyContext, ExpectCtxDataOverMaxBufferSizeFails)
   verify_assert_value = mocks_no_room_for_ctx_data;
 }
 
+/*
+ * "invoke" called twice after "expect" twice should succeed, ctx data should
+ *  match
+ */
+TEST(NonEmptyContext, ExpectTwiceInvokeTwiceMatchingNonEmptyCtxSucceeds)
+{
+  int ctx_expect;
+  int ctx_invoke;
+
+  ctx_expect = 1234;
+  mocks_expect(0, &ctx_expect, sizeof(ctx_expect));
+
+  ctx_expect = 5678;
+  TEST_ASSERT_EQUAL(mocks_success,
+                    mocks_expect(0, &ctx_expect, sizeof(ctx_expect)));
+
+  TEST_ASSERT_EQUAL(mocks_success,
+                    mocks_invoke(0, &ctx_invoke, sizeof(ctx_invoke)));
+  TEST_ASSERT_EQUAL(1234, ctx_invoke);
+
+  TEST_ASSERT_EQUAL(mocks_success,
+                    mocks_invoke(0, &ctx_invoke, sizeof(ctx_invoke)));
+  TEST_ASSERT_EQUAL(5678, ctx_invoke);
+
+  verify_assert_value = mocks_success;
+}
+
