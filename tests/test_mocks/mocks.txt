@@ -98,7 +98,7 @@ TEST_TEAR_DOWN
      should succeed;
 [*]: "expect" and "invoke" called multiple times with total ctx sizes up to max
      contex buffer should succeed;
-[ ]: "expect" and "invoke" called multiple times with total ctx sizes over max
-     contex buffer should fail;
+[*]: "expect" called multiple times with total ctx sizes over max contex buffer
+     should fail;
 [ ]:
 

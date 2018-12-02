@@ -231,3 +231,21 @@ TEST(NonEmptyContext, MultipleExpectWithCtxDataUpToMaxBufferSizeSucceeds)
   verify_assert_value = mocks_success;
 }
 
+/*
+ * "expect" called multiple times with total ctx sizes over max contex buffer
+ * should fail
+ */
+TEST(NonEmptyContext, MultipleExpectWithCtxDataOverMaxBufferFails)
+{
+  unsigned int size;
+
+  size = MOCKS_MAX_CONTEXT_DATA_SIZE / 3;
+  TEST_ASSERT_EQUAL(mocks_success, mocks_expect(0, &expect_ctx, size));
+
+  size = MOCKS_MAX_CONTEXT_DATA_SIZE - size + 1;
+  TEST_ASSERT_EQUAL(mocks_no_room_for_ctx_data,
+                    mocks_expect(0, &expect_ctx, size));
+
+  verify_assert_value = mocks_no_room_for_ctx_data;
+}
+

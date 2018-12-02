@@ -77,7 +77,7 @@ mocks_expect(int id, void *ctx, unsigned int size)
     return last_error;
   }
 
-  if (size > MOCKS_MAX_CONTEXT_DATA_SIZE) {
+  if (size > MOCKS_MAX_CONTEXT_DATA_SIZE - expected_ctx_used) {
     last_error = mocks_no_room_for_ctx_data;
     return last_error;
   }
