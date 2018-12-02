@@ -96,7 +96,7 @@ TEST_TEAR_DOWN
      match;
 [ ]: "expect" and "invoke" called multiple times mix empty/non-empty context
      should succeed;
-[ ]: "expect" and "invoke" called multiple times with total ctx sizes up to max
+[*]: "expect" and "invoke" called multiple times with total ctx sizes up to max
      contex buffer should succeed;
 [ ]: "expect" and "invoke" called multiple times with total ctx sizes over max
      contex buffer should fail;

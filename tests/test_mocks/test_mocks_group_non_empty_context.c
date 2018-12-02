@@ -152,7 +152,7 @@ TEST(NonEmptyContext, ExpectWithCtxDataUpToMaxBufferSizeSucceeds)
 
   /* verify that invoked context data matches expected context data */
   for (i = 0; i < MOCKS_MAX_CONTEXT_DATA_SIZE; i++) {
-    TEST_ASSERT_EQUAL(i, invoke_ctx[i]);
+    TEST_ASSERT_EQUAL_UINT8(i, invoke_ctx[i]);
   }
 
   verify_assert_value = mocks_success;
@@ -191,6 +191,42 @@ TEST(NonEmptyContext, ExpectTwiceInvokeTwiceMatchingNonEmptyCtxSucceeds)
   TEST_ASSERT_EQUAL(mocks_success,
                     mocks_invoke(0, &ctx_invoke, sizeof(ctx_invoke)));
   TEST_ASSERT_EQUAL(5678, ctx_invoke);
+
+  verify_assert_value = mocks_success;
+}
+
+/*
+ * "expect" and "invoke" called multiple times with total ctx sizes up to max
+ *  contex buffer should succeed
+ */
+TEST(NonEmptyContext, MultipleExpectWithCtxDataUpToMaxBufferSizeSucceeds)
+{
+  int i;
+  unsigned int size;
+
+  size = MOCKS_MAX_CONTEXT_DATA_SIZE / 3;
+  for (i = 0; i < size; i++) {
+    expect_ctx[i] = (uint8_t)i;
+  }
+  TEST_ASSERT_EQUAL(mocks_success, mocks_expect(0, &expect_ctx, size));
+
+  size = MOCKS_MAX_CONTEXT_DATA_SIZE - size;
+  for (i = 0; i < size; i++) {
+    expect_ctx[i] = (uint8_t)(i * 2);
+  }
+  TEST_ASSERT_EQUAL(mocks_success, mocks_expect(0, &expect_ctx, size));
+
+  size = MOCKS_MAX_CONTEXT_DATA_SIZE / 3;
+  TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(0, &invoke_ctx, size));
+  for (i = 0; i < size; i++) {
+    TEST_ASSERT_EQUAL_UINT8(i, invoke_ctx[i]);
+  }
+
+  size = MOCKS_MAX_CONTEXT_DATA_SIZE - size;
+  TEST_ASSERT_EQUAL(mocks_success, mocks_invoke(0, &invoke_ctx, size));
+  for (i = 0; i < size; i++) {
+    TEST_ASSERT_EQUAL_UINT8((i * 2), invoke_ctx[i]);
+  }
 
   verify_assert_value = mocks_success;
 }

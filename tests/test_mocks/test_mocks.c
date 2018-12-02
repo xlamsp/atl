@@ -40,6 +40,8 @@ TEST_GROUP_RUNNER(NonEmptyContext)
   RUN_TEST_CASE(NonEmptyContext, ExpectCtxDataOverMaxBufferSizeFails);
   RUN_TEST_CASE(NonEmptyContext,
     ExpectTwiceInvokeTwiceMatchingNonEmptyCtxSucceeds);
+  RUN_TEST_CASE(NonEmptyContext,
+    MultipleExpectWithCtxDataUpToMaxBufferSizeSucceeds);
 }
 
 static void RunAllTests(void)
