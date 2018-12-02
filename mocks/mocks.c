@@ -53,6 +53,51 @@ check_context(void *ctx, unsigned int size)
   return check_context_ctx_size(ctx, size);
 }
 
+static inline mocks_return_code
+check_room_for_expectation(void)
+{
+  if (expect_count >= MOCKS_MAX_EXPECTATIONS_NUMBER) {
+    last_error = mocks_no_room_for_expectation;
+  }
+  return last_error;
+}
+
+static inline mocks_return_code
+check_room_for_ctx_data(unsigned int size)
+{
+  if (size > MOCKS_MAX_CONTEXT_DATA_SIZE - expected_ctx_used) {
+    last_error = mocks_no_room_for_ctx_data;
+  }
+  return last_error;
+}
+
+static inline mocks_return_code
+check_for_more_expectations(void)
+{
+  if (invoke_count >= expect_count) {
+    last_error = mocks_no_more_expectations;
+  }
+  return last_error;
+}
+
+static inline mocks_return_code
+check_for_not_matching_id(int id)
+{
+  if (id != expected[invoke_count].id) {
+    last_error = mocks_not_matching_id;
+  }
+  return last_error;
+}
+
+static inline mocks_return_code
+check_for_ctx_size_mismatch(unsigned int size)
+{
+  if (size != expected[invoke_count].size) {
+    last_error = mocks_ctx_size_mismatch;
+  }
+  return last_error;
+}
+
 
 /*******************************************************************************
  * Public functions
@@ -71,16 +116,8 @@ mocks_return_code
 mocks_expect(int id, void *ctx, unsigned int size)
 {
   exit_if_error(check_context(ctx, size));
-
-  if (expect_count >= MOCKS_MAX_EXPECTATIONS_NUMBER) {
-    last_error = mocks_no_room_for_expectation;
-    return last_error;
-  }
-
-  if (size > MOCKS_MAX_CONTEXT_DATA_SIZE - expected_ctx_used) {
-    last_error = mocks_no_room_for_ctx_data;
-    return last_error;
-  }
+  exit_if_error(check_room_for_expectation());
+  exit_if_error(check_room_for_ctx_data(size));
 
   expected[expect_count].id = id;
   expected[expect_count].ctx = &expected_ctx[expected_ctx_used];
@@ -96,24 +133,11 @@ mocks_return_code
 mocks_invoke(int id, void *ctx, unsigned int size)
 {
   exit_if_error(check_context(ctx, size));
-
-  if (invoke_count >= expect_count) {
-    last_error = mocks_no_more_expectations;
-    return last_error;
-  }
-
-  if (id != expected[invoke_count].id) {
-    last_error = mocks_not_matching_id;
-    return last_error;
-  }
-
-  if (size != expected[invoke_count].size) {
-    last_error = mocks_ctx_size_mismatch;
-    return last_error;
-  }
+  exit_if_error(check_for_more_expectations());
+  exit_if_error(check_for_not_matching_id(id));
+  exit_if_error(check_for_ctx_size_mismatch(size));
 
   memcpy(ctx, expected[invoke_count].ctx, size);
-
   invoke_count++;
 
   return mocks_success;
