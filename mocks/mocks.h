@@ -33,7 +33,7 @@ mocks_init(void);
  *  return - operation status code
  */
 mocks_return_code
-mocks_expect(int id, void *ctx, int size);
+mocks_expect(int id, void *ctx, unsigned int size);
 
 /*
  * mocks_invoke
@@ -45,7 +45,7 @@ mocks_expect(int id, void *ctx, int size);
  *  return - operation status code
  */
 mocks_return_code
-mocks_invoke(int id, void *ctx, int size);
+mocks_invoke(int id, void *ctx, unsigned int size);
 
 /*
  * mocks_verify

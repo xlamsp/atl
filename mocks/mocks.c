@@ -5,10 +5,12 @@
 
 static int expect_count;
 static int invoke_count;
-static int expected_id[MOCKS_MAX_EXPECTATIONS_NUMBER];
+static struct {
+  int id;
+  void *ctx;
+  unsigned int size;
+} expected[MOCKS_MAX_EXPECTATIONS_NUMBER];
 static uint8_t expected_ctx[MOCKS_MAX_CONTEXT_DATA_SIZE];
-static int expected_size[MOCKS_MAX_EXPECTATIONS_NUMBER];
-static void *expected_ctx_ptr[MOCKS_MAX_EXPECTATIONS_NUMBER];
 static int expected_ctx_used;
 static mocks_return_code last_error = mocks_not_initialized;
 
@@ -26,7 +28,7 @@ static mocks_return_code last_error = mocks_not_initialized;
  ******************************************************************************/
 
 static inline mocks_return_code
-check_context_ctx(void *ctx, int size)
+check_context_ctx(void *ctx, unsigned int size)
 {
   if (ctx == NULL && size != 0) {
     last_error = mocks_invalid_ctx;
@@ -35,7 +37,7 @@ check_context_ctx(void *ctx, int size)
 }
 
 static inline mocks_return_code
-check_context_ctx_size(void *ctx, int size)
+check_context_ctx_size(void *ctx, unsigned int size)
 {
   if (ctx != NULL && size == 0) {
     last_error = mocks_invalid_ctx_size;
@@ -44,7 +46,7 @@ check_context_ctx_size(void *ctx, int size)
 }
 
 static mocks_return_code
-check_context(void *ctx, int size)
+check_context(void *ctx, unsigned int size)
 {
   exit_if_error(last_error);
   exit_if_error(check_context_ctx(ctx, size));
@@ -66,7 +68,7 @@ mocks_init(void)
 }
 
 mocks_return_code
-mocks_expect(int id, void *ctx, int size)
+mocks_expect(int id, void *ctx, unsigned int size)
 {
   exit_if_error(check_context(ctx, size));
 
@@ -80,10 +82,10 @@ mocks_expect(int id, void *ctx, int size)
     return last_error;
   }
 
-  expected_id[expect_count] = id;
-  expected_ctx_ptr[expect_count] = &expected_ctx[expected_ctx_used];
-  expected_size[expect_count] = size;
-  memcpy(expected_ctx_ptr[expect_count], ctx, size);
+  expected[expect_count].id = id;
+  expected[expect_count].ctx = &expected_ctx[expected_ctx_used];
+  expected[expect_count].size = size;
+  memcpy(expected[expect_count].ctx, ctx, size);
   expected_ctx_used += size;
   expect_count++;
 
@@ -91,7 +93,7 @@ mocks_expect(int id, void *ctx, int size)
 }
 
 mocks_return_code
-mocks_invoke(int id, void *ctx, int size)
+mocks_invoke(int id, void *ctx, unsigned int size)
 {
   exit_if_error(check_context(ctx, size));
 
@@ -100,17 +102,17 @@ mocks_invoke(int id, void *ctx, int size)
     return last_error;
   }
 
-  if (id != expected_id[invoke_count]) {
+  if (id != expected[invoke_count].id) {
     last_error = mocks_not_matching_id;
     return last_error;
   }
 
-  if (size != expected_size[invoke_count]) {
+  if (size != expected[invoke_count].size) {
     last_error = mocks_ctx_size_mismatch;
     return last_error;
   }
 
-  memcpy(ctx, expected_ctx_ptr[invoke_count], size);
+  memcpy(ctx, expected[invoke_count].ctx, size);
 
   invoke_count++;
 
