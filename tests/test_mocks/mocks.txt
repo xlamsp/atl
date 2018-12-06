@@ -100,5 +100,8 @@ TEST_TEAR_DOWN
      contex buffer should succeed;
 [*]: "expect" called multiple times with total ctx sizes over max contex buffer
      should fail;
-[ ]:
+
+misc group:
+-----------------
+[*]: convert mocks error codes to the corresponding text strings;
 

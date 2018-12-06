@@ -45,11 +45,17 @@ TEST_GROUP_RUNNER(NonEmptyContext)
   RUN_TEST_CASE(NonEmptyContext, MultipleExpectWithCtxDataOverMaxBufferFails);
 }
 
+TEST_GROUP_RUNNER(Misc)
+{
+  RUN_TEST_CASE(Misc, ConvertMocksErrorsToTheStrings);
+}
+
 static void RunAllTests(void)
 {
   RUN_TEST_GROUP(Init);
   RUN_TEST_GROUP(EmptyContext);
   RUN_TEST_GROUP(NonEmptyContext);
+  RUN_TEST_GROUP(Misc);
 }
 
 int main(int argc, const char **argv)

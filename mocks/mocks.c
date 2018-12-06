@@ -155,3 +155,32 @@ mocks_verify(void)
   return mocks_success;
 }
 
+char *
+mocks_errstr(mocks_return_code err)
+{
+  switch (err) {
+  case mocks_success:
+    return "success";
+  case mocks_not_initialized:
+    return "not initialized";
+  case mocks_no_more_expectations:
+    return "no more expectations";
+  case mocks_not_all_expectations_used:
+    return "not all expectations used";
+  case mocks_not_matching_id:
+    return "not matching id";
+  case mocks_no_room_for_expectation:
+    return "no room for expectation";
+  case mocks_invalid_ctx_size:
+    return "invalid ctx size";
+  case mocks_invalid_ctx:
+    return "invalid ctx";
+  case mocks_ctx_size_mismatch:
+    return "ctx size mismatch";
+  case mocks_no_room_for_ctx_data:
+    return "no room for ctx data";
+  default:
+    return "unknown error";
+  }
+}
+

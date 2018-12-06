@@ -55,5 +55,16 @@ mocks_invoke(int id, void *ctx, unsigned int size);
 mocks_return_code
 mocks_verify(void);
 
+/*
+ * mocks_errstr
+ *
+ *  err - mocks return code to convert
+ *
+ *  return - string describing return code
+ */
+char *
+mocks_errstr(mocks_return_code err);
+
+
 #endif /* MOCKS_H */
 
