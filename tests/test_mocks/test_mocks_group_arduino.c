@@ -23,3 +23,12 @@ TEST(Arduino, pinMode)
   pinMode(10, OUTPUT);
 }
 
+/*
+ * mock arduino digitalWrite()
+ */
+TEST(Arduino, digitalWrite)
+{
+  expect_digitalWrite(10, HIGH);
+  digitalWrite(10, HIGH);
+}
+

@@ -109,7 +109,7 @@ misc group:
 arduino group:
 -----------------
 [*]: mock arduino pinMode();
-[ ]: mock arduino digitalWrite();
+[*]: mock arduino digitalWrite();
 [ ]: mock arduino digitalRead();
 [ ]: mock arduino millis();
 [ ]: mock arduino shiftOut();
