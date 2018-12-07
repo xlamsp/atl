@@ -101,3 +101,31 @@ digitalRead(uint8_t pin)
   return ctx.ret;
 }
 
+
+typedef struct {
+  uint32_t ret;
+} ctx_millis;
+
+void
+expect_millis(uint32_t ret)
+{
+  ctx_millis ctx;
+
+  ctx.ret = ret;
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_expect(mock_id_millis, &ctx, sizeof(ctx)),
+    "expect_millis: mocks_expect failed");
+}
+
+uint32_t
+millis(void)
+{
+  ctx_millis ctx;
+
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_invoke(mock_id_millis, &ctx, sizeof(ctx)),
+    "millis: mocks_invoke failed");
+
+  return ctx.ret;
+}
+

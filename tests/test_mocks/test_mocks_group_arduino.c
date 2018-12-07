@@ -42,3 +42,13 @@ TEST(Arduino, digitalRead)
     "return value not match");
 }
 
+/*
+ * mock arduino millis()
+ */
+TEST(Arduino, millis)
+{
+  expect_millis(0x87654321);
+  TEST_ASSERT_EQUAL_UINT32_MESSAGE(0x87654321, millis(),
+    "return value not match");
+}
+

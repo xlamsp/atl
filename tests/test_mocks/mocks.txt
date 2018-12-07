@@ -111,7 +111,7 @@ arduino group:
 [*]: mock arduino pinMode();
 [*]: mock arduino digitalWrite();
 [*]: mock arduino digitalRead();
-[ ]: mock arduino millis();
+[*]: mock arduino millis();
 [ ]: mock arduino shiftOut();
 [ ]: mock arduino shiftIn();
 
