@@ -50,12 +50,18 @@ TEST_GROUP_RUNNER(Misc)
   RUN_TEST_CASE(Misc, ConvertMocksErrorsToTheStrings);
 }
 
+TEST_GROUP_RUNNER(Arduino)
+{
+  RUN_TEST_CASE(Arduino, pinMode);
+}
+
 static void RunAllTests(void)
 {
   RUN_TEST_GROUP(Init);
   RUN_TEST_GROUP(EmptyContext);
   RUN_TEST_GROUP(NonEmptyContext);
   RUN_TEST_GROUP(Misc);
+  RUN_TEST_GROUP(Arduino);
 }
 
 int main(int argc, const char **argv)

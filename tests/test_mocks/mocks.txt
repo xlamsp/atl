@@ -105,3 +105,13 @@ misc group:
 -----------------
 [*]: convert mocks error codes to the corresponding text strings;
 
+
+arduino group:
+-----------------
+[*]: mock arduino pinMode();
+[ ]: mock arduino digitalWrite();
+[ ]: mock arduino digitalRead();
+[ ]: mock arduino millis();
+[ ]: mock arduino shiftOut();
+[ ]: mock arduino shiftIn();
+
