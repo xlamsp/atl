@@ -18,13 +18,14 @@ expect_pinMode(uint8_t pin, uint8_t mode)
     "expect_pinMode: mocks_expect failed");
 }
 
-void pinMode(uint8_t pin, uint8_t mode)
+void
+pinMode(uint8_t pin, uint8_t mode)
 {
   ctx_pinMode ctx;
 
   TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
     mocks_invoke(mock_id_pinMode, &ctx, sizeof(ctx)),
-    "pinMode: mock_invoke failed");
+    "pinMode: mocks_invoke failed");
 
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pin, pin,
     "pinMode: pin not match");
@@ -51,18 +52,52 @@ expect_digitalWrite(uint8_t pin, uint8_t val)
     "expect_digitalWrite: mocks_expect failed");
 }
 
-void digitalWrite(uint8_t pin, uint8_t val)
+void
+digitalWrite(uint8_t pin, uint8_t val)
 {
   ctx_digitalWrite ctx;
 
   TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
     mocks_invoke(mock_id_digitalWrite, &ctx, sizeof(ctx)),
-    "digitalWrite: mock_invoke failed");
+    "digitalWrite: mocks_invoke failed");
 
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pin, pin,
     "digitalWrite: pin not match");
 
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.val, val,
     "digitalWrite: val not match");
+}
+
+
+typedef struct {
+  int16_t ret;
+  uint8_t pin;
+} ctx_digitalRead;
+
+void
+expect_digitalRead(int16_t ret, uint8_t pin)
+{
+  ctx_digitalRead ctx;
+
+  ctx.ret = ret;
+  ctx.pin = pin;
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_expect(mock_id_digitalRead, &ctx, sizeof(ctx)),
+    "expect_digitalRead: mocks_expect failed");
+}
+
+int16_t
+digitalRead(uint8_t pin)
+{
+  ctx_digitalRead ctx;
+
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_invoke(mock_id_digitalRead, &ctx, sizeof(ctx)),
+    "digitalRead: mocks_invoke failed");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pin, pin,
+    "digitalRead: pin not match");
+
+  return ctx.ret;
 }
 

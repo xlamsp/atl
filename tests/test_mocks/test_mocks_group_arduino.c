@@ -32,3 +32,13 @@ TEST(Arduino, digitalWrite)
   digitalWrite(10, HIGH);
 }
 
+/*
+ * mock arduino digitalRead()
+ */
+TEST(Arduino, digitalRead)
+{
+  expect_digitalRead(HIGH, 10);
+  TEST_ASSERT_EQUAL_INT16_MESSAGE(HIGH, digitalRead(10),
+    "return value not match");
+}
+

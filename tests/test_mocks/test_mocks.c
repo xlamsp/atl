@@ -54,6 +54,7 @@ TEST_GROUP_RUNNER(Arduino)
 {
   RUN_TEST_CASE(Arduino, pinMode);
   RUN_TEST_CASE(Arduino, digitalWrite);
+  RUN_TEST_CASE(Arduino, digitalRead);
 }
 
 static void RunAllTests(void)
