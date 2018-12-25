@@ -1,0 +1,62 @@
+Description:
+============
+The shreg_driver controls the lines of either input (SNx4HC165) or output
+(SNx4HC595) 8-bit shift registers linked to a daisy chain.
+
+Input:
+------
+The chain of the input registers is controlled by 3 pins:
+ - "latch" (output), connected to the SH/~LD pins of all registers;
+ - "clock" (output), connected to the CLK pins of all registers;
+ - "data" (input), connected to the Qh pin of the first register in the chain.
+The CLK INH pins of all registers and SER pin of the last register are
+permanently pulled down to low, ~Qh pins are not used. The normal state of
+the "latch" pin is low, it should be switched high to shift in data from the
+register.
+
+Output:
+-------
+The chain of the output registers is controlled by 3 pins:
+ - "latch" (output), connected to the RCLK pin of all registers;
+ - "clock" (output), connected to the SRCLK pin of all registers;
+ - "data" (output), connected to the SER pin of the first register in the chain.
+The ~SRCLR pins of all registers are permanently pulled up to high and the ~OE
+pins of all registers are permanently pulled down to low. The normal state of
+the "latch" pin is high, it should be switched low to shift out data to the
+register.
+
+
+Requirements:
+=============
+* The chain of shift registers (input or output) is described by the structure,
+containing the values for "latch", "clock" and "data" pins and the number of
+the registers in the chain;
+* At power-on the shreg_driver should be able to initialize the controller pins
+into the proper mode and state;
+* The shreg_driver should be able to read data from all input shift
+registers in the chain into the memory buffer;
+* The shreg_driver should be able to write data into all output shift
+registers in the chain from the memory buffer;
+
+Note: The standard Arduino shiftIn() function doesn't work properly with the
+SNx4HC165 shift registers, a local substitution to be implemented.
+
+
+Test cases:
+===========
+Input:
+------
+[ ]: The driver can initialize controller's pins to work with input registers;
+[ ]: The driver can initialize multiple input chains with different parameters;
+[ ]: The driver can read input registers into the memory buffer;
+[ ]: The driver can read multiple input chains into the memory buffers;
+[ ]:
+
+Output:
+-------
+[ ]: The driver can initialize controller's pins to work with output registers;
+[ ]: The driver can initialize multiple output chains with different parameters;
+[ ]: The driver can write memory buffer into the output registers;
+[ ]: The driver can write memory buffers into the multiple output chains;
+[ ]:
+

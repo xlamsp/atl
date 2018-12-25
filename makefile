@@ -6,6 +6,9 @@ TESTS_HOME_DIR = tests
 TEST_MOCKS = $(TESTS_HOME_DIR)/test_mocks
 TEST_MOCKS_OUT = $(OBJS_DIR)/$(TEST_MOCKS).out
 
+TEST_SHREG_DRIVER = $(TESTS_HOME_DIR)/test_shreg_driver
+TEST_SHREG_DRIVER_OUT = $(OBJS_DIR)/$(TEST_SHREG_DRIVER).out
+
 TEST_INCLUDE_DIRS = $(UNITY_HOME_DIR) $(MOCKS_HOME_DIR)
 
 #Helper Functions
@@ -24,17 +27,28 @@ MOCKS_OBJS = $(call src_to_o,$(MOCKS_SRC))
 TEST_MOCKS_SRC = $(call get_src_from_dir_list, $(TEST_MOCKS))
 TEST_MOCKS_OBJS = $(call src_to_o,$(TEST_MOCKS_SRC))
 
+TEST_SHREG_DRIVER_SRC = $(call get_src_from_dir_list, $(TEST_SHREG_DRIVER))
+TEST_SHREG_DRIVER_OBJS = $(call src_to_o,$(TEST_SHREG_DRIVER_SRC))
+
 TEST_INCLUDES_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(TEST_INCLUDE_DIRS))
 TEST_INCLUDES += $(foreach dir, $(TEST_INCLUDES_DIRS_EXPANDED), -I$(dir))
 
 CFLAGS += -Wall -Wshadow -Wswitch-default
 
 .PHONY: all
-all: $(TEST_MOCKS_OUT)
+all: $(TEST_MOCKS_OUT) $(TEST_SHREG_DRIVER_OUT)
 
 .PHONY: test_mocks
 test_mocks: $(TEST_MOCKS_OUT)
 	./$(TEST_MOCKS_OUT)
+
+.PHONY: test_shreg_driver
+test_shreg_driver: $(TEST_SHREG_DRIVER_OUT)
+	./$(TEST_SHREG_DRIVER_OUT)
+
+$(TEST_SHREG_DRIVER_OUT): $(UNITY_OBJS) $(TEST_SHREG_DRIVER_OBJS)
+	@echo Linking $@
+	$(LINK.o) -o $@ $^
 
 $(TEST_MOCKS_OUT): $(UNITY_OBJS) $(MOCKS_OBJS) $(TEST_MOCKS_OBJS)
 	@echo Linking $@
