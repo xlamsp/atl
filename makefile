@@ -2,6 +2,7 @@ OBJS_DIR = objs
 UNITY_HOME_DIR = unity
 MOCKS_HOME_DIR = mocks
 TESTS_HOME_DIR = tests
+PROD_HOME_DIR = src
 
 TEST_MOCKS = $(TESTS_HOME_DIR)/test_mocks
 TEST_MOCKS_OUT = $(OBJS_DIR)/$(TEST_MOCKS).out
@@ -9,7 +10,7 @@ TEST_MOCKS_OUT = $(OBJS_DIR)/$(TEST_MOCKS).out
 TEST_SHREG_DRIVER = $(TESTS_HOME_DIR)/test_shreg_driver
 TEST_SHREG_DRIVER_OUT = $(OBJS_DIR)/$(TEST_SHREG_DRIVER).out
 
-TEST_INCLUDE_DIRS = $(UNITY_HOME_DIR) $(MOCKS_HOME_DIR)
+TEST_INCLUDE_DIRS = $(UNITY_HOME_DIR) $(MOCKS_HOME_DIR) $(PROD_HOME_DIR)
 
 #Helper Functions
 get_src_from_dir = $(wildcard $1/*.c)
@@ -23,6 +24,9 @@ UNITY_OBJS = $(call src_to_o,$(UNITY_SRC))
 
 MOCKS_SRC = $(call get_src_from_dir_list, $(MOCKS_HOME_DIR))
 MOCKS_OBJS = $(call src_to_o,$(MOCKS_SRC))
+
+PROD_SRC = $(call get_src_from_dir_list, $(PROD_HOME_DIR))
+PROD_OBJS = $(call src_to_o,$(PROD_SRC))
 
 TEST_MOCKS_SRC = $(call get_src_from_dir_list, $(TEST_MOCKS))
 TEST_MOCKS_OBJS = $(call src_to_o,$(TEST_MOCKS_SRC))
@@ -46,7 +50,8 @@ test_mocks: $(TEST_MOCKS_OUT)
 test_shreg_driver: $(TEST_SHREG_DRIVER_OUT)
 	./$(TEST_SHREG_DRIVER_OUT)
 
-$(TEST_SHREG_DRIVER_OUT): $(UNITY_OBJS) $(TEST_SHREG_DRIVER_OBJS)
+$(TEST_SHREG_DRIVER_OUT): \
+	$(UNITY_OBJS) $(MOCKS_OBJS) $(PROD_OBJS) $(TEST_SHREG_DRIVER_OBJS)
 	@echo Linking $@
 	$(LINK.o) -o $@ $^
 

@@ -2,7 +2,7 @@
 
 TEST_GROUP_RUNNER(Input)
 {
-  RUN_TEST_CASE(Input, Init);
+  RUN_TEST_CASE(Input, InitPinsSingleChain);
 }
 
 static void RunAllTests(void)
