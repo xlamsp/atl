@@ -47,7 +47,7 @@ Test cases:
 Input:
 ------
 [*]: The driver can initialize controller's pins to work with input registers;
-[ ]: The driver can initialize multiple input chains with different parameters;
+[*]: The driver can initialize multiple input chains with different parameters;
 [ ]: The driver can read input registers into the memory buffer;
 [ ]: The driver can read multiple input chains into the memory buffers;
 [ ]:

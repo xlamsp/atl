@@ -32,6 +32,41 @@ TEST(Input, InitPinsSingleChain)
   expect_pinMode(handle.pinData, INPUT);
   expect_digitalWrite(handle.pinLatch, LOW);
   expect_digitalWrite(handle.pinClock, LOW);
+
   shreg_init_input(&handle);
+}
+
+/*
+ * The driver can initialize multiple input chains with different parameters
+ */
+TEST(Input, InitPinsMultipleChains)
+{
+  shreg_driver_t handle1 = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 1
+  };
+  shreg_driver_t handle2 = {
+    .pinLatch = 5,
+    .pinClock = 6,
+    .pinData = 7,
+    .numChips = 1
+  };
+
+  expect_pinMode(handle1.pinLatch, OUTPUT);
+  expect_pinMode(handle1.pinClock, OUTPUT);
+  expect_pinMode(handle1.pinData, INPUT);
+  expect_digitalWrite(handle1.pinLatch, LOW);
+  expect_digitalWrite(handle1.pinClock, LOW);
+
+  expect_pinMode(handle2.pinLatch, OUTPUT);
+  expect_pinMode(handle2.pinClock, OUTPUT);
+  expect_pinMode(handle2.pinData, INPUT);
+  expect_digitalWrite(handle2.pinLatch, LOW);
+  expect_digitalWrite(handle2.pinClock, LOW);
+
+  shreg_init_input(&handle1);
+  shreg_init_input(&handle2);
 }
 

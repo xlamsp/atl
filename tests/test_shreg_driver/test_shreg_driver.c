@@ -3,6 +3,7 @@
 TEST_GROUP_RUNNER(Input)
 {
   RUN_TEST_CASE(Input, InitPinsSingleChain);
+  RUN_TEST_CASE(Input, InitPinsMultipleChains);
 }
 
 static void RunAllTests(void)
