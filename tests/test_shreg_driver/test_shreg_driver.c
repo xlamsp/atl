@@ -4,6 +4,7 @@ TEST_GROUP_RUNNER(Input)
 {
   RUN_TEST_CASE(Input, InitPinsSingleChain);
   RUN_TEST_CASE(Input, InitPinsMultipleChains);
+  RUN_TEST_CASE(Input, ReadSingleChipChain);
 }
 
 static void RunAllTests(void)
