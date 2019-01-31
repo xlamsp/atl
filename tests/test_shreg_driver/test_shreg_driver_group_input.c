@@ -137,3 +137,70 @@ TEST(Input, ReadSingleChipChain)
     "Incorrect data read from the chain");
 }
 
+/*
+ * The driver can read arbitrary value from the single chip chain
+ */
+TEST(Input, ReadArbitraryValueSingleChipChain)
+{
+  shreg_driver_t handle = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 1
+  };
+  uint8_t expected_buffer[] = { 0x85 };
+  uint8_t read_buffer[] = { 0x00 };
+
+  /* Pull up the latch to lock register input pins */
+  expect_digitalWrite(handle.pinLatch, HIGH);
+
+  /* Shift in bit from pin H */
+  expect_digitalRead(HIGH, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift in bit from pin G */
+  expect_digitalRead(LOW, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift in bit from pin F */
+  expect_digitalRead(LOW, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift in bit from pin E */
+  expect_digitalRead(LOW, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift in bit from pin D */
+  expect_digitalRead(LOW, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift in bit from pin C */
+  expect_digitalRead(HIGH, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift in bit from pin B */
+  expect_digitalRead(LOW, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift in bit from pin A */
+  expect_digitalRead(HIGH, handle.pinData);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Release the latch */
+  expect_digitalWrite(handle.pinLatch, LOW);
+
+  shreg_read(&handle, read_buffer);
+
+  TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
+    expected_buffer, read_buffer, handle.numChips,
+    "Incorrect data read from the chain");
+}
+

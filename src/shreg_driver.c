@@ -14,46 +14,48 @@ shreg_init_input (shreg_driver_t *handle)
 void
 shreg_read (shreg_driver_t *handle, uint8_t *buffer)
 {
+  uint8_t value = 0;
+
   /* Pull up the latch to lock register input pins */
   digitalWrite(2, HIGH);
 
   /* Shift in bit from pin H */
-  digitalRead(4);
+  value |= (digitalRead(4) << 7);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
   /* Shift in bit from pin G */
-  digitalRead(4);
+  value |= (digitalRead(4) << 6);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
   /* Shift in bit from pin F */
-  digitalRead(4);
+  value |= (digitalRead(4) << 5);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
   /* Shift in bit from pin E */
-  digitalRead(4);
+  value |= (digitalRead(4) << 4);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
   /* Shift in bit from pin D */
-  digitalRead(4);
+  value |= (digitalRead(4) << 3);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
   /* Shift in bit from pin C */
-  digitalRead(4);
+  value |= (digitalRead(4) << 2);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
   /* Shift in bit from pin B */
-  digitalRead(4);
+  value |= (digitalRead(4) << 1);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
   /* Shift in bit from pin A */
-  digitalRead(4);
+  value |= digitalRead(4);
   digitalWrite(3, HIGH);
   digitalWrite(3, LOW);
 
@@ -61,6 +63,6 @@ shreg_read (shreg_driver_t *handle, uint8_t *buffer)
   digitalWrite(2, LOW);
 
   /* Return result */
-  buffer[0] = 0;
+  buffer[0] = value;
 }
 
