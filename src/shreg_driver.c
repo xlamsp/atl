@@ -17,50 +17,50 @@ shreg_read (shreg_driver_t *handle, uint8_t *buffer)
   uint8_t value = 0;
 
   /* Pull up the latch to lock register input pins */
-  digitalWrite(2, HIGH);
+  digitalWrite(handle->pinLatch, HIGH);
 
   /* Shift in bit from pin H */
-  value |= (digitalRead(4) << 7);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= (digitalRead(handle->pinData) << 7);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift in bit from pin G */
-  value |= (digitalRead(4) << 6);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= (digitalRead(handle->pinData) << 6);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift in bit from pin F */
-  value |= (digitalRead(4) << 5);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= (digitalRead(handle->pinData) << 5);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift in bit from pin E */
-  value |= (digitalRead(4) << 4);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= (digitalRead(handle->pinData) << 4);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift in bit from pin D */
-  value |= (digitalRead(4) << 3);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= (digitalRead(handle->pinData) << 3);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift in bit from pin C */
-  value |= (digitalRead(4) << 2);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= (digitalRead(handle->pinData) << 2);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift in bit from pin B */
-  value |= (digitalRead(4) << 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= (digitalRead(handle->pinData) << 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift in bit from pin A */
-  value |= digitalRead(4);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  value |= digitalRead(handle->pinData);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Release the latch */
-  digitalWrite(2, LOW);
+  digitalWrite(handle->pinLatch, LOW);
 
   /* Return result */
   buffer[0] = value;

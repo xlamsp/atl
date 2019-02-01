@@ -149,3 +149,49 @@ TEST(Input, ReadArbitraryValueSingleChipChain)
     "Incorrect data read from the chain");
 }
 
+/*
+ * The driver can read arbitrary values from multiple single chip chains
+ */
+TEST(Input, ReadArbitraryValuesFromMultipleSingleChipChains)
+{
+  shreg_driver_t handle1 = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 1
+  };
+  shreg_driver_t handle2 = {
+    .pinLatch = 5,
+    .pinClock = 6,
+    .pinData = 7,
+    .numChips = 1
+  };
+  uint8_t expected_buffer1[] = { 0x37 };
+  uint8_t expected_buffer2[] = { 0x4c };
+  uint8_t read_buffer[] = { 0x00 };
+
+  /* Set expectations for chain 1 */
+  expect_digitalWrite(handle1.pinLatch, HIGH);
+  expect_shiftInOneChip(&handle1, expected_buffer1[0]);
+  expect_digitalWrite(handle1.pinLatch, LOW);
+
+  /* Set expectations for chain 2 */
+  expect_digitalWrite(handle2.pinLatch, HIGH);
+  expect_shiftInOneChip(&handle2, expected_buffer2[0]);
+  expect_digitalWrite(handle2.pinLatch, LOW);
+
+  /* Test read from chain 1 */
+  shreg_read(&handle1, read_buffer);
+
+  TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
+    expected_buffer1, read_buffer, handle1.numChips,
+    "Incorrect data read from the chain 1");
+
+  /* Test read from chain 2 */
+  shreg_read(&handle2, read_buffer);
+
+  TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
+    expected_buffer2, read_buffer, handle2.numChips,
+    "Incorrect data read from the chain 2");
+}
+
