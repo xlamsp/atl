@@ -13,6 +13,7 @@ expect_InitPinsForInputChain(shreg_driver_t *handle)
   expect_pinMode(handle->pinLatch, OUTPUT);
   expect_pinMode(handle->pinClock, OUTPUT);
   expect_pinMode(handle->pinData, INPUT);
+
   expect_digitalWrite(handle->pinLatch, LOW);
   expect_digitalWrite(handle->pinClock, LOW);
 }
@@ -20,10 +21,10 @@ expect_InitPinsForInputChain(shreg_driver_t *handle)
 static void
 expect_shiftInOneChip(shreg_driver_t *handle, uint8_t value)
 {
-  int i;
+  int bit;
 
-  for (i = 7; i >= 0; i--) {
-    expect_digitalRead((value >> i) & 1, handle->pinData);
+  for (bit = 7; bit >= 0; bit--) {
+    expect_digitalRead((value >> bit) & 1, handle->pinData);
     expect_digitalWrite(handle->pinClock, HIGH);
     expect_digitalWrite(handle->pinClock, LOW);
   }
@@ -61,9 +62,13 @@ TEST(Input, InitPinsSingleChain)
     .numChips = 1
   };
 
+  /* Set expectations */
   expect_InitPinsForInputChain(&handle);
 
+  /* Perform test */
   shreg_init_input(&handle);
+
+  /* Verify results (implicitly via test tear down) */
 }
 
 /*
@@ -84,11 +89,15 @@ TEST(Input, InitPinsMultipleChains)
     .numChips = 1
   };
 
+  /* Set expectations */
   expect_InitPinsForInputChain(&handle1);
   expect_InitPinsForInputChain(&handle2);
 
+  /* Perform test */
   shreg_init_input(&handle1);
   shreg_init_input(&handle2);
+
+  /* Verify results (implicitly via test tear down) */
 }
 
 /*
@@ -105,16 +114,15 @@ TEST(Input, ReadSingleChipChain)
   uint8_t expected_buffer[] = { 0 };
   uint8_t read_buffer[] = { 0xa5 };
 
-  /* Pull up the latch to lock register input pins */
-  expect_digitalWrite(handle.pinLatch, HIGH);
-
+  /* Set expectations */
+  expect_digitalWrite(handle.pinLatch, HIGH); /* Latch lock */
   expect_shiftInOneChip(&handle, expected_buffer[0]);
+  expect_digitalWrite(handle.pinLatch, LOW); /* Latch release */
 
-  /* Release the latch */
-  expect_digitalWrite(handle.pinLatch, LOW);
-
+  /* Perform test */
   shreg_read(&handle, read_buffer);
 
+  /* Verify results */
   TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
     expected_buffer, read_buffer, handle.numChips,
     "Incorrect data read from the chain");
@@ -134,16 +142,15 @@ TEST(Input, ReadArbitraryValueSingleChipChain)
   uint8_t expected_buffer[] = { 0x85 };
   uint8_t read_buffer[] = { 0x00 };
 
-  /* Pull up the latch to lock register input pins */
-  expect_digitalWrite(handle.pinLatch, HIGH);
-
+  /* Set expectations */
+  expect_digitalWrite(handle.pinLatch, HIGH); /* Latch lock */
   expect_shiftInOneChip(&handle, expected_buffer[0]);
+  expect_digitalWrite(handle.pinLatch, LOW); /* Latch release */
 
-  /* Release the latch */
-  expect_digitalWrite(handle.pinLatch, LOW);
-
+  /* Perform test */
   shreg_read(&handle, read_buffer);
 
+  /* Verify results */
   TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
     expected_buffer, read_buffer, handle.numChips,
     "Incorrect data read from the chain");
@@ -183,6 +190,7 @@ TEST(Input, ReadArbitraryValuesFromMultipleSingleChipChains)
   /* Test read from chain 1 */
   shreg_read(&handle1, read_buffer);
 
+  /* Verify results */
   TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
     expected_buffer1, read_buffer, handle1.numChips,
     "Incorrect data read from the chain 1");
@@ -190,6 +198,7 @@ TEST(Input, ReadArbitraryValuesFromMultipleSingleChipChains)
   /* Test read from chain 2 */
   shreg_read(&handle2, read_buffer);
 
+  /* Verify results */
   TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
     expected_buffer2, read_buffer, handle2.numChips,
     "Incorrect data read from the chain 2");
@@ -210,14 +219,12 @@ TEST(Input, ReadArbitraryDataFromMultipleChipChain)
   uint8_t read_buffer[] = { 0x00, 0x00 };
 
   /* Set expectations */
-  expect_digitalWrite(handle.pinLatch, HIGH);
-
+  expect_digitalWrite(handle.pinLatch, HIGH); /* Latch lock */
   expect_shiftInOneChip(&handle, expected_buffer[0]);
   expect_shiftInOneChip(&handle, expected_buffer[1]);
+  expect_digitalWrite(handle.pinLatch, LOW); /* Latch release */
 
-  expect_digitalWrite(handle.pinLatch, LOW);
-
-  /* Perform the test */
+  /* Perform test */
   shreg_read(&handle, read_buffer);
 
   /* Verify results */

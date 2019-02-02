@@ -1,9 +1,11 @@
 #include "arduino.h"
 #include "shreg_driver.h"
 
+
 /*******************************************************************************
  * Local functions
  ******************************************************************************/
+
 static inline uint8_t
 shiftInOneChip(uint8_t pinData, uint8_t pinClock)
 {
@@ -18,6 +20,7 @@ shiftInOneChip(uint8_t pinData, uint8_t pinClock)
 
   return value;
 }
+
 
 /*******************************************************************************
  * Public functions
@@ -39,15 +42,12 @@ shreg_read (shreg_driver_t *handle, uint8_t *buffer)
 {
   uint8_t chipCount;
 
-  /* Pull up the latch to lock registers input pins */
-  digitalWrite(handle->pinLatch, HIGH);
+  digitalWrite(handle->pinLatch, HIGH); /* Latch lock */
 
-  /* Shift in data from all chips in the chain */
   for (chipCount = 0; chipCount < handle->numChips; chipCount++) {
     buffer[chipCount] = shiftInOneChip(handle->pinData, handle->pinClock);
   }
 
-  /* Release the latch */
-  digitalWrite(handle->pinLatch, LOW);
+  digitalWrite(handle->pinLatch, LOW); /* Latch release */
 }
 
