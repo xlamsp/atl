@@ -195,3 +195,34 @@ TEST(Input, ReadArbitraryValuesFromMultipleSingleChipChains)
     "Incorrect data read from the chain 2");
 }
 
+/*
+ * The driver can read multiple chip chain into the memory buffer
+ */
+TEST(Input, ReadArbitraryDataFromMultipleChipChain)
+{
+  shreg_driver_t handle = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 2
+  };
+  uint8_t expected_buffer[] = { 0xa2, 0x18 };
+  uint8_t read_buffer[] = { 0x00, 0x00 };
+
+  /* Set expectations */
+  expect_digitalWrite(handle.pinLatch, HIGH);
+
+  expect_shiftInOneChip(&handle, expected_buffer[0]);
+  expect_shiftInOneChip(&handle, expected_buffer[1]);
+
+  expect_digitalWrite(handle.pinLatch, LOW);
+
+  /* Perform the test */
+  shreg_read(&handle, read_buffer);
+
+  /* Verify results */
+  TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
+    expected_buffer, read_buffer, handle.numChips,
+    "Incorrect data read from the chain");
+}
+

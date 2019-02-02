@@ -7,6 +7,7 @@ TEST_GROUP_RUNNER(Input)
   RUN_TEST_CASE(Input, ReadSingleChipChain);
   RUN_TEST_CASE(Input, ReadArbitraryValueSingleChipChain);
   RUN_TEST_CASE(Input, ReadArbitraryValuesFromMultipleSingleChipChains);
+  RUN_TEST_CASE(Input, ReadArbitraryDataFromMultipleChipChain);
 }
 
 static void RunAllTests(void)

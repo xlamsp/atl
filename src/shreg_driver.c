@@ -37,10 +37,15 @@ shreg_init_input (shreg_driver_t *handle)
 void
 shreg_read (shreg_driver_t *handle, uint8_t *buffer)
 {
-  /* Pull up the latch to lock register input pins */
+  uint8_t chipCount;
+
+  /* Pull up the latch to lock registers input pins */
   digitalWrite(handle->pinLatch, HIGH);
 
-  buffer[0] = shiftInOneChip(handle->pinData, handle->pinClock);
+  /* Shift in data from all chips in the chain */
+  for (chipCount = 0; chipCount < handle->numChips; chipCount++) {
+    buffer[chipCount] = shiftInOneChip(handle->pinData, handle->pinClock);
+  }
 
   /* Release the latch */
   digitalWrite(handle->pinLatch, LOW);
