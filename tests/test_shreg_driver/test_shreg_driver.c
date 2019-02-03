@@ -13,6 +13,7 @@ TEST_GROUP_RUNNER(Input)
 TEST_GROUP_RUNNER(Output)
 {
   RUN_TEST_CASE(Output, InitPinsSingleChain);
+  RUN_TEST_CASE(Output, InitPinsMultipleChains);
 }
 
 static void RunAllTests(void)
