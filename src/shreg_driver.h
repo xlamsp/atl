@@ -14,6 +14,9 @@ void
 shreg_init_input (shreg_driver_t *handle);
 
 void
+shreg_init_output (shreg_driver_t *handle);
+
+void
 shreg_read (shreg_driver_t *handle, uint8_t *buffer);
 
 #endif /* SHREG_DRIVER_H */
