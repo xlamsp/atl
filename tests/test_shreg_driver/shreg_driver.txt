@@ -58,7 +58,7 @@ Output:
 [*]: The driver can initialize controller's pins to work with output registers;
 [*]: The driver can initialize multiple output chains with different parameters;
 [*]: The driver can write memory buffer to the single chip chain;
-[ ]: The driver can write arbitrary value to the single chip chain;
+[*]: The driver can write arbitrary value to the single chip chain;
 [ ]: The driver can write arbitrary values to multiple single chip chains;
 [ ]: The driver can write memory buffer to the multiple chip chain;
 
