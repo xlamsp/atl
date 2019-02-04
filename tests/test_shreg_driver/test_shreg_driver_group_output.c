@@ -4,6 +4,32 @@
 
 TEST_GROUP(Output);
 
+/*
+ * Supplementary functions
+ */
+static void
+expect_InitPinsForOutputChain(shreg_driver_t *handle)
+{
+  expect_pinMode(handle->pinLatch, OUTPUT);
+  expect_pinMode(handle->pinClock, OUTPUT);
+  expect_pinMode(handle->pinData, OUTPUT);
+
+  expect_digitalWrite(handle->pinLatch, HIGH);
+  expect_digitalWrite(handle->pinClock, LOW);
+}
+
+static void
+expect_shiftOutOneChip(shreg_driver_t *handle, uint8_t value)
+{
+  int bit;
+
+  for (bit = 7; bit >= 0; bit--) {
+    expect_digitalWrite(handle->pinData, (value >> bit) & 1);
+    expect_digitalWrite(handle->pinClock, HIGH);
+    expect_digitalWrite(handle->pinClock, LOW);
+  }
+}
+
 
 /*
  * Test setup and teardown
@@ -37,12 +63,7 @@ TEST(Output, InitPinsSingleChain)
   };
 
   /* Set expectations */
-  expect_pinMode(handle.pinLatch, OUTPUT);
-  expect_pinMode(handle.pinClock, OUTPUT);
-  expect_pinMode(handle.pinData, OUTPUT);
-
-  expect_digitalWrite(handle.pinLatch, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
+  expect_InitPinsForOutputChain(&handle);
 
   /* Perform test */
   shreg_init_output(&handle);
@@ -69,19 +90,8 @@ TEST(Output, InitPinsMultipleChains)
   };
 
   /* Set expectations */
-  expect_pinMode(handle1.pinLatch, OUTPUT);
-  expect_pinMode(handle1.pinClock, OUTPUT);
-  expect_pinMode(handle1.pinData, OUTPUT);
-
-  expect_digitalWrite(handle1.pinLatch, HIGH);
-  expect_digitalWrite(handle1.pinClock, LOW);
-
-  expect_pinMode(handle2.pinLatch, OUTPUT);
-  expect_pinMode(handle2.pinClock, OUTPUT);
-  expect_pinMode(handle2.pinData, OUTPUT);
-
-  expect_digitalWrite(handle2.pinLatch, HIGH);
-  expect_digitalWrite(handle2.pinClock, LOW);
+  expect_InitPinsForOutputChain(&handle1);
+  expect_InitPinsForOutputChain(&handle2);
 
   /* Perform test */
   shreg_init_output(&handle1);
@@ -105,47 +115,7 @@ TEST(Output, WriteSingleChipChain)
 
   /* Set expectations */
   expect_digitalWrite(handle.pinLatch, LOW); /* Latch lock */
-
-  /* Shift out bit to pin Qh */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qg */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qf */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qe */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qd */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qc */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qb */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qa */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
+  expect_shiftOutOneChip(&handle, write_buffer[0]);
   expect_digitalWrite(handle.pinLatch, HIGH); /* Latch release */
 
   /* Perform test */
@@ -169,47 +139,7 @@ TEST(Output, WriteArbitraryValueSingleChipChain)
 
   /* Set expectations */
   expect_digitalWrite(handle.pinLatch, LOW); /* Latch lock */
-
-  /* Shift out bit to pin Qh */
-  expect_digitalWrite(handle.pinData, HIGH);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qg */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qf */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qe */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qd */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qc */
-  expect_digitalWrite(handle.pinData, HIGH);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qb */
-  expect_digitalWrite(handle.pinData, LOW);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
-  /* Shift out bit to pin Qa */
-  expect_digitalWrite(handle.pinData, HIGH);
-  expect_digitalWrite(handle.pinClock, HIGH);
-  expect_digitalWrite(handle.pinClock, LOW);
-
+  expect_shiftOutOneChip(&handle, write_buffer[0]);
   expect_digitalWrite(handle.pinLatch, HIGH); /* Latch release */
 
   /* Perform test */
