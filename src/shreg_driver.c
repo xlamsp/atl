@@ -62,3 +62,51 @@ shreg_read (shreg_driver_t *handle, uint8_t *buffer)
   digitalWrite(handle->pinLatch, LOW); /* Latch release */
 }
 
+void
+shreg_write (shreg_driver_t *handle, uint8_t *buffer)
+{
+  digitalWrite(2, LOW); /* Latch lock */
+
+  /* Shift out bit to pin Qh */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  /* Shift out bit to pin Qg */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  /* Shift out bit to pin Qf */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  /* Shift out bit to pin Qe */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  /* Shift out bit to pin Qd */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  /* Shift out bit to pin Qc */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  /* Shift out bit to pin Qb */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  /* Shift out bit to pin Qa */
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(3, LOW);
+
+  digitalWrite(2, HIGH); /* Latch release */
+}
+

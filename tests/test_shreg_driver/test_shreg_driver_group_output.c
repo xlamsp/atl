@@ -90,3 +90,67 @@ TEST(Output, InitPinsMultipleChains)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * The driver can write memory buffer to the single chip chain
+ */
+TEST(Output, WriteSingleChipChain)
+{
+  shreg_driver_t handle = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 1
+  };
+  uint8_t write_buffer[] = { 0x00 };
+
+  /* Set expectations */
+  expect_digitalWrite(handle.pinLatch, LOW); /* Latch lock */
+
+  /* Shift out bit to pin Qh */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift out bit to pin Qg */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift out bit to pin Qf */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift out bit to pin Qe */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift out bit to pin Qd */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift out bit to pin Qc */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift out bit to pin Qb */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  /* Shift out bit to pin Qa */
+  expect_digitalWrite(handle.pinData, LOW);
+  expect_digitalWrite(handle.pinClock, HIGH);
+  expect_digitalWrite(handle.pinClock, LOW);
+
+  expect_digitalWrite(handle.pinLatch, HIGH); /* Latch release */
+
+  /* Perform test */
+  shreg_write(&handle, write_buffer);
+
+  /* Verify results (implicitly via test tear down) */
+}
+
