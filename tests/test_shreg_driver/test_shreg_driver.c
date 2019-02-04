@@ -17,6 +17,7 @@ TEST_GROUP_RUNNER(Output)
   RUN_TEST_CASE(Output, WriteSingleChipChain);
   RUN_TEST_CASE(Output, WriteArbitraryValueSingleChipChain);
   RUN_TEST_CASE(Output, WriteArbitraryValuesToMultipleSingleChipChains);
+  RUN_TEST_CASE(Output, WriteArbitraryDataToMultipleChipChain);
 }
 
 static void RunAllTests(void)

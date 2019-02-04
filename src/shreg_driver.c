@@ -77,9 +77,13 @@ shreg_read (shreg_driver_t *handle, uint8_t *buffer)
 void
 shreg_write (shreg_driver_t *handle, uint8_t *buffer)
 {
+  uint8_t chipCount;
+
   digitalWrite(handle->pinLatch, LOW); /* Latch lock */
 
-  shiftOutOneChip(handle->pinData, handle->pinClock, buffer[0]);
+  for (chipCount = 0; chipCount < handle->numChips; chipCount++) {
+    shiftOutOneChip(handle->pinData, handle->pinClock, buffer[chipCount]);
+  }
 
   digitalWrite(handle->pinLatch, HIGH); /* Latch release */
 }

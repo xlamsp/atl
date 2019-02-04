@@ -184,3 +184,28 @@ TEST(Output, WriteArbitraryValuesToMultipleSingleChipChains)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * The driver can write memory buffer to the multiple chip chain
+ */
+TEST(Output, WriteArbitraryDataToMultipleChipChain)
+{
+  shreg_driver_t handle = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 2
+  };
+  uint8_t write_buffer[] = { 0b10100010, 0b00011000 };
+
+  /* Set expectations */
+  expect_digitalWrite(handle.pinLatch, LOW); /* Latch lock */
+  expect_shiftOutOneChip(&handle, write_buffer[0]);
+  expect_shiftOutOneChip(&handle, write_buffer[1]);
+  expect_digitalWrite(handle.pinLatch, HIGH); /* Latch release */
+
+  /* Perform test */
+  shreg_write(&handle, write_buffer);
+
+  /* Verify results (implicitly via test tear down) */
+}
+
