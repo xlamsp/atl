@@ -16,6 +16,7 @@ TEST_GROUP_RUNNER(Output)
   RUN_TEST_CASE(Output, InitPinsMultipleChains);
   RUN_TEST_CASE(Output, WriteSingleChipChain);
   RUN_TEST_CASE(Output, WriteArbitraryValueSingleChipChain);
+  RUN_TEST_CASE(Output, WriteArbitraryValuesToMultipleSingleChipChains);
 }
 
 static void RunAllTests(void)

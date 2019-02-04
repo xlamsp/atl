@@ -65,48 +65,48 @@ shreg_read (shreg_driver_t *handle, uint8_t *buffer)
 void
 shreg_write (shreg_driver_t *handle, uint8_t *buffer)
 {
-  digitalWrite(2, LOW); /* Latch lock */
+  digitalWrite(handle->pinLatch, LOW); /* Latch lock */
 
   /* Shift out bit to pin Qh */
-  digitalWrite(4, (buffer[0] >> 7) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 7) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift out bit to pin Qg */
-  digitalWrite(4, (buffer[0] >> 6) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 6) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift out bit to pin Qf */
-  digitalWrite(4, (buffer[0] >> 5) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 5) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift out bit to pin Qe */
-  digitalWrite(4, (buffer[0] >> 4) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 4) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift out bit to pin Qd */
-  digitalWrite(4, (buffer[0] >> 3) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 3) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift out bit to pin Qc */
-  digitalWrite(4, (buffer[0] >> 2) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 2) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift out bit to pin Qb */
-  digitalWrite(4, (buffer[0] >> 1) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 1) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
   /* Shift out bit to pin Qa */
-  digitalWrite(4, (buffer[0] >> 0) & 1);
-  digitalWrite(3, HIGH);
-  digitalWrite(3, LOW);
+  digitalWrite(handle->pinData, (buffer[0] >> 0) & 1);
+  digitalWrite(handle->pinClock, HIGH);
+  digitalWrite(handle->pinClock, LOW);
 
-  digitalWrite(2, HIGH); /* Latch release */
+  digitalWrite(handle->pinLatch, HIGH); /* Latch release */
 }
 
