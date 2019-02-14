@@ -58,6 +58,11 @@ TEST_GROUP_RUNNER(Arduino)
   RUN_TEST_CASE(Arduino, millis);
 }
 
+TEST_GROUP_RUNNER(ShregDriver)
+{
+  RUN_TEST_CASE(ShregDriver, shreg_init_input);
+}
+
 static void RunAllTests(void)
 {
   RUN_TEST_GROUP(Init);
@@ -65,6 +70,7 @@ static void RunAllTests(void)
   RUN_TEST_GROUP(NonEmptyContext);
   RUN_TEST_GROUP(Misc);
   RUN_TEST_GROUP(Arduino);
+  RUN_TEST_GROUP(ShregDriver);
 }
 
 int main(int argc, const char **argv)

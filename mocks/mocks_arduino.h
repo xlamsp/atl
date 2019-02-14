@@ -5,7 +5,7 @@
 #include "arduino.h"
 
 enum {
-  mock_id_pinMode,
+  mock_id_pinMode = mocks_id_offset_arduino,
   mock_id_digitalWrite,
   mock_id_digitalRead,
   mock_id_millis,

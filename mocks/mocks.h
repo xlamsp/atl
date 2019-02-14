@@ -5,6 +5,11 @@
 #define MOCKS_MAX_CONTEXT_DATA_SIZE     (1024)
 
 typedef enum {
+  mocks_id_offset_arduino = 0x100,
+  mocks_id_offset_shreg_driver = mocks_id_offset_arduino + 0x10,
+} mocks_module_id_offset;
+
+typedef enum {
   mocks_success,
   mocks_not_initialized,
   mocks_no_more_expectations,
