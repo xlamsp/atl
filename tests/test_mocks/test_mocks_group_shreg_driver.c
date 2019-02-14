@@ -30,3 +30,19 @@ TEST(ShregDriver, shreg_init_input)
   shreg_init_input(&handle);
 }
 
+/*
+ * mock shreg_driver shreg_init_output()
+ */
+TEST(ShregDriver, shreg_init_output)
+{
+  shreg_driver_t handle = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 1
+  };
+
+  expect_shreg_init_output(&handle);
+  shreg_init_output(&handle);
+}
+

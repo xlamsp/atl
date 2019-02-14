@@ -2,6 +2,9 @@
 #include "unity_fixture.h"
 #include <string.h>
 
+/*
+ * mock shreg_driver shreg_init_input()
+ */
 typedef shreg_driver_t ctx_shreg_init_input;
 
 void
@@ -41,5 +44,50 @@ shreg_init_input(shreg_driver_t *handle)
 
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.numChips, handle->numChips,
     "shreg_init_input: numChips not match");
+}
+
+
+/*
+ * mock shreg_driver shreg_init_output()
+ */
+typedef shreg_driver_t ctx_shreg_init_output;
+
+void
+expect_shreg_init_output(shreg_driver_t *handle)
+{
+  ctx_shreg_init_output ctx;
+
+  TEST_ASSERT_NOT_NULL_MESSAGE(handle,
+    "expect_shreg_init_output: handle must not be NULL");
+
+  memcpy(&ctx, handle, sizeof(ctx));
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_expect(mock_id_shreg_init_output, &ctx, sizeof(ctx)),
+    "expect_shreg_init_output: mocks_expect failed");
+}
+
+void
+shreg_init_output(shreg_driver_t *handle)
+{
+  ctx_shreg_init_output ctx;
+
+  TEST_ASSERT_NOT_NULL_MESSAGE(handle,
+    "shreg_init_output: handle must not be NULL");
+
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_invoke(mock_id_shreg_init_output, &ctx, sizeof(ctx)),
+    "shreg_init_output: mocks_invoke failed");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinLatch, handle->pinLatch,
+    "shreg_init_output: pinLatch not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinClock, handle->pinClock,
+    "shreg_init_output: pinClock not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinData, handle->pinData,
+    "shreg_init_output: pinData not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.numChips, handle->numChips,
+    "shreg_init_output: numChips not match");
 }
 

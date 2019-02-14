@@ -61,6 +61,7 @@ TEST_GROUP_RUNNER(Arduino)
 TEST_GROUP_RUNNER(ShregDriver)
 {
   RUN_TEST_CASE(ShregDriver, shreg_init_input);
+  RUN_TEST_CASE(ShregDriver, shreg_init_output);
 }
 
 static void RunAllTests(void)
