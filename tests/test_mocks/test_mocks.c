@@ -62,6 +62,7 @@ TEST_GROUP_RUNNER(ShregDriver)
 {
   RUN_TEST_CASE(ShregDriver, shreg_init_input);
   RUN_TEST_CASE(ShregDriver, shreg_init_output);
+  RUN_TEST_CASE(ShregDriver, shreg_read);
 }
 
 static void RunAllTests(void)

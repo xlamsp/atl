@@ -46,3 +46,26 @@ TEST(ShregDriver, shreg_init_output)
   shreg_init_output(&handle);
 }
 
+/*
+ * mock shreg_driver shreg_read()
+ */
+TEST(ShregDriver, shreg_read)
+{
+  shreg_driver_t handle = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 2
+  };
+
+  uint8_t expected_buffer[] = { 0b10000100, 0b00010011 };
+  uint8_t read_buffer[] = { 0, 0 };
+
+  expect_shreg_read(&handle, expected_buffer);
+  shreg_read(&handle, read_buffer);
+
+  TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
+    expected_buffer, read_buffer, handle.numChips,
+    "Incorrect data read from the chain");
+}
+
