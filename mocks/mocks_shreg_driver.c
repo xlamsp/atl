@@ -153,3 +153,67 @@ shreg_read(shreg_driver_t *handle, uint8_t *buffer)
   memcpy(buffer, ctx.buffer, ctx.handle.numChips);
 }
 
+
+/*
+ * mock shreg_driver shreg_write()
+ */
+typedef struct {
+  shreg_driver_t handle;
+  uint8_t buffer[MOCKS_SHREG_DRIVER_MAX_BUFFER_SIZE];
+} ctx_shreg_write;
+
+void
+expect_shreg_write(shreg_driver_t *handle, uint8_t *buffer)
+{
+  ctx_shreg_write ctx;
+
+  TEST_ASSERT_NOT_NULL_MESSAGE(handle,
+    "expect_shreg_write: handle must not be NULL");
+
+  TEST_ASSERT_NOT_NULL_MESSAGE(buffer,
+    "expect_shreg_write: buffer must not be NULL");
+
+  TEST_ASSERT_LESS_OR_EQUAL_UINT8_MESSAGE(
+    MOCKS_SHREG_DRIVER_MAX_BUFFER_SIZE, handle->numChips,
+    "expect_shreg_write: handle->numChips "
+    "must not exceed MOCKS_SHREG_DRIVER_MAX_BUFFER_SIZE");
+
+  memcpy(&(ctx.handle), handle, sizeof(ctx.handle));
+  memcpy(ctx.buffer, buffer, handle->numChips);
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_expect(mock_id_shreg_write, &ctx, sizeof(ctx)),
+    "expect_shreg_write: mocks_expect failed");
+}
+
+void
+shreg_write(shreg_driver_t *handle, uint8_t *buffer)
+{
+  ctx_shreg_write ctx;
+
+  TEST_ASSERT_NOT_NULL_MESSAGE(handle,
+    "shreg_write: handle must not be NULL");
+
+  TEST_ASSERT_NOT_NULL_MESSAGE(buffer,
+    "shreg_write: buffer must not be NULL");
+
+  TEST_ASSERT_EQUAL_MESSAGE(mocks_success,
+    mocks_invoke(mock_id_shreg_write, &ctx, sizeof(ctx)),
+    "shreg_write: mocks_invoke failed");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinLatch, handle->pinLatch,
+    "shreg_write: pinLatch not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinClock, handle->pinClock,
+    "shreg_write: pinClock not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinData, handle->pinData,
+    "shreg_write: pinData not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.numChips, handle->numChips,
+    "shreg_write: numChips not match");
+
+  TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
+    ctx.buffer, buffer, handle->numChips,
+    "shreg_write: incorrect data written to the chain");
+}
+

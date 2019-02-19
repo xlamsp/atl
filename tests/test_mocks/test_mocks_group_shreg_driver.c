@@ -69,3 +69,21 @@ TEST(ShregDriver, shreg_read)
     "Incorrect data read from the chain");
 }
 
+/*
+ * mock shreg_driver shreg_write()
+ */
+TEST(ShregDriver, shreg_write)
+{
+  shreg_driver_t handle = {
+    .pinLatch = 2,
+    .pinClock = 3,
+    .pinData = 4,
+    .numChips = 2
+  };
+
+  uint8_t write_buffer[] = { 0b10000100, 0b00010011 };
+
+  expect_shreg_write(&handle, write_buffer);
+  shreg_write(&handle, write_buffer);
+}
+
