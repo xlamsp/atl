@@ -2,6 +2,27 @@
 #include "unity_fixture.h"
 #include <string.h>
 
+
+/*
+ * mock shreg_driver service functions
+ */
+static void
+mocks_shreg_verify_handle(shreg_driver_t *expected, shreg_driver_t *actual)
+{
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(expected->pinLatch, actual->pinLatch,
+    "pinLatch not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(expected->pinClock, actual->pinClock,
+    "pinClock not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(expected->pinData, actual->pinData,
+    "pinData not match");
+
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(expected->numChips, actual->numChips,
+    "numChips not match");
+}
+
+
 /*
  * mock shreg_driver shreg_init_input()
  */
@@ -33,17 +54,7 @@ shreg_init_input(shreg_driver_t *handle)
     mocks_invoke(mock_id_shreg_init_input, &ctx, sizeof(ctx)),
     "shreg_init_input: mocks_invoke failed");
 
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinLatch, handle->pinLatch,
-    "shreg_init_input: pinLatch not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinClock, handle->pinClock,
-    "shreg_init_input: pinClock not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinData, handle->pinData,
-    "shreg_init_input: pinData not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.numChips, handle->numChips,
-    "shreg_init_input: numChips not match");
+  mocks_shreg_verify_handle(&ctx, handle);
 }
 
 
@@ -78,17 +89,7 @@ shreg_init_output(shreg_driver_t *handle)
     mocks_invoke(mock_id_shreg_init_output, &ctx, sizeof(ctx)),
     "shreg_init_output: mocks_invoke failed");
 
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinLatch, handle->pinLatch,
-    "shreg_init_output: pinLatch not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinClock, handle->pinClock,
-    "shreg_init_output: pinClock not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.pinData, handle->pinData,
-    "shreg_init_output: pinData not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.numChips, handle->numChips,
-    "shreg_init_output: numChips not match");
+  mocks_shreg_verify_handle(&ctx, handle);
 }
 
 
@@ -138,17 +139,7 @@ shreg_read(shreg_driver_t *handle, uint8_t *buffer)
     mocks_invoke(mock_id_shreg_read, &ctx, sizeof(ctx)),
     "shreg_read: mocks_invoke failed");
 
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinLatch, handle->pinLatch,
-    "shreg_read: pinLatch not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinClock, handle->pinClock,
-    "shreg_read: pinClock not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinData, handle->pinData,
-    "shreg_read: pinData not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.numChips, handle->numChips,
-    "shreg_read: numChips not match");
+  mocks_shreg_verify_handle(&(ctx.handle), handle);
 
   memcpy(buffer, ctx.buffer, ctx.handle.numChips);
 }
@@ -200,17 +191,7 @@ shreg_write(shreg_driver_t *handle, uint8_t *buffer)
     mocks_invoke(mock_id_shreg_write, &ctx, sizeof(ctx)),
     "shreg_write: mocks_invoke failed");
 
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinLatch, handle->pinLatch,
-    "shreg_write: pinLatch not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinClock, handle->pinClock,
-    "shreg_write: pinClock not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.pinData, handle->pinData,
-    "shreg_write: pinData not match");
-
-  TEST_ASSERT_EQUAL_UINT8_MESSAGE(ctx.handle.numChips, handle->numChips,
-    "shreg_write: numChips not match");
+  mocks_shreg_verify_handle(&(ctx.handle), handle);
 
   TEST_ASSERT_EQUAL_HEX8_ARRAY_MESSAGE(
     ctx.buffer, buffer, handle->numChips,
