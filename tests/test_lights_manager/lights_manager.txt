@@ -1,0 +1,42 @@
+Description:
+============
+The Lights Manager (LM) controls 32 two-state lights.
+The LM can program an individual light to turn On, Off or Flashing.
+The flashing functionality is software enabled, provided the special update
+procedure should be called periodically.
+
+Requirements:
+=============
+- Programming an individual light should not immediately change it's state.
+- The update procedure should aggregate all the changes and apply the new state
+of all the lights in a single driver call.
+- All the lights programmed in Flashing mode are being turned on and off
+simultaneously even though they programmed at the different times.
+- The update procedure is responsible to calculate the current phase of the
+flashing and apply it to all the lights programmed in Flashing mode.
+- The frequency of calling the update procedure should be at least twice more
+often as the flashing interval.
+- In case the light was off and is programmed to Flashing and the current
+flashig phase is on, the light should not be turned on until the next phase
+to avoid possible flicking. Similarly, if the light was on and is programmed
+to Flashing and the current flashing phase is off then the light should not
+be turned off until the next phase.
+- The initialization of LM should program and turn off all the lights.
+- The LM uses shreg_driver to manipulate lights state.
+
+Test cases:
+===========
+[ ]: Initialization of LM turns all the lights off;
+[ ]: Programming light On, Off or Flashing does't cause changing state;
+[ ]: Calling update if no lights programmed does't cause changing state;
+[ ]: Can turn on one light;
+[ ]: Can turn on multiple lights;
+[ ]: Can turn off one light;
+[ ]: Can turn off multiple lights;
+[ ]:
+[ ]:
+[ ]:
+[ ]:
+[ ]:
+[ ]:
+
