@@ -30,7 +30,7 @@ Non-flashing functionality:
 ---------------------------
 [*]: Initialization of LM turns all the lights off;
 [*]: Calling update if no lights programmed does't cause changing state;
-[ ]: Programming light On does't cause changing state;
+[*]: Programming light On does't cause changing state;
 [ ]: Can turn on one light;
 [ ]: Can turn on multiple lights;
 [ ]: Programming light Off does't cause changing state;

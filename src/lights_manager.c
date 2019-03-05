@@ -30,3 +30,8 @@ lm_update(void)
 {
 }
 
+void
+lm_on(uint8_t light)
+{
+}
+

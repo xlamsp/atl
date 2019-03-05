@@ -59,3 +59,16 @@ TEST(NonFlashing, LmUpdateWithoutProgrammingDoesNotChangeState)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Programming light On does't cause changing state
+ */
+TEST(NonFlashing, ProgrammingLightOnDoesNotChangeState)
+{
+  /* Set expectations */
+
+  /* Perform test */
+  lm_on(0);
+
+  /* Verify results (implicitly via test tear down) */
+}
+
