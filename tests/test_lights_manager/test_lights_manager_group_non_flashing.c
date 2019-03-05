@@ -46,3 +46,16 @@ TEST(NonFlashing, LmInitTurnsAllLightsOff)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Calling update if no lights programmed does't cause changing state
+ */
+TEST(NonFlashing, LmUpdateWithoutProgrammingDoesNotChangeState)
+{
+  /* Set expectations */
+
+  /* Perform test */
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+

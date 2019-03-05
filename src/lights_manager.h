@@ -6,5 +6,8 @@
 void
 lm_init (void);
 
+void
+lm_update (void);
+
 #endif /* LIGHTS_MANAGER_H */
 

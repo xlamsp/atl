@@ -25,3 +25,8 @@ lm_init(void)
   shreg_write(&handle, buffer);
 }
 
+void
+lm_update(void)
+{
+}
+
