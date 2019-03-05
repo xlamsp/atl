@@ -50,10 +50,16 @@ TEST_SHREG_DRIVER_OBJS = \
 	$(UNITY_OBJS)
 TEST_SHREG_DRIVER_OUT = $(OBJS_DIR)/$(TEST_SHREG_DRIVER_DIR).out
 
+# Lights Manager
+LIGHTS_MANAGER_SRC = $(PROD_HOME_DIR)/lights_manager.c
+
 # Test Lights Manager
 TEST_LIGHTS_MANAGER_DIR = $(TESTS_HOME_DIR)/test_lights_manager
 TEST_LIGHTS_MANAGER_SRC = \
-	$(call get_src_from_dir_list, $(TEST_LIGHTS_MANAGER_DIR))
+	$(call get_src_from_dir_list, $(TEST_LIGHTS_MANAGER_DIR)) \
+	$(LIGHTS_MANAGER_SRC) \
+	$(MOCKS_SRC_COMMON) \
+	$(MOCKS_SRC_SHREG_DRIVER)
 TEST_LIGHTS_MANAGER_OBJS = \
 	$(call src_to_o,$(TEST_LIGHTS_MANAGER_SRC)) \
 	$(UNITY_OBJS)

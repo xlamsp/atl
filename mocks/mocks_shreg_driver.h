@@ -11,7 +11,7 @@ enum {
   mock_id_shreg_write,
 };
 
-#define MOCKS_SHREG_DRIVER_MAX_BUFFER_SIZE    (2)
+#define MOCKS_SHREG_DRIVER_MAX_BUFFER_SIZE    (4)
 
 void
 expect_shreg_init_input(shreg_driver_t *handle);
