@@ -1,8 +1,33 @@
 #include "lights_manager.h"
 #include "mocks_shreg_driver.h"
 #include "unity_fixture.h"
+#include <string.h>
 
 TEST_GROUP(NonFlashing);
+
+
+/*
+ * Local variables
+ */
+static shreg_driver_t handle = {
+  .pinLatch = 2,
+  .pinClock = 3,
+  .pinData = 4,
+  .numChips = 4
+};
+
+static uint8_t buffer[4];
+
+
+/*
+ * Supplementary functions
+ */
+static void
+setExpectations_lm_init(void)
+{
+  memset(buffer, 0, sizeof(buffer));
+  expect_shreg_write(&handle, buffer);
+}
 
 
 /*
@@ -11,6 +36,9 @@ TEST_GROUP(NonFlashing);
 TEST_SETUP(NonFlashing)
 {
   mocks_init();
+
+  setExpectations_lm_init();
+  lm_init();
 }
 
 TEST_TEAR_DOWN(NonFlashing)
@@ -29,19 +57,9 @@ TEST_TEAR_DOWN(NonFlashing)
  */
 TEST(NonFlashing, LmInitTurnsAllLightsOff)
 {
-  shreg_driver_t handle = {
-    .pinLatch = 2,
-    .pinClock = 3,
-    .pinData = 4,
-    .numChips = 4
-  };
-  uint8_t buffer[] = { 0, 0, 0, 0 };
+  /* Set expectations - moved to test setup */
 
-  /* Set expectations */
-  expect_shreg_write(&handle, buffer);
-
-  /* Perform test */
-  lm_init();
+  /* Perform test - moved to test setup */
 
   /* Verify results (implicitly via test tear down) */
 }
