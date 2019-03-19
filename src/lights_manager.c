@@ -29,6 +29,7 @@ lm_init(void)
 {
   memset(buffer, 0, sizeof(buffer));
   shreg_write(&handle, buffer);
+  is_buffer_changed = false;
 }
 
 void

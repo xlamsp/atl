@@ -139,3 +139,19 @@ TEST(NonFlashing, UpdateTwiceAfterProgrammingOnChangesStateOnce)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Update after Programming On and Init doesn't change state
+ */
+TEST(NonFlashing, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
+{
+  /* Set expectations */
+  setExpectations_lm_init();
+
+  /* Perform test */
+  lm_on(0);
+  lm_init();
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+

@@ -34,7 +34,7 @@ Non-flashing functionality:
 [*]: Can turn on one light with the lowest number;
 [*]: Can turn on one light with the highest number;
 [*]: Update twice after programming On changes state only once;
-[ ]: Update after Programming On and Init doesn't change state;
+[*]: Update after Programming On and Init doesn't change state;
 [ ]: Update after Programming On light that is already on doesn't change state;
 [ ]: Can turn on multiple lights;
 [ ]: Programming light Off does't cause changing state;
