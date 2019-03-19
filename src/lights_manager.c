@@ -37,6 +37,7 @@ lm_update(void)
   if (is_buffer_changed) {
     shreg_write(&handle, buffer);
   }
+  is_buffer_changed = false;
 }
 
 void

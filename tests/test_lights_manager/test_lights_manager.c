@@ -7,6 +7,7 @@ TEST_GROUP_RUNNER(NonFlashing)
   RUN_TEST_CASE(NonFlashing, ProgrammingLightOnDoesNotChangeState);
   RUN_TEST_CASE(NonFlashing, TurnOnOneLightWithLowestNumber);
   RUN_TEST_CASE(NonFlashing, TurnOnOneLightWithHighestNumber);
+  RUN_TEST_CASE(NonFlashing, UpdateTwiceAfterProgrammingOnChangesStateOnce);
 }
 
 static void RunAllTests(void)

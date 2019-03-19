@@ -122,3 +122,20 @@ TEST(NonFlashing, TurnOnOneLightWithHighestNumber)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Update twice after programming On changes state only once
+ */
+TEST(NonFlashing, UpdateTwiceAfterProgrammingOnChangesStateOnce)
+{
+  /* Set expectations */
+  buffer[0] = 0b00000001;
+  expect_shreg_write(&handle, buffer);
+
+  /* Perform test */
+  lm_on(0);
+  lm_update();
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+
