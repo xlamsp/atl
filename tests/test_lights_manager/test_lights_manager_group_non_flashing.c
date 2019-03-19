@@ -155,3 +155,22 @@ TEST(NonFlashing, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Update after Programming On light that is already on doesn't change state
+ */
+TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState)
+{
+  /* Set expectations */
+  buffer[0] = 0b00000001;
+  expect_shreg_write(&handle, buffer);
+
+  /* Perform test */
+  lm_on(0);
+  lm_update();  // change state expected
+
+  lm_on(0);
+  lm_update();  // change state not expected
+
+  /* Verify results (implicitly via test tear down) */
+}
+

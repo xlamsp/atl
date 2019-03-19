@@ -50,6 +50,10 @@ lm_on(uint8_t light)
   index = light / 8;
   bit = 1 << (light % 8);
 
+  if (buffer[index] == bit) {
+    return;
+  }
+
   buffer[index] = bit;
   is_buffer_changed = true;
 }
