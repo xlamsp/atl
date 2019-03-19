@@ -5,6 +5,7 @@ TEST_GROUP_RUNNER(NonFlashing)
   RUN_TEST_CASE(NonFlashing, LmInitTurnsAllLightsOff);
   RUN_TEST_CASE(NonFlashing, LmUpdateWithoutProgrammingDoesNotChangeState);
   RUN_TEST_CASE(NonFlashing, ProgrammingLightOnDoesNotChangeState);
+  RUN_TEST_CASE(NonFlashing, TurnOnOneLightWithLowestNumber);
 }
 
 static void RunAllTests(void)
