@@ -106,3 +106,19 @@ TEST(NonFlashing, TurnOnOneLightWithLowestNumber)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Can turn on one light with the highest number
+ */
+TEST(NonFlashing, TurnOnOneLightWithHighestNumber)
+{
+  /* Set expectations */
+  buffer[3] = 0b10000000;
+  expect_shreg_write(&handle, buffer);
+
+  /* Perform test */
+  lm_on(31);
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+

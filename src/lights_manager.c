@@ -42,7 +42,13 @@ lm_update(void)
 void
 lm_on(uint8_t light)
 {
-  buffer[0] = 0b00000001;
+  uint8_t index;
+  uint8_t bit;
+
+  index = light / 8;
+  bit = 1 << (light % 8);
+
+  buffer[index] = bit;
   is_buffer_changed = true;
 }
 
