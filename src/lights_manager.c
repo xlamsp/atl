@@ -54,7 +54,7 @@ lm_on(uint8_t light)
     return;
   }
 
-  buffer[index] = bit;
+  buffer[index] |= bit;
   is_buffer_changed = true;
 }
 

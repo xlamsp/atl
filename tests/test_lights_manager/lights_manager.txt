@@ -36,7 +36,7 @@ Non-flashing functionality:
 [*]: Update twice after programming On changes state only once;
 [*]: Update after Programming On and Init doesn't change state;
 [*]: Update after Programming On light that is already on doesn't change state;
-[ ]: Can turn on multiple lights;
+[*]: Can turn on multiple lights;
 [ ]: Programming light Off does't cause changing state;
 [ ]: Can turn off one light;
 [ ]: Can turn off multiple lights;

@@ -174,3 +174,20 @@ TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Can turn on multiple lights
+ */
+TEST(NonFlashing, CanTurnOnMultipleLights)
+{
+  /* Set expectations */
+  buffer[0] = 0b00100001;
+  expect_shreg_write(&handle, buffer);
+
+  /* Perform test */
+  lm_on(0);
+  lm_on(5);
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+
