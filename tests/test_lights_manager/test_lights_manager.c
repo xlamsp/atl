@@ -14,6 +14,7 @@ TEST_GROUP_RUNNER(NonFlashing)
   RUN_TEST_CASE(NonFlashing, CanTurnOnMultipleLights);
   RUN_TEST_CASE(NonFlashing,
     UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2);
+  RUN_TEST_CASE(NonFlashing, TurningOnLightWithNumberOutOfRangeDoesNothing);
 }
 
 static void RunAllTests(void)

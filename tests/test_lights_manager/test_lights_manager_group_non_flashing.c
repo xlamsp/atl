@@ -213,3 +213,17 @@ TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Turning on light with number out of range does nothing
+ */
+TEST(NonFlashing, TurningOnLightWithNumberOutOfRangeDoesNothing)
+{
+  /* Set expectations */
+
+  /* Perform test */
+  lm_on(32);
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+

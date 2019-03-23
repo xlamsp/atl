@@ -47,6 +47,10 @@ lm_on(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
+  if (light >= 32) {
+    return;
+  }
+
   index = light / 8;
   bit = 1 << (light % 8);
 
