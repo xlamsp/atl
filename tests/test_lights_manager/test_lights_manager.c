@@ -10,8 +10,10 @@ TEST_GROUP_RUNNER(NonFlashing)
   RUN_TEST_CASE(NonFlashing, UpdateTwiceAfterProgrammingOnChangesStateOnce);
   RUN_TEST_CASE(NonFlashing, UpdateAfterProgrammingOnAndInitDoesNotChangeState);
   RUN_TEST_CASE(NonFlashing,
-    UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState);
+    UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1);
   RUN_TEST_CASE(NonFlashing, CanTurnOnMultipleLights);
+  RUN_TEST_CASE(NonFlashing,
+    UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2);
 }
 
 static void RunAllTests(void)

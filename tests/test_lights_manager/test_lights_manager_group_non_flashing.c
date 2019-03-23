@@ -157,8 +157,9 @@ TEST(NonFlashing, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 
 /*
  * Update after Programming On light that is already on doesn't change state
+ * (single light was turned on)
  */
-TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState)
+TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 {
   /* Set expectations */
   buffer[0] = 0b00000001;
@@ -187,6 +188,27 @@ TEST(NonFlashing, CanTurnOnMultipleLights)
   lm_on(0);
   lm_on(5);
   lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+
+/*
+ * Update after Programming On light that is already on doesn't change state
+ * (multiple lights were turned on)
+ */
+TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
+{
+  /* Set expectations */
+  buffer[0] = 0b01000001;
+  expect_shreg_write(&handle, buffer);
+
+  /* Perform test */
+  lm_on(0);
+  lm_on(6);
+  lm_update();  // change state expected
+
+  lm_on(0);
+  lm_update();  // change state not expected
 
   /* Verify results (implicitly via test tear down) */
 }
