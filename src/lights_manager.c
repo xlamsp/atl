@@ -1,4 +1,5 @@
 #include "lights_manager.h"
+#include "shreg_driver.h"
 #include "arduino.h"
 #include <string.h>
 
@@ -8,14 +9,14 @@
  ******************************************************************************/
 static
 shreg_driver_t handle = {
-  .pinLatch = 2,
-  .pinClock = 3,
-  .pinData = 4,
-  .numChips = 4
+  .pinLatch = LM_PIN_LATCH,
+  .pinClock = LM_PIN_CLOCK,
+  .pinData  = LM_PIN_DATA,
+  .numChips = LM_BUFFER_SIZE
 };
 
 static
-uint8_t buffer[4];
+uint8_t buffer[LM_BUFFER_SIZE];
 static
 boolean is_buffer_changed;
 
@@ -47,7 +48,7 @@ lm_on(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
-  if (light >= 32) {
+  if (light >= LM_MAX_NUMBER_OF_LIGHTS) {
     return;
   }
 
