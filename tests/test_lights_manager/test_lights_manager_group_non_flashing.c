@@ -10,18 +10,34 @@ TEST_GROUP(NonFlashing);
  * Local variables
  */
 static shreg_driver_t handle = {
-  .pinLatch = 2,
-  .pinClock = 3,
-  .pinData = 4,
-  .numChips = 4
+  .pinLatch = LM_PIN_LATCH,
+  .pinClock = LM_PIN_CLOCK,
+  .pinData  = LM_PIN_DATA,
+  .numChips = LM_BUFFER_SIZE
 };
 
-static uint8_t buffer[4];
+static uint8_t buffer[LM_BUFFER_SIZE];
 
 
 /*
  * Supplementary functions
  */
+static void
+bufferLightOn(uint8_t light)
+{
+  uint8_t index;
+  uint8_t bit;
+
+  if (light >= LM_MAX_NUMBER_OF_LIGHTS) {
+    return;
+  }
+
+  index = light / 8;
+  bit = 1 << (light % 8);
+
+  buffer[index] |= bit;
+}
+
 static void
 setExpectations_lm_init(void)
 {
@@ -96,7 +112,7 @@ TEST(NonFlashing, ProgrammingLightOnDoesNotChangeState)
 TEST(NonFlashing, TurnOnOneLightWithLowestNumber)
 {
   /* Set expectations */
-  buffer[0] = 0b00000001;
+  bufferLightOn(0);
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
@@ -112,11 +128,11 @@ TEST(NonFlashing, TurnOnOneLightWithLowestNumber)
 TEST(NonFlashing, TurnOnOneLightWithHighestNumber)
 {
   /* Set expectations */
-  buffer[3] = 0b10000000;
+  bufferLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1);
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
-  lm_on(31);
+  lm_on(LM_MAX_NUMBER_OF_LIGHTS - 1);
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -128,7 +144,7 @@ TEST(NonFlashing, TurnOnOneLightWithHighestNumber)
 TEST(NonFlashing, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 {
   /* Set expectations */
-  buffer[0] = 0b00000001;
+  bufferLightOn(0);
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
@@ -162,7 +178,7 @@ TEST(NonFlashing, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 {
   /* Set expectations */
-  buffer[0] = 0b00000001;
+  bufferLightOn(0);
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
@@ -181,7 +197,8 @@ TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 TEST(NonFlashing, CanTurnOnMultipleLights)
 {
   /* Set expectations */
-  buffer[0] = 0b00100001;
+  bufferLightOn(0);
+  bufferLightOn(5);
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
@@ -199,7 +216,8 @@ TEST(NonFlashing, CanTurnOnMultipleLights)
 TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
 {
   /* Set expectations */
-  buffer[0] = 0b01000001;
+  bufferLightOn(0);
+  bufferLightOn(6);
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
@@ -221,7 +239,7 @@ TEST(NonFlashing, TurningOnLightWithNumberOutOfRangeDoesNothing)
   /* Set expectations */
 
   /* Perform test */
-  lm_on(32);
+  lm_on(LM_MAX_NUMBER_OF_LIGHTS);
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
