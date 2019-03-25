@@ -19,6 +19,7 @@ TEST_GROUP_RUNNER(LightsOn)
 TEST_GROUP_RUNNER(LightsOff)
 {
   RUN_TEST_CASE(LightsOff, LmInitTurnsAllLightsOff);
+  RUN_TEST_CASE(LightsOff, ProgrammingLightOffDoesNotChangeState);
 }
 
 static void RunAllTests(void)

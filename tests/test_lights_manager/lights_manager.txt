@@ -44,7 +44,7 @@ Turning lights on:
 Turning lights off:
 ---------------------------
 [*]: Initialization of LM turns all the lights off;
-[ ]: Programming light Off does't cause changing state;
+[*]: Programming light Off does't cause changing state;
 [ ]: Can turn off one light;
 [ ]: Can turn off multiple lights;
 [ ]:

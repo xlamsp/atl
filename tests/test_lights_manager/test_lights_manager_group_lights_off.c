@@ -63,3 +63,16 @@ TEST(LightsOff, LmInitTurnsAllLightsOff)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Programming light Off does't cause changing state
+ */
+TEST(LightsOff, ProgrammingLightOffDoesNotChangeState)
+{
+  /* Set expectations */
+
+  /* Perform test */
+  lm_off(0);
+
+  /* Verify results (implicitly via test tear down) */
+}
+

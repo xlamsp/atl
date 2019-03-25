@@ -63,3 +63,8 @@ lm_on(uint8_t light)
   is_buffer_changed = true;
 }
 
+void
+lm_off(uint8_t light)
+{
+}
+
