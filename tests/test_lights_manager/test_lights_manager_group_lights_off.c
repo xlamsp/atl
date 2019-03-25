@@ -23,7 +23,7 @@ static uint8_t buffer[LM_BUFFER_SIZE];
  * Supplementary functions
  */
 static void
-setExpectations_lm_init(void)
+testLm_Expect_lm_init(void)
 {
   memset(buffer, 0, sizeof(buffer));
   expect_shreg_write(&handle, buffer);
@@ -55,7 +55,7 @@ TEST_TEAR_DOWN(LightsOff)
 TEST(LightsOff, LmInitTurnsAllLightsOff)
 {
   /* Set expectations - moved to test setup */
-  setExpectations_lm_init();
+  testLm_Expect_lm_init();
 
   /* Perform test - moved to test setup */
   lm_init();

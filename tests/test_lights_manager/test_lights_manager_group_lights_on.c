@@ -23,7 +23,7 @@ static uint8_t buffer[LM_BUFFER_SIZE];
  * Supplementary functions
  */
 static void
-bufferLightOn(uint8_t light)
+testLm_ProgramLightOn(uint8_t light)
 {
   uint8_t index;
   uint8_t bit;
@@ -39,10 +39,16 @@ bufferLightOn(uint8_t light)
 }
 
 static void
-setExpectations_lm_init(void)
+testLm_ExpectStateChange(void)
+{
+  expect_shreg_write(&handle, buffer);
+}
+
+static void
+testLm_Expect_lm_init(void)
 {
   memset(buffer, 0, sizeof(buffer));
-  expect_shreg_write(&handle, buffer);
+  testLm_ExpectStateChange();
 }
 
 
@@ -53,7 +59,7 @@ TEST_SETUP(LightsOn)
 {
   mocks_init();
 
-  setExpectations_lm_init();
+  testLm_Expect_lm_init();
   lm_init();
 }
 
@@ -100,8 +106,8 @@ TEST(LightsOn, ProgrammingLightOnDoesNotChangeState)
 TEST(LightsOn, TurnOnOneLightWithLowestNumber)
 {
   /* Set expectations */
-  bufferLightOn(0);
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOn(0);
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(0);
@@ -116,8 +122,8 @@ TEST(LightsOn, TurnOnOneLightWithLowestNumber)
 TEST(LightsOn, TurnOnOneLightWithHighestNumber)
 {
   /* Set expectations */
-  bufferLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1);
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1);
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(LM_MAX_NUMBER_OF_LIGHTS - 1);
@@ -132,8 +138,8 @@ TEST(LightsOn, TurnOnOneLightWithHighestNumber)
 TEST(LightsOn, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 {
   /* Set expectations */
-  bufferLightOn(0);
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOn(0);
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(0);
@@ -149,7 +155,7 @@ TEST(LightsOn, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 TEST(LightsOn, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 {
   /* Set expectations */
-  setExpectations_lm_init();
+  testLm_Expect_lm_init();
 
   /* Perform test */
   lm_on(0);
@@ -166,8 +172,8 @@ TEST(LightsOn, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 {
   /* Set expectations */
-  bufferLightOn(0);
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOn(0);
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(0);
@@ -185,9 +191,9 @@ TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 TEST(LightsOn, CanTurnOnMultipleLights)
 {
   /* Set expectations */
-  bufferLightOn(0);
-  bufferLightOn(5);
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOn(0);
+  testLm_ProgramLightOn(5);
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(0);
@@ -204,9 +210,9 @@ TEST(LightsOn, CanTurnOnMultipleLights)
 TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
 {
   /* Set expectations */
-  bufferLightOn(0);
-  bufferLightOn(6);
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOn(0);
+  testLm_ProgramLightOn(6);
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(0);
