@@ -3,7 +3,7 @@
 #include "unity_fixture.h"
 #include <string.h>
 
-TEST_GROUP(NonFlashing);
+TEST_GROUP(LightsOn);
 
 
 /*
@@ -49,7 +49,7 @@ setExpectations_lm_init(void)
 /*
  * Test setup and teardown
  */
-TEST_SETUP(NonFlashing)
+TEST_SETUP(LightsOn)
 {
   mocks_init();
 
@@ -57,7 +57,7 @@ TEST_SETUP(NonFlashing)
   lm_init();
 }
 
-TEST_TEAR_DOWN(NonFlashing)
+TEST_TEAR_DOWN(LightsOn)
 {
   TEST_ASSERT_EQUAL_MESSAGE(mocks_success, mocks_verify(),
     "TEST_TEAR_DOWN: mocks_verify failed");
@@ -69,21 +69,9 @@ TEST_TEAR_DOWN(NonFlashing)
  */
 
 /*
- * Initialization of LM turns all the lights off
- */
-TEST(NonFlashing, LmInitTurnsAllLightsOff)
-{
-  /* Set expectations - moved to test setup */
-
-  /* Perform test - moved to test setup */
-
-  /* Verify results (implicitly via test tear down) */
-}
-
-/*
  * Calling update if no lights programmed does't cause changing state
  */
-TEST(NonFlashing, LmUpdateWithoutProgrammingDoesNotChangeState)
+TEST(LightsOn, LmUpdateWithoutProgrammingDoesNotChangeState)
 {
   /* Set expectations */
 
@@ -96,7 +84,7 @@ TEST(NonFlashing, LmUpdateWithoutProgrammingDoesNotChangeState)
 /*
  * Programming light On does't cause changing state
  */
-TEST(NonFlashing, ProgrammingLightOnDoesNotChangeState)
+TEST(LightsOn, ProgrammingLightOnDoesNotChangeState)
 {
   /* Set expectations */
 
@@ -109,7 +97,7 @@ TEST(NonFlashing, ProgrammingLightOnDoesNotChangeState)
 /*
  * Can turn on one light with the lowest number
  */
-TEST(NonFlashing, TurnOnOneLightWithLowestNumber)
+TEST(LightsOn, TurnOnOneLightWithLowestNumber)
 {
   /* Set expectations */
   bufferLightOn(0);
@@ -125,7 +113,7 @@ TEST(NonFlashing, TurnOnOneLightWithLowestNumber)
 /*
  * Can turn on one light with the highest number
  */
-TEST(NonFlashing, TurnOnOneLightWithHighestNumber)
+TEST(LightsOn, TurnOnOneLightWithHighestNumber)
 {
   /* Set expectations */
   bufferLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1);
@@ -141,7 +129,7 @@ TEST(NonFlashing, TurnOnOneLightWithHighestNumber)
 /*
  * Update twice after programming On changes state only once
  */
-TEST(NonFlashing, UpdateTwiceAfterProgrammingOnChangesStateOnce)
+TEST(LightsOn, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 {
   /* Set expectations */
   bufferLightOn(0);
@@ -158,7 +146,7 @@ TEST(NonFlashing, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 /*
  * Update after Programming On and Init doesn't change state
  */
-TEST(NonFlashing, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
+TEST(LightsOn, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 {
   /* Set expectations */
   setExpectations_lm_init();
@@ -175,7 +163,7 @@ TEST(NonFlashing, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
  * Update after Programming On light that is already on doesn't change state
  * (single light was turned on)
  */
-TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
+TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 {
   /* Set expectations */
   bufferLightOn(0);
@@ -194,7 +182,7 @@ TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 /*
  * Can turn on multiple lights
  */
-TEST(NonFlashing, CanTurnOnMultipleLights)
+TEST(LightsOn, CanTurnOnMultipleLights)
 {
   /* Set expectations */
   bufferLightOn(0);
@@ -213,7 +201,7 @@ TEST(NonFlashing, CanTurnOnMultipleLights)
  * Update after Programming On light that is already on doesn't change state
  * (multiple lights were turned on)
  */
-TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
+TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
 {
   /* Set expectations */
   bufferLightOn(0);
@@ -234,7 +222,7 @@ TEST(NonFlashing, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
 /*
  * Turning on light with number out of range does nothing
  */
-TEST(NonFlashing, TurningOnLightWithNumberOutOfRangeDoesNothing)
+TEST(LightsOn, TurningOnLightWithNumberOutOfRangeDoesNothing)
 {
   /* Set expectations */
 

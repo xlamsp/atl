@@ -26,9 +26,8 @@ be turned off until the next phase.
 
 Test cases:
 ===========
-Non-flashing functionality:
+Turning lights on:
 ---------------------------
-[*]: Initialization of LM turns all the lights off;
 [*]: Calling update if no lights programmed does't cause changing state;
 [*]: Programming light On does't cause changing state;
 [*]: Can turn on one light with the lowest number;
@@ -41,6 +40,10 @@ Non-flashing functionality:
 [*]: Update after Programming On light that is already on doesn't change state
      (multiple lights were turned on);
 [*]: Turning on light with number out of range does nothing;
+
+Turning lights off:
+---------------------------
+[*]: Initialization of LM turns all the lights off;
 [ ]: Programming light Off does't cause changing state;
 [ ]: Can turn off one light;
 [ ]: Can turn off multiple lights;
@@ -48,8 +51,8 @@ Non-flashing functionality:
 [ ]:
 [ ]:
 
-Flashing functionality:
------------------------
+Turning lights flashing:
+---------------------------
 [ ]:
 [ ]:
 [ ]:
