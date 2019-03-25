@@ -1,33 +1,9 @@
 #include "lights_manager.h"
-#include "mocks_shreg_driver.h"
+#include "test_lights_manager_common.h"
+#include "mocks.h"
 #include "unity_fixture.h"
-#include <string.h>
 
 TEST_GROUP(LightsOff);
-
-
-/*
- * Local variables
- */
-static shreg_driver_t handle = {
-  .pinLatch = LM_PIN_LATCH,
-  .pinClock = LM_PIN_CLOCK,
-  .pinData  = LM_PIN_DATA,
-  .numChips = LM_BUFFER_SIZE
-};
-
-static uint8_t buffer[LM_BUFFER_SIZE];
-
-
-/*
- * Supplementary functions
- */
-static void
-testLm_Expect_lm_init(void)
-{
-  memset(buffer, 0, sizeof(buffer));
-  expect_shreg_write(&handle, buffer);
-}
 
 
 /*

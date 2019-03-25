@@ -1,55 +1,9 @@
 #include "lights_manager.h"
-#include "mocks_shreg_driver.h"
+#include "test_lights_manager_common.h"
+#include "mocks.h"
 #include "unity_fixture.h"
-#include <string.h>
 
 TEST_GROUP(LightsOn);
-
-
-/*
- * Local variables
- */
-static shreg_driver_t handle = {
-  .pinLatch = LM_PIN_LATCH,
-  .pinClock = LM_PIN_CLOCK,
-  .pinData  = LM_PIN_DATA,
-  .numChips = LM_BUFFER_SIZE
-};
-
-static uint8_t buffer[LM_BUFFER_SIZE];
-
-
-/*
- * Supplementary functions
- */
-static void
-testLm_ProgramLightOn(uint8_t light)
-{
-  uint8_t index;
-  uint8_t bit;
-
-  if (light >= LM_MAX_NUMBER_OF_LIGHTS) {
-    return;
-  }
-
-  index = light / 8;
-  bit = 1 << (light % 8);
-
-  buffer[index] |= bit;
-}
-
-static void
-testLm_ExpectStateChange(void)
-{
-  expect_shreg_write(&handle, buffer);
-}
-
-static void
-testLm_Expect_lm_init(void)
-{
-  memset(buffer, 0, sizeof(buffer));
-  testLm_ExpectStateChange();
-}
 
 
 /*
