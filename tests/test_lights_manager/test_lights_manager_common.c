@@ -1,5 +1,6 @@
 #include "lights_manager.h"
 #include "mocks_shreg_driver.h"
+#include "unity_fixture.h"
 #include <string.h>
 
 /*
@@ -24,9 +25,8 @@ testLm_ProgramLightOn(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
-  if (light >= LM_MAX_NUMBER_OF_LIGHTS) {
-    return;
-  }
+  TEST_ASSERT_LESS_THAN_UINT8_MESSAGE(LM_MAX_NUMBER_OF_LIGHTS, light,
+    "Invalid light number");
 
   index = light / 8;
   bit = 1 << (light % 8);
