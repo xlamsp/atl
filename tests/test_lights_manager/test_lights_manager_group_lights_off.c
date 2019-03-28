@@ -91,3 +91,29 @@ TEST(LightsOff, TurnOffOneLightWithLowestNumber)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Can turn off one light with the highest number
+ */
+TEST(LightsOff, TurnOffOneLightWithHighestNumber)
+{
+  /* Set expectations */
+  testLm_Expect_lm_init();
+
+  testLm_ProgramLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1); // first, turn the light on
+  testLm_ExpectStateChange();
+
+  memset(buffer, 0, sizeof(buffer));    // then turn it off
+  expect_shreg_write(&handle, buffer);
+
+  /* Perform test */
+  lm_init();
+
+  lm_on(LM_MAX_NUMBER_OF_LIGHTS - 1);   // first, turn the light on
+  lm_update();
+
+  lm_off(LM_MAX_NUMBER_OF_LIGHTS - 1);  // then turn it off
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+

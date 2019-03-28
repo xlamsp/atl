@@ -66,7 +66,11 @@ lm_on(uint8_t light)
 void
 lm_off(uint8_t light)
 {
-  buffer[0] = 0;
+  uint8_t index;
+
+  index = light / 8;
+
+  buffer[index] = 0;
   is_buffer_changed = true;
 }
 

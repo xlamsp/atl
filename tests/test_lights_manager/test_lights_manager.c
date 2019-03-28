@@ -21,6 +21,7 @@ TEST_GROUP_RUNNER(LightsOff)
   RUN_TEST_CASE(LightsOff, LmInitTurnsAllLightsOff);
   RUN_TEST_CASE(LightsOff, ProgrammingLightOffDoesNotChangeState);
   RUN_TEST_CASE(LightsOff, TurnOffOneLightWithLowestNumber);
+  RUN_TEST_CASE(LightsOff, TurnOffOneLightWithHighestNumber);
 }
 
 static void RunAllTests(void)
