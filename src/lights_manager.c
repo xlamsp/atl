@@ -67,10 +67,12 @@ void
 lm_off(uint8_t light)
 {
   uint8_t index;
+  uint8_t bit;
 
   index = light / 8;
+  bit = 1 << (light % 8);
 
-  buffer[index] = 0;
+  buffer[index] &= ~bit;
   is_buffer_changed = true;
 }
 

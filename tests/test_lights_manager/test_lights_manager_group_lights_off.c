@@ -110,3 +110,28 @@ TEST(LightsOff, TurnOffOneLightWithHighestNumber)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Turning off one light doesn't turn off other lights
+ */
+TEST(LightsOff, TurnOffOneLightDoesNotTurnOffOthers)
+{
+  /* Set expectations */
+  testLm_ProgramLightOn(1);           // first, turn the lights on
+  testLm_ProgramLightOn(5);
+  testLm_ExpectStateChange();
+
+  memset(buffer, 0, sizeof(buffer));  // then turn one off
+  buffer[0] = 0b00100000;  // light #1 off, light #5 remains on
+  expect_shreg_write(&handle, buffer);
+
+  /* Perform test */
+  lm_on(1);     // first, turn the lights on
+  lm_on(5);
+  lm_update();
+
+  lm_off(1);    // then turn one off
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+
