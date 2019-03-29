@@ -5,6 +5,9 @@ void
 testLm_ProgramLightOn (uint8_t light);
 
 void
+testLm_ProgramLightOff (uint8_t light);
+
+void
 testLm_ExpectStateChange (void);
 
 void

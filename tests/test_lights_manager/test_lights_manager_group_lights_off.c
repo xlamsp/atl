@@ -1,22 +1,9 @@
 #include "lights_manager.h"
 #include "test_lights_manager_common.h"
-#include "mocks_shreg_driver.h"
+#include "mocks.h"
 #include "unity_fixture.h"
-#include <string.h>
 
 TEST_GROUP(LightsOff);
-
-/*
- * Local variables
- */
-static shreg_driver_t handle = {
-  .pinLatch = LM_PIN_LATCH,
-  .pinClock = LM_PIN_CLOCK,
-  .pinData  = LM_PIN_DATA,
-  .numChips = LM_BUFFER_SIZE
-};
-
-static uint8_t buffer[LM_BUFFER_SIZE];
 
 
 /*
@@ -75,8 +62,8 @@ TEST(LightsOff, TurnOffOneLightWithLowestNumber)
   testLm_ProgramLightOn(0);           // first, turn the light on
   testLm_ExpectStateChange();
 
-  memset(buffer, 0, sizeof(buffer));  // then turn it off
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOff(0);          // then turn it off
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(0);     // first, turn the light on
@@ -97,8 +84,8 @@ TEST(LightsOff, TurnOffOneLightWithHighestNumber)
   testLm_ProgramLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1); // first, turn the light on
   testLm_ExpectStateChange();
 
-  memset(buffer, 0, sizeof(buffer));    // then turn it off
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOff(LM_MAX_NUMBER_OF_LIGHTS - 1);// then turn it off
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(LM_MAX_NUMBER_OF_LIGHTS - 1);   // first, turn the light on
@@ -120,9 +107,8 @@ TEST(LightsOff, TurnOffOneLightDoesNotTurnOffOthers)
   testLm_ProgramLightOn(5);
   testLm_ExpectStateChange();
 
-  memset(buffer, 0, sizeof(buffer));  // then turn one off
-  buffer[0] = 0b00100000;  // light #1 off, light #5 remains on
-  expect_shreg_write(&handle, buffer);
+  testLm_ProgramLightOff(1);          // then turn one off
+  testLm_ExpectStateChange();
 
   /* Perform test */
   lm_on(1);     // first, turn the lights on
