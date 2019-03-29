@@ -25,6 +25,9 @@ static uint8_t buffer[LM_BUFFER_SIZE];
 TEST_SETUP(LightsOff)
 {
   mocks_init();
+
+  testLm_Expect_lm_init();
+  lm_init();
 }
 
 TEST_TEAR_DOWN(LightsOff)
@@ -44,10 +47,8 @@ TEST_TEAR_DOWN(LightsOff)
 TEST(LightsOff, LmInitTurnsAllLightsOff)
 {
   /* Set expectations - moved to test setup */
-  testLm_Expect_lm_init();
 
   /* Perform test - moved to test setup */
-  lm_init();
 
   /* Verify results (implicitly via test tear down) */
 }
@@ -71,8 +72,6 @@ TEST(LightsOff, ProgrammingLightOffDoesNotChangeState)
 TEST(LightsOff, TurnOffOneLightWithLowestNumber)
 {
   /* Set expectations */
-  testLm_Expect_lm_init();
-
   testLm_ProgramLightOn(0);           // first, turn the light on
   testLm_ExpectStateChange();
 
@@ -80,8 +79,6 @@ TEST(LightsOff, TurnOffOneLightWithLowestNumber)
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
-  lm_init();
-
   lm_on(0);     // first, turn the light on
   lm_update();
 
@@ -97,8 +94,6 @@ TEST(LightsOff, TurnOffOneLightWithLowestNumber)
 TEST(LightsOff, TurnOffOneLightWithHighestNumber)
 {
   /* Set expectations */
-  testLm_Expect_lm_init();
-
   testLm_ProgramLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1); // first, turn the light on
   testLm_ExpectStateChange();
 
@@ -106,8 +101,6 @@ TEST(LightsOff, TurnOffOneLightWithHighestNumber)
   expect_shreg_write(&handle, buffer);
 
   /* Perform test */
-  lm_init();
-
   lm_on(LM_MAX_NUMBER_OF_LIGHTS - 1);   // first, turn the light on
   lm_update();
 
