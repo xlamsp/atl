@@ -48,6 +48,7 @@ Turning lights off:
 [*]: Can turn off one light with the lowest number;
 [*]: Can turn off one light with the highest number;
 [*]: Turning off one light doesn't turn off other lights;
+[*]: Turning off light with number out of range does nothing;
 [ ]: Update twice after programming Off changes state only once;
 [ ]:
 [ ]:

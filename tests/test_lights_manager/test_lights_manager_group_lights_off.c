@@ -135,3 +135,20 @@ TEST(LightsOff, TurnOffOneLightDoesNotTurnOffOthers)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Turning off light with number out of range does nothing
+ */
+TEST(LightsOff, TurningOffLightWithNumberOutOfRangeDoesNothing)
+{
+  /* Set expectations */
+
+  /* Perform test */
+  lm_on(LM_MAX_NUMBER_OF_LIGHTS);     // first, (pretend to) turn the light on
+  lm_update();
+
+  lm_off(LM_MAX_NUMBER_OF_LIGHTS);    // then (pretend to) turn it off
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+

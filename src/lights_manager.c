@@ -69,6 +69,10 @@ lm_off(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
+  if (light >= LM_MAX_NUMBER_OF_LIGHTS) {
+    return;
+  }
+
   index = light / 8;
   bit = 1 << (light % 8);
 
