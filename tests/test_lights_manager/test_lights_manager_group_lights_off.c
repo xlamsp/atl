@@ -138,3 +138,28 @@ TEST(LightsOff, TurningOffLightWithNumberOutOfRangeDoesNothing)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Update after Programming Off light that is already off doesn't change state
+ */
+TEST(LightsOff, UpdateAfterProgrammingOffLightAlreadyOffDoesNotChangeState)
+{
+  /* Set expectations */
+  testLm_ProgramLightOn(0);           // first, turn the light on
+  testLm_ExpectStateChange();
+
+  testLm_ProgramLightOff(0);          // then turn it off
+  testLm_ExpectStateChange();
+
+  /* Perform test */
+  lm_on(0);     // first, turn the light on
+  lm_update();
+
+  lm_off(0);    // then turn it off
+  lm_update();
+
+  lm_off(0);    // then turn it off again
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+
