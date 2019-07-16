@@ -22,5 +22,8 @@ lm_on (uint8_t light);
 void
 lm_off (uint8_t light);
 
+void
+lm_flash (uint8_t light);
+
 #endif /* LIGHTS_MANAGER_H */
 

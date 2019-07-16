@@ -86,3 +86,8 @@ lm_off(uint8_t light)
   is_buffer_changed = true;
 }
 
+void
+lm_flash(uint8_t light)
+{
+}
+
