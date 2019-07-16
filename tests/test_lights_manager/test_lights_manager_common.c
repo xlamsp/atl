@@ -64,3 +64,9 @@ testLm_Expect_lm_init(void)
   testLm_ExpectStateChange();
 }
 
+void
+testLm_Expect_lm_update(uint32_t milliseconds)
+{
+  expect_millis(milliseconds);
+}
+

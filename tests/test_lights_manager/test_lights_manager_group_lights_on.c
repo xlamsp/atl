@@ -34,6 +34,7 @@ TEST_TEAR_DOWN(LightsOn)
 TEST(LightsOn, LmUpdateWithoutProgrammingDoesNotChangeState)
 {
   /* Set expectations */
+  testLm_Expect_lm_update(0);
 
   /* Perform test */
   lm_update();
@@ -61,6 +62,7 @@ TEST(LightsOn, TurnOnOneLightWithLowestNumber)
 {
   /* Set expectations */
   testLm_ProgramLightOn(0);
+  testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
@@ -77,6 +79,7 @@ TEST(LightsOn, TurnOnOneLightWithHighestNumber)
 {
   /* Set expectations */
   testLm_ProgramLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1);
+  testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
@@ -93,7 +96,9 @@ TEST(LightsOn, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 {
   /* Set expectations */
   testLm_ProgramLightOn(0);
+  testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
+  testLm_Expect_lm_update(0);
 
   /* Perform test */
   lm_on(0);
@@ -110,6 +115,7 @@ TEST(LightsOn, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 {
   /* Set expectations */
   testLm_Expect_lm_init();
+  testLm_Expect_lm_update(0);
 
   /* Perform test */
   lm_on(0);
@@ -127,7 +133,9 @@ TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 {
   /* Set expectations */
   testLm_ProgramLightOn(0);
+  testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
+  testLm_Expect_lm_update(0);
 
   /* Perform test */
   lm_on(0);
@@ -147,6 +155,7 @@ TEST(LightsOn, CanTurnOnMultipleLights)
   /* Set expectations */
   testLm_ProgramLightOn(0);
   testLm_ProgramLightOn(5);
+  testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
@@ -166,7 +175,9 @@ TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
   /* Set expectations */
   testLm_ProgramLightOn(0);
   testLm_ProgramLightOn(6);
+  testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
+  testLm_Expect_lm_update(0);
 
   /* Perform test */
   lm_on(0);
@@ -185,6 +196,7 @@ TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
 TEST(LightsOn, TurningOnLightWithNumberOutOfRangeDoesNothing)
 {
   /* Set expectations */
+  testLm_Expect_lm_update(0);
 
   /* Perform test */
   lm_on(LM_MAX_NUMBER_OF_LIGHTS);

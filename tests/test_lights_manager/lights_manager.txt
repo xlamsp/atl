@@ -54,7 +54,7 @@ Turning lights off:
 Turning lights flashing:
 ---------------------------
 [*]: Initialization of LM retrieves current time;
-[ ]: Update retrieves current time;
+[*]: Update retrieves current time;
 [ ]: Programming light flashing after init does't cause changing state;
 [ ]:
 [ ]:

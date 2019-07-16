@@ -37,6 +37,7 @@ lm_init(void)
 void
 lm_update(void)
 {
+  millis();
   if (is_buffer_changed) {
     shreg_write(&handle, buffer);
   }

@@ -13,5 +13,8 @@ testLm_ExpectStateChange (void);
 void
 testLm_Expect_lm_init (void);
 
+void
+testLm_Expect_lm_update (uint32_t milliseconds);
+
 #endif /* TEST_LIGHTS_MANAGER_COMMON_H */
 
