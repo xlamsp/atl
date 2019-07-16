@@ -50,12 +50,12 @@ Turning lights off:
 [*]: Turning off one light doesn't turn off other lights;
 [*]: Turning off light with number out of range does nothing;
 [*]: Update after Programming Off light that is already off doesn't change state;
-[ ]:
-[ ]:
-[ ]:
 
 Turning lights flashing:
 ---------------------------
+[*]: Initialization of LM retrieves current time;
+[ ]: Update retrieves current time;
+[ ]: Programming light flashing after init does't cause changing state;
 [ ]:
 [ ]:
 [ ]:

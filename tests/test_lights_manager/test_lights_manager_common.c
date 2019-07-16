@@ -1,4 +1,5 @@
 #include "lights_manager.h"
+#include "mocks_arduino.h"
 #include "mocks_shreg_driver.h"
 #include "unity_fixture.h"
 #include <string.h>
@@ -59,6 +60,7 @@ void
 testLm_Expect_lm_init(void)
 {
   memset(buffer, 0, sizeof(buffer));
+  expect_millis(0);
   testLm_ExpectStateChange();
 }
 
