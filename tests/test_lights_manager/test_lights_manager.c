@@ -31,6 +31,8 @@ TEST_GROUP_RUNNER(LightsOff)
 TEST_GROUP_RUNNER(LightsFlashing)
 {
   RUN_TEST_CASE(LightsFlashing, ProgrammingLightFlashingDoesNotChangeState);
+  RUN_TEST_CASE(LightsFlashing,
+    UpdateWhenFlashingPhaseNotChangedDoesNotChangeState);
 }
 
 static void RunAllTests(void)

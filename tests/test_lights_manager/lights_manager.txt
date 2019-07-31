@@ -56,7 +56,8 @@ Turning lights flashing:
 [*]: Initialization of LM retrieves current time;
 [*]: Update retrieves current time;
 [*]: Programming light flashing after init does't cause changing state;
-[ ]:
-[ ]:
+[*]: Calling update when flash phase not changed does't cause changing state;
+[ ]: Flashing light turns on after 1/2 flash interval;
+[ ]: Flashing light turns off after 2/2 flash interval;
 [ ]:
 

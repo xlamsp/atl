@@ -41,3 +41,18 @@ TEST(LightsFlashing, ProgrammingLightFlashingDoesNotChangeState)
   /* Verify results (implicitly via test tear down) */
 }
 
+/*
+ * Calling update when flash phase not changed does't cause changing state
+ */
+TEST(LightsFlashing, UpdateWhenFlashingPhaseNotChangedDoesNotChangeState)
+{
+  /* Set expectations */
+  testLm_Expect_lm_update(0);
+
+  /* Perform test */
+  lm_flash(0);
+  lm_update();
+
+  /* Verify results (implicitly via test tear down) */
+}
+
