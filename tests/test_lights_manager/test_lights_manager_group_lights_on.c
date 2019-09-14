@@ -50,7 +50,7 @@ TEST(LightsOn, ProgrammingLightOnDoesNotChangeState)
   /* Set expectations */
 
   /* Perform test */
-  lm_on(0);
+  lm_on(LM_LIGHT_NUMBER_MIN);
 
   /* Verify results (implicitly via test tear down) */
 }
@@ -61,12 +61,12 @@ TEST(LightsOn, ProgrammingLightOnDoesNotChangeState)
 TEST(LightsOn, TurnOnOneLightWithLowestNumber)
 {
   /* Set expectations */
-  testLm_ProgramLightOn(0);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MIN);
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
-  lm_on(0);
+  lm_on(LM_LIGHT_NUMBER_MIN);
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -78,12 +78,12 @@ TEST(LightsOn, TurnOnOneLightWithLowestNumber)
 TEST(LightsOn, TurnOnOneLightWithHighestNumber)
 {
   /* Set expectations */
-  testLm_ProgramLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MAX);
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
-  lm_on(LM_MAX_NUMBER_OF_LIGHTS - 1);
+  lm_on(LM_LIGHT_NUMBER_MAX);
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -95,13 +95,13 @@ TEST(LightsOn, TurnOnOneLightWithHighestNumber)
 TEST(LightsOn, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 {
   /* Set expectations */
-  testLm_ProgramLightOn(0);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MIN);
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_on(0);
+  lm_on(LM_LIGHT_NUMBER_MIN);
   lm_update();
   lm_update();
 
@@ -118,7 +118,7 @@ TEST(LightsOn, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_on(0);
+  lm_on(LM_LIGHT_NUMBER_MIN);
   lm_init();
   lm_update();
 
@@ -132,16 +132,16 @@ TEST(LightsOn, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
 {
   /* Set expectations */
-  testLm_ProgramLightOn(0);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MIN);
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_on(0);
+  lm_on(LM_LIGHT_NUMBER_MIN);
   lm_update();  // change state expected
 
-  lm_on(0);
+  lm_on(LM_LIGHT_NUMBER_MIN);
   lm_update();  // change state not expected
 
   /* Verify results (implicitly via test tear down) */
@@ -152,15 +152,17 @@ TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState1)
  */
 TEST(LightsOn, CanTurnOnMultipleLights)
 {
+  #define LM_LIGHT_NUMBER_FIVE  (LM_LIGHT_NUMBER_MIN + 5)
+
   /* Set expectations */
-  testLm_ProgramLightOn(0);
-  testLm_ProgramLightOn(5);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MIN);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_FIVE);
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
-  lm_on(0);
-  lm_on(5);
+  lm_on(LM_LIGHT_NUMBER_MIN);
+  lm_on(LM_LIGHT_NUMBER_FIVE);
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -172,19 +174,21 @@ TEST(LightsOn, CanTurnOnMultipleLights)
  */
 TEST(LightsOn, UpdateAfterProgrammingOnLightAlreadyOnDoesNotChangeState2)
 {
+  #define LM_LIGHT_NUMBER_SIX   (LM_LIGHT_NUMBER_MIN + 6)
+
   /* Set expectations */
-  testLm_ProgramLightOn(0);
-  testLm_ProgramLightOn(6);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MIN);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_SIX);
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_on(0);
-  lm_on(6);
+  lm_on(LM_LIGHT_NUMBER_MIN);
+  lm_on(LM_LIGHT_NUMBER_SIX);
   lm_update();  // change state expected
 
-  lm_on(0);
+  lm_on(LM_LIGHT_NUMBER_MIN);
   lm_update();  // change state not expected
 
   /* Verify results (implicitly via test tear down) */
@@ -199,7 +203,7 @@ TEST(LightsOn, TurningOnLightWithNumberOutOfRangeDoesNothing)
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_on(LM_MAX_NUMBER_OF_LIGHTS);
+  lm_on(LM_LIGHT_NUMBER_OUT_OF_RANGE);
   lm_update();
 
   /* Verify results (implicitly via test tear down) */

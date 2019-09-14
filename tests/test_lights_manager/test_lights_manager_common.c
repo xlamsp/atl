@@ -26,7 +26,7 @@ testLm_ProgramLightOn(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
-  TEST_ASSERT_LESS_THAN_UINT8_MESSAGE(LM_MAX_NUMBER_OF_LIGHTS, light,
+  TEST_ASSERT_LESS_OR_EQUAL_UINT8_MESSAGE(LM_LIGHT_NUMBER_MAX, light,
     "Invalid light number");
 
   index = light / 8;
@@ -41,7 +41,7 @@ testLm_ProgramLightOff(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
-  TEST_ASSERT_LESS_THAN_UINT8_MESSAGE(LM_MAX_NUMBER_OF_LIGHTS, light,
+  TEST_ASSERT_LESS_OR_EQUAL_UINT8_MESSAGE(LM_LIGHT_NUMBER_MAX, light,
     "Invalid light number");
 
   index = light / 8;

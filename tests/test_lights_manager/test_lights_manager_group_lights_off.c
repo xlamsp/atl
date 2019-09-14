@@ -48,7 +48,7 @@ TEST(LightsOff, ProgrammingLightOffDoesNotChangeState)
   /* Set expectations */
 
   /* Perform test */
-  lm_off(0);
+  lm_off(LM_LIGHT_NUMBER_MIN);
 
   /* Verify results (implicitly via test tear down) */
 }
@@ -59,19 +59,19 @@ TEST(LightsOff, ProgrammingLightOffDoesNotChangeState)
 TEST(LightsOff, TurnOffOneLightWithLowestNumber)
 {
   /* Set expectations */
-  testLm_ProgramLightOn(0);           // first, turn the light on
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MIN);   // first, turn the light on
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
-  testLm_ProgramLightOff(0);          // then turn it off
+  testLm_ProgramLightOff(LM_LIGHT_NUMBER_MIN);  // then turn it off
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
-  lm_on(0);     // first, turn the light on
+  lm_on(LM_LIGHT_NUMBER_MIN);   // first, turn the light on
   lm_update();
 
-  lm_off(0);    // then turn it off
+  lm_off(LM_LIGHT_NUMBER_MIN);  // then turn it off
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -83,19 +83,19 @@ TEST(LightsOff, TurnOffOneLightWithLowestNumber)
 TEST(LightsOff, TurnOffOneLightWithHighestNumber)
 {
   /* Set expectations */
-  testLm_ProgramLightOn(LM_MAX_NUMBER_OF_LIGHTS - 1); // first, turn the light on
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MAX);   // first, turn the light on
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
-  testLm_ProgramLightOff(LM_MAX_NUMBER_OF_LIGHTS - 1);// then turn it off
+  testLm_ProgramLightOff(LM_LIGHT_NUMBER_MAX);  // then turn it off
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
-  lm_on(LM_MAX_NUMBER_OF_LIGHTS - 1);   // first, turn the light on
+  lm_on(LM_LIGHT_NUMBER_MAX);   // first, turn the light on
   lm_update();
 
-  lm_off(LM_MAX_NUMBER_OF_LIGHTS - 1);  // then turn it off
+  lm_off(LM_LIGHT_NUMBER_MAX);  // then turn it off
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -106,22 +106,25 @@ TEST(LightsOff, TurnOffOneLightWithHighestNumber)
  */
 TEST(LightsOff, TurnOffOneLightDoesNotTurnOffOthers)
 {
+  #define LM_LIGHT_NUMBER_ONE   (LM_LIGHT_NUMBER_MIN + 1)
+  #define LM_LIGHT_NUMBER_FIVE  (LM_LIGHT_NUMBER_MIN + 5)
+
   /* Set expectations */
-  testLm_ProgramLightOn(1);           // first, turn the lights on
-  testLm_ProgramLightOn(5);
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_ONE);     // first, turn the lights on
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_FIVE);
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
-  testLm_ProgramLightOff(1);          // then turn one off
+  testLm_ProgramLightOff(LM_LIGHT_NUMBER_ONE);  // then turn one off
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
   /* Perform test */
-  lm_on(1);     // first, turn the lights on
-  lm_on(5);
+  lm_on(LM_LIGHT_NUMBER_ONE);   // first, turn the lights on
+  lm_on(LM_LIGHT_NUMBER_FIVE);
   lm_update();
 
-  lm_off(1);    // then turn one off
+  lm_off(LM_LIGHT_NUMBER_ONE);  // then turn one off
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -137,10 +140,10 @@ TEST(LightsOff, TurningOffLightWithNumberOutOfRangeDoesNothing)
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_on(LM_MAX_NUMBER_OF_LIGHTS);     // first, (pretend to) turn the light on
+  lm_on(LM_LIGHT_NUMBER_OUT_OF_RANGE);  // first, (pretend to) turn the light on
   lm_update();
 
-  lm_off(LM_MAX_NUMBER_OF_LIGHTS);    // then (pretend to) turn it off
+  lm_off(LM_LIGHT_NUMBER_OUT_OF_RANGE); // then (pretend to) turn it off
   lm_update();
 
   /* Verify results (implicitly via test tear down) */
@@ -152,23 +155,23 @@ TEST(LightsOff, TurningOffLightWithNumberOutOfRangeDoesNothing)
 TEST(LightsOff, UpdateAfterProgrammingOffLightAlreadyOffDoesNotChangeState)
 {
   /* Set expectations */
-  testLm_ProgramLightOn(0);           // first, turn the light on
+  testLm_ProgramLightOn(LM_LIGHT_NUMBER_MIN);   // first, turn the light on
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
 
-  testLm_ProgramLightOff(0);          // then turn it off
+  testLm_ProgramLightOff(LM_LIGHT_NUMBER_MIN);  // then turn it off
   testLm_Expect_lm_update(0);
   testLm_ExpectStateChange();
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_on(0);     // first, turn the light on
+  lm_on(LM_LIGHT_NUMBER_MIN);     // first, turn the light on
   lm_update();
 
-  lm_off(0);    // then turn it off
+  lm_off(LM_LIGHT_NUMBER_MIN);    // then turn it off
   lm_update();
 
-  lm_off(0);    // then turn it off again
+  lm_off(LM_LIGHT_NUMBER_MIN);    // then turn it off again
   lm_update();
 
   /* Verify results (implicitly via test tear down) */

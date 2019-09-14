@@ -1,6 +1,10 @@
 #ifndef TEST_LIGHTS_MANAGER_COMMON_H
 #define TEST_LIGHTS_MANAGER_COMMON_H
 
+
+#define LM_LIGHT_NUMBER_OUT_OF_RANGE  (LM_LIGHT_NUMBER_MAX + 1)
+
+
 void
 testLm_ProgramLightOn (uint8_t light);
 

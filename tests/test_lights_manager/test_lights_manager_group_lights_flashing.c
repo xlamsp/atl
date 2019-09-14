@@ -36,7 +36,7 @@ TEST(LightsFlashing, ProgrammingLightFlashingDoesNotChangeState)
   /* Set expectations */
 
   /* Perform test */
-  lm_flash(0);
+  lm_flash(LM_LIGHT_NUMBER_MIN);
 
   /* Verify results (implicitly via test tear down) */
 }
@@ -50,7 +50,7 @@ TEST(LightsFlashing, UpdateWhenFlashingPhaseNotChangedDoesNotChangeState)
   testLm_Expect_lm_update(0);
 
   /* Perform test */
-  lm_flash(0);
+  lm_flash(LM_LIGHT_NUMBER_MIN);
   lm_update();
 
   /* Verify results (implicitly via test tear down) */

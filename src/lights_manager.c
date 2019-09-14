@@ -50,7 +50,7 @@ lm_on(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
-  if (light >= LM_MAX_NUMBER_OF_LIGHTS) {
+  if (light > LM_LIGHT_NUMBER_MAX) {
     return;
   }
 
@@ -71,7 +71,7 @@ lm_off(uint8_t light)
   uint8_t index;
   uint8_t bit;
 
-  if (light >= LM_MAX_NUMBER_OF_LIGHTS) {
+  if (light > LM_LIGHT_NUMBER_MAX) {
     return;
   }
 
