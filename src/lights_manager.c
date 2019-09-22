@@ -1,4 +1,4 @@
-#include "lights_manager.h"
+#include "lights_manager_private.h"
 #include "shreg_driver.h"
 #include "arduino.h"
 #include <string.h>
@@ -15,10 +15,10 @@ shreg_driver_t handle = {
   .numChips = LM_BUFFER_SIZE
 };
 
-static
-uint8_t buffer[LM_BUFFER_SIZE];
-static
-boolean is_buffer_changed;
+//@TODO: make static for production build and public for test
+lm_context_t lm = {
+  .handle = &handle
+};
 
 
 /*******************************************************************************
@@ -28,20 +28,20 @@ boolean is_buffer_changed;
 void
 lm_init(void)
 {
-  memset(buffer, 0, sizeof(buffer));
+  memset(lm.buffer, 0, sizeof(lm.buffer));
   millis();
-  shreg_write(&handle, buffer);
-  is_buffer_changed = false;
+  shreg_write(lm.handle, lm.buffer);
+  lm.is_buffer_changed = false;
 }
 
 void
 lm_update(void)
 {
   millis();
-  if (is_buffer_changed) {
-    shreg_write(&handle, buffer);
+  if (lm.is_buffer_changed) {
+    shreg_write(lm.handle, lm.buffer);
   }
-  is_buffer_changed = false;
+  lm.is_buffer_changed = false;
 }
 
 void
@@ -57,12 +57,12 @@ lm_on(uint8_t light)
   index = light / 8;
   bit = 1 << (light % 8);
 
-  if (buffer[index] & bit) {
+  if (lm.buffer[index] & bit) {
     return;
   }
 
-  buffer[index] |= bit;
-  is_buffer_changed = true;
+  lm.buffer[index] |= bit;
+  lm.is_buffer_changed = true;
 }
 
 void
@@ -78,12 +78,12 @@ lm_off(uint8_t light)
   index = light / 8;
   bit = 1 << (light % 8);
 
-  if (!(buffer[index] & bit)) {
+  if (!(lm.buffer[index] & bit)) {
     return;
   }
 
-  buffer[index] &= ~bit;
-  is_buffer_changed = true;
+  lm.buffer[index] &= ~bit;
+  lm.is_buffer_changed = true;
 }
 
 void
