@@ -73,7 +73,7 @@ TEST_INCLUDE_DIRS_EXPANDED = $(call get_dirs_from_dirspec, $(TEST_INCLUDE_DIRS))
 TEST_INCLUDES += $(foreach dir, $(TEST_INCLUDE_DIRS_EXPANDED), -I$(dir))
 
 # Compiler flags
-CFLAGS += -Wall -Wshadow -Wswitch-default
+CFLAGS += -Wall -Wshadow -Wswitch-default -DUNIT_TEST
 
 # Targets
 .PHONY: all

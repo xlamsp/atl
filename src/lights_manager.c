@@ -15,10 +15,21 @@ shreg_driver_t handle = {
   .numChips = LM_BUFFER_SIZE
 };
 
-//@TODO: make static for production build and public for test
+static
 lm_context_t lm = {
   .handle = &handle
 };
+
+
+/*******************************************************************************
+ * Unit test helper functions
+ ******************************************************************************/
+#ifdef UNIT_TEST
+lm_context_t *ut_lm_get_context(void)
+{
+  return &lm;
+}
+#endif /* UNIT_TEST */
 
 
 /*******************************************************************************

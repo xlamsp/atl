@@ -13,5 +13,14 @@ typedef struct {
   boolean is_buffer_changed;
 } lm_context_t;
 
+
+/*******************************************************************************
+ * Unit test helper functions
+ ******************************************************************************/
+#ifdef UNIT_TEST
+lm_context_t *ut_lm_get_context (void);
+#endif /* UNIT_TEST */
+
+
 #endif /* LIGHTS_MANAGER_PRIVATE_H */
 
