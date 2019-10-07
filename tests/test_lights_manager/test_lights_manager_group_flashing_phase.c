@@ -20,6 +20,18 @@ static lm_context_t *lm;
 
 
 /*
+ * Supplementary functions
+ */
+static void
+testLm_FlashingPhase_init(void)
+{
+  lm->flashing_phase = lm_flashing_phase_on; // set phase to incorrect state
+  testLm_Expect_lm_init();
+  lm_init();
+}
+
+
+/*
  * Test setup and teardown
  */
 TEST_SETUP(FlashingPhase)
@@ -48,11 +60,9 @@ TEST_TEAR_DOWN(FlashingPhase)
 TEST(FlashingPhase, InitResetsFashingPhaseOff)
 {
   /* Set expectations */
-  lm->flashing_phase = lm_flashing_phase_on; // set phase to incorrect state
-  testLm_Expect_lm_init();
 
   /* Perform test */
-  lm_init();
+  testLm_FlashingPhase_init();
 
   /* Verify results */
   TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
@@ -66,13 +76,13 @@ TEST(FlashingPhase, InitResetsFashingPhaseOff)
  */
 TEST(FlashingPhase, FashingPhaseOffWhenClockLessThanHalfT)
 {
+  /* Set preconditions */
+  testLm_FlashingPhase_init();
+
   /* Set expectations */
-  lm->flashing_phase = lm_flashing_phase_on; // set phase to incorrect state
-  testLm_Expect_lm_init();
   testLm_Expect_lm_update(LM_FLASH_HALF_INTERVAL / 2);
 
   /* Perform test */
-  lm_init();
   lm_update();
 
   /* Verify results */
