@@ -58,3 +58,24 @@ TEST(FlashingPhase, InitResetsFashingPhaseOff)
   TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
 }
 
+/*
+ * Scenario: Flashing phase is off when the system clock is less than T/2;
+ * Given: System clock is less than T/2;
+ * When: Called update;
+ * Then: Flashing phase is off.
+ */
+TEST(FlashingPhase, FashingPhaseOffWhenClockLessThanHalfT)
+{
+  /* Set expectations */
+  lm->flashing_phase = lm_flashing_phase_on; // set phase to incorrect state
+  testLm_Expect_lm_init();
+  testLm_Expect_lm_update(LM_FLASH_HALF_INTERVAL / 2);
+
+  /* Perform test */
+  lm_init();
+  lm_update();
+
+  /* Verify results */
+  TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
+}
+

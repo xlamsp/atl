@@ -12,6 +12,9 @@
 #define LM_LIGHT_NUMBER_MIN           (0)
 #define LM_LIGHT_NUMBER_MAX           (LM_NUMBER_OF_LIGHTS - 1)
 
+#define LM_FLASH_HALF_INTERVAL        (500) // milliseconds
+#define LM_FLASH_INTERVAL             ((LM_FLASH_HALF_INTERVAL) * 2)
+
 
 void
 lm_init (void);
