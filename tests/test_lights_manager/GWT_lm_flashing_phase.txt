@@ -1,0 +1,71 @@
+Feature: Flashing phase transition
+
+Define:
+T - flashing interval;
+
+
+Scenario: Initialization of LM resets flashing phase off;
+Given: The system clock is zero;
+When: Called init;
+Then: Flashing phase is off.
+
+Scenario: Flashing phase is off when the system clock is less than T/2;
+Given: System clock is less than T/2;
+When: Called update;
+Then: Flashing phase is off.
+
+Scenario: Flashing phase is on when the system clock is greater than or equal to T/2 but less than T;
+Given: System clock is greater than or equal to T/2 but less than T;
+When: Called update;
+Then: Flashing phase is on.
+
+Scenario: Flashing phase is off when the system clock is greater than or equal to N * T but less than (N + 1/2) * T;
+Given: System clock is greater than or equal to N * T but less than (N + 1/2) * T;
+When: Called update;
+Then: Flashing phase is off.
+
+Scenario: Flashing phase is on when the system clock is greater than or equal to (N + 1/2) * T but less than (N + 1) * T;
+Given: System clock is greater than or equal to (N + 1/2) * T but less than (N + 1) * T;
+When: Called update;
+Then: Flashing phase is on.
+
+Scenario: Initialization of LM resets flashing phase off regardless of the current system time.
+Given: System clock is C != 0;
+When: Called init;
+Then: Flashing phase is off.
+
+Scenario: Flashing phase (off) is calculated relative to the time of initialization;
+Given: System clock is greater than or equal to C + N * T but less than C + (N + 1/2) * T;
+When: Called update;
+Then: Flashing phase is off.
+
+Scenario: Flashing phase (on) is calculated relative to the time of initialization;
+Given: System clock is greater than or equal to C + (N + 1/2) * T but less than C + (N + 1) * T;
+When: Called update;
+Then: Flashing phase is on.
+
+
+
+Scenario:
+Given:
+When:
+Then:
+
+
+
+Scenario:
+Given:
+When:
+Then:
+
+
+
+
+
+
+
+
+
+
+
+

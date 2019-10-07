@@ -43,6 +43,7 @@ lm_init(void)
   millis();
   shreg_write(lm.handle, lm.buffer);
   lm.is_buffer_changed = false;
+  lm.flashing_phase = lm_flashing_phase_off;
 }
 
 void

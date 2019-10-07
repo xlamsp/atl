@@ -28,6 +28,11 @@ TEST_GROUP_RUNNER(LightsOff)
     UpdateAfterProgrammingOffLightAlreadyOffDoesNotChangeState);
 }
 
+TEST_GROUP_RUNNER(FlashingPhase)
+{
+  RUN_TEST_CASE(FlashingPhase, InitResetsFashingPhaseOff);
+}
+
 TEST_GROUP_RUNNER(LightsFlashing)
 {
   RUN_TEST_CASE(LightsFlashing, ProgrammingLightFlashingDoesNotChangeState);
@@ -39,6 +44,7 @@ static void RunAllTests(void)
 {
   RUN_TEST_GROUP(LightsOn);
   RUN_TEST_GROUP(LightsOff);
+  RUN_TEST_GROUP(FlashingPhase);
   RUN_TEST_GROUP(LightsFlashing);
 }
 
