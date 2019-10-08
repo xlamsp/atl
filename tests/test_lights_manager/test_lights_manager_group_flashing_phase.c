@@ -30,6 +30,24 @@ testLm_FlashingPhase_init(void)
   lm_init();
 }
 
+static void
+testLm_FlashingPhase_update(uint32_t update_time,
+                            lm_flashing_phase_e expected_phase)
+{
+  /* Set preconditions */
+  testLm_FlashingPhase_init();
+
+  /* Set expectations */
+  testLm_Expect_lm_update(update_time);
+
+  /* Perform test */
+  lm_update();
+
+  /* Verify results */
+  TEST_ASSERT_EQUAL_MESSAGE(expected_phase, lm->flashing_phase,
+    "Wrong flashing phase");
+}
+
 
 /*
  * Test setup and teardown
@@ -76,16 +94,16 @@ TEST(FlashingPhase, InitResetsFashingPhaseOff)
  */
 TEST(FlashingPhase, FashingPhaseOffWhenClockLessThanHalfT)
 {
-  /* Set preconditions */
-  testLm_FlashingPhase_init();
+  /* Boundary condition: time of update is zero */
+  testLm_FlashingPhase_update(0,
+                              lm_flashing_phase_off);
 
-  /* Set expectations */
-  testLm_Expect_lm_update(LM_FLASH_HALF_INTERVAL / 2);
+  /* Time of update is in the middle of the flash half interval */
+  testLm_FlashingPhase_update(LM_FLASH_HALF_INTERVAL / 2,
+                              lm_flashing_phase_off);
 
-  /* Perform test */
-  lm_update();
-
-  /* Verify results */
-  TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
+  /* Boundary condition: time of update is the last ms of flash half interval */
+  testLm_FlashingPhase_update(LM_FLASH_HALF_INTERVAL - 1,
+                              lm_flashing_phase_off);
 }
 
