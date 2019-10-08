@@ -13,7 +13,7 @@ TEST_SETUP(LightsOn)
 {
   mocks_init();
 
-  testLm_Expect_lm_init();
+  testLm_Expect_lm_init(0);
   lm_init();
 }
 
@@ -114,7 +114,7 @@ TEST(LightsOn, UpdateTwiceAfterProgrammingOnChangesStateOnce)
 TEST(LightsOn, UpdateAfterProgrammingOnAndInitDoesNotChangeState)
 {
   /* Set expectations */
-  testLm_Expect_lm_init();
+  testLm_Expect_lm_init(0);
   testLm_Expect_lm_update(0);
 
   /* Perform test */

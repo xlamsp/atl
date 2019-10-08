@@ -13,7 +13,7 @@ TEST_SETUP(LightsOff)
 {
   mocks_init();
 
-  testLm_Expect_lm_init();
+  testLm_Expect_lm_init(0);
   lm_init();
 }
 

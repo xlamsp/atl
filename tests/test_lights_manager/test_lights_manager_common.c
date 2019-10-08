@@ -57,16 +57,16 @@ testLm_ExpectStateChange(void)
 }
 
 void
-testLm_Expect_lm_init(void)
+testLm_Expect_lm_init(uint32_t system_clock_at_init)
 {
   memset(buffer, 0, sizeof(buffer));
-  expect_millis(0);
+  expect_millis(system_clock_at_init);
   testLm_ExpectStateChange();
 }
 
 void
-testLm_Expect_lm_update(uint32_t milliseconds)
+testLm_Expect_lm_update(uint32_t system_clock_at_update)
 {
-  expect_millis(milliseconds);
+  expect_millis(system_clock_at_update);
 }
 

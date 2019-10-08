@@ -23,22 +23,23 @@ static lm_context_t *lm;
  * Supplementary functions
  */
 static void
-testLm_FlashingPhase_init(void)
+testLm_FlashingPhase_init(uint32_t system_clock_at_init)
 {
   lm->flashing_phase = lm_flashing_phase_on; // set phase to incorrect state
-  testLm_Expect_lm_init();
+  testLm_Expect_lm_init(system_clock_at_init);
   lm_init();
 }
 
 static void
-testLm_FlashingPhase_update(uint32_t update_time,
+testLm_FlashingPhase_update(uint32_t system_clock_at_init,
+                            uint32_t system_clock_at_update,
                             lm_flashing_phase_e expected_phase)
 {
   /* Set preconditions */
-  testLm_FlashingPhase_init();
+  testLm_FlashingPhase_init(system_clock_at_init);
 
   /* Set expectations */
-  testLm_Expect_lm_update(update_time);
+  testLm_Expect_lm_update(system_clock_at_update);
 
   /* Perform test */
   lm_update();
@@ -80,7 +81,7 @@ TEST(FlashingPhase, InitResetsFashingPhaseOff)
   /* Set expectations */
 
   /* Perform test */
-  testLm_FlashingPhase_init();
+  testLm_FlashingPhase_init(0);
 
   /* Verify results */
   TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
@@ -96,14 +97,17 @@ TEST(FlashingPhase, FashingPhaseOffWhenClockLessThanHalfT)
 {
   /* Boundary condition: time of update is zero */
   testLm_FlashingPhase_update(0,
+                              0,
                               lm_flashing_phase_off);
 
   /* Time of update is in the middle of the flash half interval */
-  testLm_FlashingPhase_update(LM_FLASH_HALF_INTERVAL / 2,
+  testLm_FlashingPhase_update(0,
+                              LM_FLASH_HALF_INTERVAL / 2,
                               lm_flashing_phase_off);
 
   /* Boundary condition: time of update is the last ms of flash half interval */
-  testLm_FlashingPhase_update(LM_FLASH_HALF_INTERVAL - 1,
+  testLm_FlashingPhase_update(0,
+                              LM_FLASH_HALF_INTERVAL - 1,
                               lm_flashing_phase_off);
 }
 
