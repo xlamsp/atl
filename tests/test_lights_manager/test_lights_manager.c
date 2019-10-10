@@ -31,7 +31,6 @@ TEST_GROUP_RUNNER(LightsOff)
 TEST_GROUP_RUNNER(FlashingPhase)
 {
   RUN_TEST_CASE(FlashingPhase, InitResetsFashingPhaseOff);
-  RUN_TEST_CASE(FlashingPhase, FashingPhaseOnWhenClockGtOrEqHalfTButLessT);
   RUN_TEST_CASE(FlashingPhase, FashingPhaseOffWhenClockGtOrEqNxTButLessNxHalfT);
   RUN_TEST_CASE(FlashingPhase,
     FashingPhaseOnWhenClockGtOrEqNplus05xTButLessNplis1xT);
