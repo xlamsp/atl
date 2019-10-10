@@ -52,7 +52,7 @@ lm_update(void)
   uint32_t system_clock;
 
   system_clock = millis();
-  if (system_clock >= LM_FLASH_HALF_INTERVAL) {
+  if ((system_clock % LM_FLASH_INTERVAL) >= LM_FLASH_HALF_INTERVAL) {
     lm.flashing_phase = lm_flashing_phase_on;
   }
 
