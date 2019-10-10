@@ -131,7 +131,7 @@ TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqHalfTButLessT)
  * When: Called update;
  * Then: Flashing phase is off.
  */
-TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNxTButLessNxHalfT)
+TEST(FlashingPhase, FashingPhaseOffWhenClockGtOrEqNxTButLessNxHalfT)
 {
   uint32_t N;
   uint32_t system_clock_at_update;
@@ -154,6 +154,41 @@ TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNxTButLessNxHalfT)
     testLm_FlashingPhase_update(0,
                                 system_clock_at_update,
                                 lm_flashing_phase_off);
+  }
+}
+
+/*
+ * Scenario: Flashing phase is on when the system clock is greater than or
+ *           equal to (N + 1/2) * T but less than (N + 1) * T;
+ * Given: System clock is greater than or equal to (N + 1/2) * T
+ *        but less than (N + 1) * T;
+ * When: Called update;
+ * Then: Flashing phase is on.
+ */
+TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNplus05xTButLessNplis1xT)
+{
+  uint32_t N;
+  uint32_t system_clock_at_update;
+
+  for (N = 1; N < 3; N++) {
+    /* Test lower bound */
+    system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL;
+    testLm_FlashingPhase_update(0,
+                                system_clock_at_update,
+                                lm_flashing_phase_on);
+
+    /* Test middle of the interval */
+    system_clock_at_update = LM_FLASH_INTERVAL * N +
+                             3 * LM_FLASH_HALF_INTERVAL / 2;
+    testLm_FlashingPhase_update(0,
+                                system_clock_at_update,
+                                lm_flashing_phase_on);
+
+    /* Test upper bound */
+    system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_INTERVAL - 1;
+    testLm_FlashingPhase_update(0,
+                                system_clock_at_update,
+                                lm_flashing_phase_on);
   }
 }
 
