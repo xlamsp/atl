@@ -111,3 +111,28 @@ TEST(FlashingPhase, FashingPhaseOffWhenClockLessThanHalfT)
                               lm_flashing_phase_off);
 }
 
+/*
+ * Scenario: Flashing phase is on when the system clock is greater than or
+ *           equal to T/2 but less than T;
+ * Given: System clock is greater than or equal to T/2 but less than T;
+ * When: Called update;
+ * Then: Flashing phase is on.
+ */
+TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqHalfTButLessT)
+{
+  /* Boundary condition: time of update is equal to flash half interval */
+  testLm_FlashingPhase_update(0,
+                              LM_FLASH_HALF_INTERVAL,
+                              lm_flashing_phase_on);
+
+  /* Time of update is in between of flash half interval and flash interval */
+  testLm_FlashingPhase_update(0,
+                              3 * LM_FLASH_HALF_INTERVAL / 2,
+                              lm_flashing_phase_on);
+
+  /* Boundary condition: time of update is the last ms of flash interval */
+  testLm_FlashingPhase_update(0,
+                              LM_FLASH_INTERVAL - 1,
+                              lm_flashing_phase_on);
+}
+

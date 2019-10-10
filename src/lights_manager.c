@@ -49,7 +49,13 @@ lm_init(void)
 void
 lm_update(void)
 {
-  millis();
+  uint32_t system_clock;
+
+  system_clock = millis();
+  if (system_clock >= LM_FLASH_HALF_INTERVAL) {
+    lm.flashing_phase = lm_flashing_phase_on;
+  }
+
   if (lm.is_buffer_changed) {
     shreg_write(lm.handle, lm.buffer);
   }
