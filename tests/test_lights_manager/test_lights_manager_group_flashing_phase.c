@@ -92,24 +92,11 @@ TEST(FlashingPhase, InitResetsFashingPhaseOff)
  * Given: System clock is less than T/2;
  * When: Called update;
  * Then: Flashing phase is off.
+ *
+ * This is covered by:
+ * TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNxTButLessNxHalfT)
+ * when N == 0
  */
-TEST(FlashingPhase, FashingPhaseOffWhenClockLessThanHalfT)
-{
-  /* Boundary condition: time of update is zero */
-  testLm_FlashingPhase_update(0,
-                              0,
-                              lm_flashing_phase_off);
-
-  /* Time of update is in the middle of the flash half interval */
-  testLm_FlashingPhase_update(0,
-                              LM_FLASH_HALF_INTERVAL / 2,
-                              lm_flashing_phase_off);
-
-  /* Boundary condition: time of update is the last ms of flash half interval */
-  testLm_FlashingPhase_update(0,
-                              LM_FLASH_HALF_INTERVAL - 1,
-                              lm_flashing_phase_off);
-}
 
 /*
  * Scenario: Flashing phase is on when the system clock is greater than or
@@ -149,7 +136,7 @@ TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNxTButLessNxHalfT)
   uint32_t N;
   uint32_t system_clock_at_update;
 
-  for (N = 1; N < 3; N++) {
+  for (N = 0; N < 3; N++) {
     /* Test lower bound */
     system_clock_at_update = LM_FLASH_INTERVAL * N;
     testLm_FlashingPhase_update(0,
