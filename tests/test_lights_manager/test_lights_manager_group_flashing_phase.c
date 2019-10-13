@@ -179,3 +179,42 @@ TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNplus05xTButLessNplis1xT)
   }
 }
 
+/*
+ * Scenario: Initialization of LM resets flashing phase off
+ *           regardless of the current system time;
+ * Given:    System clock is C != 0;
+ * When:     Called init;
+ * Then:     Flashing phase is off.
+ */
+TEST(FlashingPhase, InitResetsFashingPhaseOffAtAnyTime)
+{
+  /* Set expectations */
+  uint32_t N;
+  uint32_t half_interval;
+  uint32_t system_clock_at_init;
+
+  for (N = 1; N < 3; N++) {
+    for (half_interval = 0;
+         half_interval <= LM_FLASH_HALF_INTERVAL;
+         half_interval += LM_FLASH_HALF_INTERVAL) {
+
+      /* Test lower bound */
+      system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N;
+      testLm_FlashingPhase_init(system_clock_at_init);
+      TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
+
+      /* Test middle of the interval */
+      system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N +
+        LM_FLASH_HALF_INTERVAL / 2;
+      testLm_FlashingPhase_init(system_clock_at_init);
+      TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
+
+      /* Test upper bound */
+      system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N +
+        LM_FLASH_HALF_INTERVAL - 1;
+      testLm_FlashingPhase_init(system_clock_at_init);
+      TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
+    }
+  }
+}
+
