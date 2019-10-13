@@ -75,17 +75,11 @@ TEST_TEAR_DOWN(FlashingPhase)
  * Given:    The system clock is zero;
  * When:     Called init;
  * Then:     Flashing phase is off.
+ *
+ * This is covered by:
+ * TEST(FlashingPhase, InitResetsFashingPhaseOffAtAnyTime)
+ * when N == 0
  */
-TEST(FlashingPhase, InitResetsFashingPhaseOff)
-{
-  /* Set expectations */
-
-  /* Perform test */
-  testLm_FlashingPhase_init(0);
-
-  /* Verify results */
-  TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
-}
 
 /*
  * Scenario: Flashing phase is off when the system clock is less than T/2;
@@ -193,7 +187,7 @@ TEST(FlashingPhase, InitResetsFashingPhaseOffAtAnyTime)
   uint32_t half_interval;
   uint32_t system_clock_at_init;
 
-  for (N = 1; N < 3; N++) {
+  for (N = 0; N < 3; N++) {
     for (half_interval = 0;
          half_interval <= LM_FLASH_HALF_INTERVAL;
          half_interval += LM_FLASH_HALF_INTERVAL) {
