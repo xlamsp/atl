@@ -23,7 +23,7 @@ static lm_context_t *lm;
  * Supplementary functions
  */
 static void
-testLm_FlashingPhase_init(uint32_t system_clock_at_init)
+testLm_FlashingPhase_expect_init(uint32_t system_clock_at_init)
 {
   lm->flashing_phase = lm_flashing_phase_on; // set phase to incorrect state
   testLm_Expect_lm_init(system_clock_at_init);
@@ -31,22 +31,42 @@ testLm_FlashingPhase_init(uint32_t system_clock_at_init)
 }
 
 static void
-testLm_FlashingPhase_update(uint32_t system_clock_at_init,
-                            uint32_t system_clock_at_update,
-                            lm_flashing_phase_e expected_phase)
+testLm_FlashingPhase_expect_update(uint32_t system_clock_at_update)
 {
-  /* Set preconditions */
-  testLm_FlashingPhase_init(system_clock_at_init);
-
-  /* Set expectations */
   testLm_Expect_lm_update(system_clock_at_update);
-
-  /* Perform test */
   lm_update();
+}
 
-  /* Verify results */
-  TEST_ASSERT_EQUAL_MESSAGE(expected_phase, lm->flashing_phase,
-    "Wrong flashing phase");
+static void
+testLm_FlashingPhase_init(uint32_t system_clock_at_init)
+{
+  testLm_FlashingPhase_expect_init(system_clock_at_init);
+
+  if (lm->flashing_phase != lm_flashing_phase_off) {
+    char message[128];
+    sprintf(message, "Wrong flashing phase system_clock_at_init=%u",
+      system_clock_at_init);
+    TEST_ASSERT_EQUAL_MESSAGE(lm_flashing_phase_off, lm->flashing_phase,
+      message);
+  }
+}
+
+static void
+testLm_FlashingPhase_init_and_update(
+  uint32_t system_clock_at_init,
+  uint32_t system_clock_at_update,
+  lm_flashing_phase_e expected_phase)
+{
+  testLm_FlashingPhase_expect_init(system_clock_at_init);
+  testLm_FlashingPhase_expect_update(system_clock_at_update);
+
+  if (lm->flashing_phase != expected_phase) {
+    char message[128];
+    sprintf(message, "Wrong flashing phase system_clock_at_update=%u",
+      system_clock_at_update);
+    TEST_ASSERT_EQUAL_MESSAGE(expected_phase, lm->flashing_phase,
+      message);
+  }
 }
 
 
@@ -115,26 +135,32 @@ TEST_TEAR_DOWN(FlashingPhase)
 TEST(FlashingPhase, FashingPhaseOffWhenClockGtOrEqNxTButLessNxHalfT)
 {
   uint32_t N;
+
+  static const
+  uint32_t system_clock_at_init = 0;
   uint32_t system_clock_at_update;
 
   for (N = 0; N < 3; N++) {
     /* Test lower bound */
     system_clock_at_update = LM_FLASH_INTERVAL * N;
-    testLm_FlashingPhase_update(0,
-                                system_clock_at_update,
-                                lm_flashing_phase_off);
+    testLm_FlashingPhase_init_and_update(
+      system_clock_at_init,
+      system_clock_at_update,
+      lm_flashing_phase_off);
 
     /* Test middle of the interval */
     system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL / 2;
-    testLm_FlashingPhase_update(0,
-                                system_clock_at_update,
-                                lm_flashing_phase_off);
+    testLm_FlashingPhase_init_and_update(
+      system_clock_at_init,
+      system_clock_at_update,
+      lm_flashing_phase_off);
 
     /* Test upper bound */
     system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL - 1;
-    testLm_FlashingPhase_update(0,
-                                system_clock_at_update,
-                                lm_flashing_phase_off);
+    testLm_FlashingPhase_init_and_update(
+      system_clock_at_init,
+      system_clock_at_update,
+      lm_flashing_phase_off);
   }
 }
 
@@ -149,27 +175,33 @@ TEST(FlashingPhase, FashingPhaseOffWhenClockGtOrEqNxTButLessNxHalfT)
 TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNplus05xTButLessNplis1xT)
 {
   uint32_t N;
+
+  static const
+  uint32_t system_clock_at_init = 0;
   uint32_t system_clock_at_update;
 
   for (N = 0; N < 3; N++) {
     /* Test lower bound */
     system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL;
-    testLm_FlashingPhase_update(0,
-                                system_clock_at_update,
-                                lm_flashing_phase_on);
+    testLm_FlashingPhase_init_and_update(
+      system_clock_at_init,
+      system_clock_at_update,
+      lm_flashing_phase_on);
 
     /* Test middle of the interval */
     system_clock_at_update = LM_FLASH_INTERVAL * N +
                              3 * LM_FLASH_HALF_INTERVAL / 2;
-    testLm_FlashingPhase_update(0,
-                                system_clock_at_update,
-                                lm_flashing_phase_on);
+    testLm_FlashingPhase_init_and_update(
+      system_clock_at_init,
+      system_clock_at_update,
+      lm_flashing_phase_on);
 
     /* Test upper bound */
     system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_INTERVAL - 1;
-    testLm_FlashingPhase_update(0,
-                                system_clock_at_update,
-                                lm_flashing_phase_on);
+    testLm_FlashingPhase_init_and_update(
+      system_clock_at_init,
+      system_clock_at_update,
+      lm_flashing_phase_on);
   }
 }
 
@@ -195,19 +227,16 @@ TEST(FlashingPhase, InitResetsFashingPhaseOffAtAnyTime)
       /* Test lower bound */
       system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N;
       testLm_FlashingPhase_init(system_clock_at_init);
-      TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
 
       /* Test middle of the interval */
       system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N +
         LM_FLASH_HALF_INTERVAL / 2;
       testLm_FlashingPhase_init(system_clock_at_init);
-      TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
 
       /* Test upper bound */
       system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N +
         LM_FLASH_HALF_INTERVAL - 1;
       testLm_FlashingPhase_init(system_clock_at_init);
-      TEST_ASSERT_EQUAL(lm_flashing_phase_off, lm->flashing_phase);
     }
   }
 }
