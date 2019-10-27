@@ -13,6 +13,11 @@
 TEST_GROUP(FlashingPhase);
 
 
+#define LOWER_BOUND(clock)    (clock)
+#define MID_INTERVAL(clock)   ((clock) + LM_FLASH_HALF_INTERVAL / 2)
+#define UPPER_BOUND(clock)    ((clock) + LM_FLASH_HALF_INTERVAL - 1)
+
+
 /*
  * Local variables
  */
@@ -139,24 +144,27 @@ TEST(FlashingPhase, FashingPhaseOffWhenClockGtOrEqNxTButLessNxHalfT)
   static const
   uint32_t system_clock_at_init = 0;
   uint32_t system_clock_at_update;
+  uint32_t clock_base;
 
   for (N = 0; N < 3; N++) {
+    clock_base = LM_FLASH_INTERVAL * N;
+
     /* Test lower bound */
-    system_clock_at_update = LM_FLASH_INTERVAL * N;
+    system_clock_at_update = LOWER_BOUND(clock_base);
     testLm_FlashingPhase_init_and_update(
       system_clock_at_init,
       system_clock_at_update,
       lm_flashing_phase_off);
 
     /* Test middle of the interval */
-    system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL / 2;
+    system_clock_at_update = MID_INTERVAL(clock_base);
     testLm_FlashingPhase_init_and_update(
       system_clock_at_init,
       system_clock_at_update,
       lm_flashing_phase_off);
 
     /* Test upper bound */
-    system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL - 1;
+    system_clock_at_update = UPPER_BOUND(clock_base);
     testLm_FlashingPhase_init_and_update(
       system_clock_at_init,
       system_clock_at_update,
@@ -179,25 +187,27 @@ TEST(FlashingPhase, FashingPhaseOnWhenClockGtOrEqNplus05xTButLessNplis1xT)
   static const
   uint32_t system_clock_at_init = 0;
   uint32_t system_clock_at_update;
+  uint32_t clock_base;
 
   for (N = 0; N < 3; N++) {
+    clock_base = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL;
+
     /* Test lower bound */
-    system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_HALF_INTERVAL;
+    system_clock_at_update = LOWER_BOUND(clock_base);
     testLm_FlashingPhase_init_and_update(
       system_clock_at_init,
       system_clock_at_update,
       lm_flashing_phase_on);
 
     /* Test middle of the interval */
-    system_clock_at_update = LM_FLASH_INTERVAL * N +
-                             3 * LM_FLASH_HALF_INTERVAL / 2;
+    system_clock_at_update = MID_INTERVAL(clock_base);
     testLm_FlashingPhase_init_and_update(
       system_clock_at_init,
       system_clock_at_update,
       lm_flashing_phase_on);
 
     /* Test upper bound */
-    system_clock_at_update = LM_FLASH_INTERVAL * N + LM_FLASH_INTERVAL - 1;
+    system_clock_at_update = UPPER_BOUND(clock_base);
     testLm_FlashingPhase_init_and_update(
       system_clock_at_init,
       system_clock_at_update,
@@ -218,24 +228,25 @@ TEST(FlashingPhase, InitResetsFashingPhaseOffAtAnyTime)
   uint32_t N;
   uint32_t half_interval;
   uint32_t system_clock_at_init;
+  uint32_t clock_base;
 
   for (N = 0; N < 3; N++) {
     for (half_interval = 0;
          half_interval <= LM_FLASH_HALF_INTERVAL;
          half_interval += LM_FLASH_HALF_INTERVAL) {
 
+      clock_base = LM_FLASH_INTERVAL * N + half_interval;
+
       /* Test lower bound */
-      system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N;
+      system_clock_at_init = LOWER_BOUND(clock_base);
       testLm_FlashingPhase_init(system_clock_at_init);
 
       /* Test middle of the interval */
-      system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N +
-        LM_FLASH_HALF_INTERVAL / 2;
+      system_clock_at_init = MID_INTERVAL(clock_base);
       testLm_FlashingPhase_init(system_clock_at_init);
 
       /* Test upper bound */
-      system_clock_at_init = half_interval + LM_FLASH_INTERVAL * N +
-        LM_FLASH_HALF_INTERVAL - 1;
+      system_clock_at_init = UPPER_BOUND(clock_base);
       testLm_FlashingPhase_init(system_clock_at_init);
     }
   }
